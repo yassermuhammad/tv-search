@@ -21,7 +21,7 @@ import {
   Spinner,
   Center,
 } from '@chakra-ui/react'
-import { ExternalLinkIcon } from '@chakra-ui/icons'
+import { ExternalLinkIcon, ChevronDownIcon, ChevronUpIcon } from '@chakra-ui/icons'
 import { useState, useEffect } from 'react'
 import {
   getImageUrl,
@@ -29,12 +29,18 @@ import {
   getTVWatchProviders,
   searchTVShow,
 } from '../services/tmdbApi'
+import { getShowSeasons, getSeasonEpisodes } from '../services/tvmazeApi'
 
 const DetailModal = ({ isOpen, onClose, item, type, isLoading }) => {
-  const modalBg = useColorModeValue('white', 'gray.800')
-  const textColor = useColorModeValue('gray.700', 'gray.300')
+  const modalBg = '#1a1a1a'
+  const textColor = 'rgba(255, 255, 255, 0.9)'
   const [watchProviders, setWatchProviders] = useState(null)
   const [loadingProviders, setLoadingProviders] = useState(false)
+  const [seasons, setSeasons] = useState([])
+  const [loadingSeasons, setLoadingSeasons] = useState(false)
+  const [episodesBySeason, setEpisodesBySeason] = useState({})
+  const [loadingEpisodes, setLoadingEpisodes] = useState({})
+  const [expandedSeasons, setExpandedSeasons] = useState(new Set())
 
   // Fetch watch providers when modal opens
   useEffect(() => {
@@ -70,6 +76,60 @@ const DetailModal = ({ isOpen, onClose, item, type, isLoading }) => {
 
     fetchWatchProviders()
   }, [isOpen, item, type, isLoading])
+
+  // Fetch seasons when modal opens for TV shows
+  useEffect(() => {
+    const fetchSeasons = async () => {
+      if (!isOpen || !item || isLoading || type !== 'show' || !item.id) {
+        setSeasons([])
+        setEpisodesBySeason({})
+        return
+      }
+
+      setLoadingSeasons(true)
+      try {
+        const seasonsData = await getShowSeasons(item.id)
+        setSeasons(seasonsData)
+      } catch (error) {
+        console.error('Error fetching seasons:', error)
+        setSeasons([])
+      } finally {
+        setLoadingSeasons(false)
+      }
+    }
+
+    fetchSeasons()
+  }, [isOpen, item, type, isLoading])
+
+  // Fetch episodes for a season when expanded
+  const fetchEpisodesForSeason = async (seasonId, seasonNumber) => {
+    if (episodesBySeason[seasonId]) {
+      // Already loaded
+      return
+    }
+
+    setLoadingEpisodes(prev => ({ ...prev, [seasonId]: true }))
+    try {
+      const episodesData = await getSeasonEpisodes(seasonId)
+      setEpisodesBySeason(prev => ({ ...prev, [seasonId]: episodesData }))
+    } catch (error) {
+      console.error('Error fetching episodes:', error)
+      setEpisodesBySeason(prev => ({ ...prev, [seasonId]: [] }))
+    } finally {
+      setLoadingEpisodes(prev => ({ ...prev, [seasonId]: false }))
+    }
+  }
+
+  const toggleSeason = (seasonId, seasonNumber) => {
+    const newExpanded = new Set(expandedSeasons)
+    if (newExpanded.has(seasonId)) {
+      newExpanded.delete(seasonId)
+    } else {
+      newExpanded.add(seasonId)
+      fetchEpisodesForSeason(seasonId, seasonNumber)
+    }
+    setExpandedSeasons(newExpanded)
+  }
 
   // Get watch providers for US (or fallback to any available country)
   const getAvailablePlatforms = () => {
@@ -138,23 +198,23 @@ const DetailModal = ({ isOpen, onClose, item, type, isLoading }) => {
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} size="4xl" scrollBehavior="inside">
-      <ModalOverlay />
-      <ModalContent bg={modalBg} maxH="90vh">
-        <ModalHeader>
+      <ModalOverlay bg="rgba(0, 0, 0, 0.8)" />
+      <ModalContent bg={modalBg} maxH="90vh" border="1px solid rgba(255, 255, 255, 0.1)" borderRadius="8px">
+        <ModalHeader borderBottom="1px solid rgba(255, 255, 255, 0.1)" pb={4}>
           <HStack spacing={4} align="center">
-            <Heading size="lg">{type === 'movie' ? item.title : item.name}</Heading>
+            <Heading size="lg" color="white" fontWeight="bold">{type === 'movie' ? item.title : item.name}</Heading>
             {type === 'show' && item.status && (
-              <Badge colorScheme={getStatusColor(item.status)}>{item.status}</Badge>
+              <Badge colorScheme={getStatusColor(item.status)} fontSize="sm" px={2} py={1}>{item.status}</Badge>
             )}
           </HStack>
         </ModalHeader>
-        <ModalCloseButton />
+        <ModalCloseButton color="white" _hover={{ bg: 'rgba(255, 255, 255, 0.1)' }} />
         <ModalBody>
           {isLoading ? (
             <Center py={12}>
               <VStack spacing={4}>
-                <Spinner size="xl" color="blue.500" thickness="4px" />
-                <Text color={textColor}>Loading details...</Text>
+                <Spinner size="xl" color="netflix.500" thickness="4px" />
+                <Text color="rgba(255, 255, 255, 0.7)">Loading details...</Text>
               </VStack>
             </Center>
           ) : (
@@ -241,14 +301,16 @@ const DetailModal = ({ isOpen, onClose, item, type, isLoading }) => {
                       Rating
                     </Text>
                     <Badge
-                      colorScheme="yellow"
+                      bg="rgba(234, 179, 8, 0.2)"
+                      color="yellow.400"
                       fontSize="lg"
                       p={2}
+                      borderRadius="4px"
+                      fontWeight="bold"
                     >
-                      {formatRating(
+                      ⭐ {formatRating(
                         type === 'movie' ? item.vote_average : item.rating.average
-                      )}
-                      /10
+                      )}/10
                     </Badge>
                   </Box>
                 )}
@@ -261,7 +323,15 @@ const DetailModal = ({ isOpen, onClose, item, type, isLoading }) => {
                     </Text>
                     <HStack spacing={2} flexWrap="wrap">
                       {(type === 'movie' ? item.genres : item.genres)?.map((genre) => (
-                        <Badge key={genre.id || genre} colorScheme="blue" variant="subtle">
+                        <Badge
+                          key={genre.id || genre}
+                          bg="rgba(255, 255, 255, 0.1)"
+                          color="rgba(255, 255, 255, 0.8)"
+                          fontSize="sm"
+                          px={2}
+                          py={1}
+                          borderRadius="4px"
+                        >
                           {genre.name || genre}
                         </Badge>
                       ))}
@@ -388,7 +458,7 @@ const DetailModal = ({ isOpen, onClose, item, type, isLoading }) => {
               </VStack>
             </SimpleGrid>
 
-            <Divider />
+            <Divider borderColor="rgba(255, 255, 255, 0.1)" />
 
             {/* Description/Overview */}
             <Box>
@@ -497,7 +567,160 @@ const DetailModal = ({ isOpen, onClose, item, type, isLoading }) => {
               </Box>
             )}
 
-            <Divider />
+            {/* Seasons and Episodes (TV Shows only) */}
+            {type === 'show' && (
+              <>
+                <Divider borderColor="rgba(255, 255, 255, 0.1)" />
+                <Box>
+                  <Heading size="md" color="white" mb={4}>
+                    Seasons & Episodes
+                  </Heading>
+                  {loadingSeasons ? (
+                    <Center py={8}>
+                      <VStack spacing={2}>
+                        <Spinner size="md" color="netflix.500" />
+                        <Text color="rgba(255, 255, 255, 0.7)" fontSize="sm">
+                          Loading seasons...
+                        </Text>
+                      </VStack>
+                    </Center>
+                  ) : seasons.length > 0 ? (
+                    <VStack align="stretch" spacing={3}>
+                      {seasons.map((season) => {
+                        const isExpanded = expandedSeasons.has(season.id)
+                        const episodes = episodesBySeason[season.id] || []
+                        const isLoadingEp = loadingEpisodes[season.id]
+
+                        return (
+                          <Box
+                            key={season.id}
+                            border="1px solid rgba(255, 255, 255, 0.1)"
+                            borderRadius="8px"
+                            overflow="hidden"
+                            bg="rgba(255, 255, 255, 0.03)"
+                            _hover={{ bg: 'rgba(255, 255, 255, 0.05)' }}
+                            transition="all 0.2s"
+                          >
+                            <Button
+                              w="100%"
+                              justifyContent="space-between"
+                              p={4}
+                              bg="transparent"
+                              color="white"
+                              fontWeight="bold"
+                              _hover={{ bg: 'rgba(255, 255, 255, 0.1)' }}
+                              onClick={() => toggleSeason(season.id, season.number)}
+                              borderRadius="0"
+                            >
+                              <HStack spacing={4}>
+                                <Text fontSize="lg">
+                                  Season {season.number}
+                                </Text>
+                                {season.premiereDate && (
+                                  <Badge
+                                    bg="rgba(255, 255, 255, 0.1)"
+                                    color="rgba(255, 255, 255, 0.7)"
+                                    fontSize="xs"
+                                    px={2}
+                                    py={1}
+                                  >
+                                    {new Date(season.premiereDate).getFullYear()}
+                                  </Badge>
+                                )}
+                                {season.episodeOrder && (
+                                  <Badge
+                                    bg="rgba(255, 255, 255, 0.1)"
+                                    color="rgba(255, 255, 255, 0.7)"
+                                    fontSize="xs"
+                                    px={2}
+                                    py={1}
+                                  >
+                                    {season.episodeOrder} episodes
+                                  </Badge>
+                                )}
+                              </HStack>
+                              {isExpanded ? <ChevronUpIcon /> : <ChevronDownIcon />}
+                            </Button>
+
+                            {isExpanded && (
+                              <Box p={4} pt={0}>
+                                {isLoadingEp ? (
+                                  <Center py={4}>
+                                    <Spinner size="sm" color="netflix.500" />
+                                  </Center>
+                                ) : episodes.length > 0 ? (
+                                  <VStack align="stretch" spacing={2} maxH="400px" overflowY="auto">
+                                    {episodes.map((episode) => (
+                                      <Box
+                                        key={episode.id}
+                                        p={3}
+                                        bg="rgba(0, 0, 0, 0.3)"
+                                        borderRadius="4px"
+                                        border="1px solid rgba(255, 255, 255, 0.05)"
+                                        _hover={{
+                                          bg: 'rgba(0, 0, 0, 0.5)',
+                                          borderColor: 'rgba(229, 9, 20, 0.3)',
+                                        }}
+                                        transition="all 0.2s"
+                                      >
+                                        <HStack justify="space-between" mb={2}>
+                                          <HStack spacing={2}>
+                                            <Text
+                                              fontSize="sm"
+                                              fontWeight="bold"
+                                              color="netflix.500"
+                                            >
+                                              E{episode.number}
+                                            </Text>
+                                            <Text fontSize="sm" fontWeight="semibold" color="white">
+                                              {episode.name || 'Untitled Episode'}
+                                            </Text>
+                                          </HStack>
+                                          {episode.airdate && (
+                                            <Text fontSize="xs" color="rgba(255, 255, 255, 0.6)">
+                                              {formatDate(episode.airdate)}
+                                            </Text>
+                                          )}
+                                        </HStack>
+                                        {episode.summary && (
+                                          <Text
+                                            fontSize="xs"
+                                            color="rgba(255, 255, 255, 0.7)"
+                                            noOfLines={2}
+                                            lineHeight="1.4"
+                                          >
+                                            {stripHtml(episode.summary)}
+                                          </Text>
+                                        )}
+                                        {episode.runtime && (
+                                          <Text fontSize="xs" color="rgba(255, 255, 255, 0.5)" mt={1}>
+                                            {episode.runtime} min
+                                          </Text>
+                                        )}
+                                      </Box>
+                                    ))}
+                                  </VStack>
+                                ) : (
+                                  <Text color="rgba(255, 255, 255, 0.5)" fontSize="sm" py={4}>
+                                    No episodes available
+                                  </Text>
+                                )}
+                              </Box>
+                            )}
+                          </Box>
+                        )
+                      })}
+                    </VStack>
+                  ) : (
+                    <Text color="rgba(255, 255, 255, 0.5)" fontSize="sm">
+                      No seasons information available
+                    </Text>
+                  )}
+                </Box>
+              </>
+            )}
+
+            <Divider borderColor="rgba(255, 255, 255, 0.1)" />
 
             {/* External Links */}
             <Box>
@@ -506,13 +729,21 @@ const DetailModal = ({ isOpen, onClose, item, type, isLoading }) => {
                   <Link
                     href={`https://www.themoviedb.org/movie/${item.id}`}
                     isExternal
-                    color="blue.500"
+                    color="netflix.500"
+                    _hover={{ color: 'netflix.400' }}
+                    fontWeight="600"
                   >
                     View on TMDB <ExternalLinkIcon />
                   </Link>
                 ) : (
                   item.url && (
-                    <Link href={item.url} isExternal color="blue.500">
+                    <Link
+                      href={item.url}
+                      isExternal
+                      color="netflix.500"
+                      _hover={{ color: 'netflix.400' }}
+                      fontWeight="600"
+                    >
                       View on TVMaze <ExternalLinkIcon />
                     </Link>
                   )
@@ -521,7 +752,9 @@ const DetailModal = ({ isOpen, onClose, item, type, isLoading }) => {
                   <Link
                     href={`https://www.imdb.com/title/${item.imdb_id}`}
                     isExternal
-                    color="blue.500"
+                    color="netflix.500"
+                    _hover={{ color: 'netflix.400' }}
+                    fontWeight="600"
                   >
                     View on IMDb <ExternalLinkIcon />
                   </Link>
@@ -530,7 +763,9 @@ const DetailModal = ({ isOpen, onClose, item, type, isLoading }) => {
                   <Link
                     href={`https://www.imdb.com/title/${item.externals.imdb}`}
                     isExternal
-                    color="blue.500"
+                    color="netflix.500"
+                    _hover={{ color: 'netflix.400' }}
+                    fontWeight="600"
                   >
                     View on IMDb <ExternalLinkIcon />
                   </Link>
@@ -541,8 +776,15 @@ const DetailModal = ({ isOpen, onClose, item, type, isLoading }) => {
           )}
         </ModalBody>
 
-        <ModalFooter>
-          <Button colorScheme="blue" onClick={onClose}>
+        <ModalFooter borderTop="1px solid rgba(255, 255, 255, 0.1)" pt={4}>
+          <Button
+            bg="netflix.500"
+            color="white"
+            _hover={{ bg: 'netflix.600' }}
+            onClick={onClose}
+            fontWeight="bold"
+            px={8}
+          >
             Close
           </Button>
         </ModalFooter>

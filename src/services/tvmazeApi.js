@@ -46,3 +46,45 @@ export const getShowById = async (showId) => {
   }
 }
 
+/**
+ * Get all seasons for a show
+ * @param {number} showId - Show ID
+ * @returns {Promise<Array>} Array of seasons
+ */
+export const getShowSeasons = async (showId) => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/shows/${showId}/seasons`)
+    
+    if (!response.ok) {
+      throw new Error(`API error: ${response.status}`)
+    }
+
+    const data = await response.json()
+    return data
+  } catch (error) {
+    console.error('Error fetching seasons:', error)
+    throw error
+  }
+}
+
+/**
+ * Get all episodes for a season
+ * @param {number} seasonId - Season ID
+ * @returns {Promise<Array>} Array of episodes
+ */
+export const getSeasonEpisodes = async (seasonId) => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/seasons/${seasonId}/episodes`)
+    
+    if (!response.ok) {
+      throw new Error(`API error: ${response.status}`)
+    }
+
+    const data = await response.json()
+    return data
+  } catch (error) {
+    console.error('Error fetching episodes:', error)
+    throw error
+  }
+}
+

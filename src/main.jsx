@@ -6,7 +6,7 @@ import './index.css'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <ColorModeScript initialColorMode="light" />
+    <ColorModeScript initialColorMode="dark" />
     <ChakraProvider>
       <App />
     </ChakraProvider>

@@ -1,9 +1,15 @@
-const API_BASE_URL = 'https://api.tvmaze.com'
+import { API_CONFIG } from '../utils/constants'
+
+/**
+ * TVMaze API Service
+ * Public API - no authentication required
+ */
+const API_BASE_URL = API_CONFIG.TVMAZE_BASE_URL
 
 /**
  * Search for shows by name
  * @param {string} query - Search query
- * @returns {Promise<Array>} Array of show results
+ * @returns {Promise<Array<SearchResult>>} Array of show results
  */
 export const searchShows = async (query) => {
   if (!query || query.trim() === '') {
@@ -28,7 +34,7 @@ export const searchShows = async (query) => {
 /**
  * Get show details by ID
  * @param {number} showId - Show ID
- * @returns {Promise<Object>} Show details
+ * @returns {Promise<TVShow>} Show details
  */
 export const getShowById = async (showId) => {
   try {
@@ -49,7 +55,7 @@ export const getShowById = async (showId) => {
 /**
  * Get all seasons for a show
  * @param {number} showId - Show ID
- * @returns {Promise<Array>} Array of seasons
+ * @returns {Promise<Array<Season>>} Array of seasons
  */
 export const getShowSeasons = async (showId) => {
   try {
@@ -70,7 +76,7 @@ export const getShowSeasons = async (showId) => {
 /**
  * Get all episodes for a season
  * @param {number} seasonId - Season ID
- * @returns {Promise<Array>} Array of episodes
+ * @returns {Promise<Array<Episode>>} Array of episodes
  */
 export const getSeasonEpisodes = async (seasonId) => {
   try {

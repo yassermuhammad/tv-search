@@ -21,6 +21,10 @@ import {
   getMovieWatchProviders,
   getTVWatchProviders,
   searchTVShow,
+  getMovieCredits,
+  getTVCredits,
+  getMovieVideos,
+  getTVVideos,
 } from '../services/tmdbApi'
 import { getShowSeasons } from '../services/tvmazeApi'
 import { useWatchlist } from '../contexts/WatchlistContext'
@@ -28,6 +32,8 @@ import ModalHeader from './modal/ModalHeader'
 import MediaInfo from './modal/MediaInfo'
 import WatchProviders from './modal/WatchProviders'
 import SeasonsList from './modal/SeasonsList'
+import CastCrew from './modal/CastCrew'
+import TrailerSection from './modal/TrailerSection'
 import { stripHtml } from '../utils/formatters'
 import { COLORS } from '../utils/constants'
 import { MEDIA_TYPES } from '../models/constants'
@@ -57,30 +63,60 @@ const DetailModal = ({ isOpen, onClose, item, type, isLoading }) => {
   const [loadingProviders, setLoadingProviders] = useState(false)
   const [seasons, setSeasons] = useState([])
   const [loadingSeasons, setLoadingSeasons] = useState(false)
+  const [credits, setCredits] = useState({ cast: [], crew: [] })
+  const [loadingCredits, setLoadingCredits] = useState(false)
+  const [videos, setVideos] = useState([])
+  const [loadingVideos, setLoadingVideos] = useState(false)
+  const [tmdbId, setTmdbId] = useState(null)
+
+  // Get TMDB ID for TV shows
+  useEffect(() => {
+    const getTMDBId = async () => {
+      if (!isOpen || !item || isLoading) {
+        setTmdbId(null)
+        return
+      }
+
+      if (type === MEDIA_TYPES.MOVIE && item.id) {
+        // For movies, use TMDB ID directly
+        setTmdbId(item.id)
+      } else if (type === MEDIA_TYPES.SHOW) {
+        // For TV shows, check if we have TMDB ID
+        if (item._tmdbData?.id) {
+          setTmdbId(item._tmdbData.id)
+        } else if (item.name) {
+          // Search TMDB for TV show
+          try {
+            const tmdbShow = await searchTVShow(item.name)
+            if (tmdbShow && tmdbShow.id) {
+              setTmdbId(tmdbShow.id)
+            }
+          } catch (error) {
+            console.error('Error searching TV show:', error)
+          }
+        }
+      }
+    }
+
+    getTMDBId()
+  }, [isOpen, item, type, isLoading])
 
   // Fetch watch providers when modal opens
   useEffect(() => {
     const fetchWatchProviders = async () => {
-      if (!isOpen || !item || isLoading) {
+      if (!isOpen || !item || isLoading || !tmdbId) {
         setWatchProviders(null)
         return
       }
 
       setLoadingProviders(true)
       try {
-        if (type === MEDIA_TYPES.MOVIE && item.id) {
-          // For movies, use TMDB ID directly
-          const providers = await getMovieWatchProviders(item.id)
+        if (type === MEDIA_TYPES.MOVIE) {
+          const providers = await getMovieWatchProviders(tmdbId)
           setWatchProviders(providers)
-        } else if (type === MEDIA_TYPES.SHOW && item.name) {
-          // For TV shows from TVMaze, search TMDB first
-          const tmdbShow = await searchTVShow(item.name)
-          if (tmdbShow && tmdbShow.id) {
-            const providers = await getTVWatchProviders(tmdbShow.id)
-            setWatchProviders(providers)
-          } else {
-            setWatchProviders(null)
-          }
+        } else if (type === MEDIA_TYPES.SHOW) {
+          const providers = await getTVWatchProviders(tmdbId)
+          setWatchProviders(providers)
         }
       } catch (error) {
         console.error('Error fetching watch providers:', error)
@@ -91,7 +127,63 @@ const DetailModal = ({ isOpen, onClose, item, type, isLoading }) => {
     }
 
     fetchWatchProviders()
-  }, [isOpen, item, type, isLoading])
+  }, [isOpen, item, type, isLoading, tmdbId])
+
+  // Fetch credits (cast and crew)
+  useEffect(() => {
+    const fetchCredits = async () => {
+      if (!isOpen || !item || isLoading || !tmdbId) {
+        setCredits({ cast: [], crew: [] })
+        return
+      }
+
+      setLoadingCredits(true)
+      try {
+        if (type === MEDIA_TYPES.MOVIE) {
+          const creditsData = await getMovieCredits(tmdbId)
+          setCredits(creditsData)
+        } else if (type === MEDIA_TYPES.SHOW) {
+          const creditsData = await getTVCredits(tmdbId)
+          setCredits(creditsData)
+        }
+      } catch (error) {
+        console.error('Error fetching credits:', error)
+        setCredits({ cast: [], crew: [] })
+      } finally {
+        setLoadingCredits(false)
+      }
+    }
+
+    fetchCredits()
+  }, [isOpen, item, type, isLoading, tmdbId])
+
+  // Fetch videos (trailers)
+  useEffect(() => {
+    const fetchVideos = async () => {
+      if (!isOpen || !item || isLoading || !tmdbId) {
+        setVideos([])
+        return
+      }
+
+      setLoadingVideos(true)
+      try {
+        if (type === MEDIA_TYPES.MOVIE) {
+          const videosData = await getMovieVideos(tmdbId)
+          setVideos(videosData)
+        } else if (type === MEDIA_TYPES.SHOW) {
+          const videosData = await getTVVideos(tmdbId)
+          setVideos(videosData)
+        }
+      } catch (error) {
+        console.error('Error fetching videos:', error)
+        setVideos([])
+      } finally {
+        setLoadingVideos(false)
+      }
+    }
+
+    fetchVideos()
+  }, [isOpen, item, type, isLoading, tmdbId])
 
   // Fetch seasons when modal opens for TV shows
   useEffect(() => {
@@ -178,12 +270,12 @@ const DetailModal = ({ isOpen, onClose, item, type, isLoading }) => {
                 </Text>
               </Box>
 
-              {/* Watch Providers / Streaming Platforms */}
-              {(loadingProviders || watchProviders) && (
-                <WatchProviders
-                  watchProviders={watchProviders}
-                  loading={loadingProviders}
-                />
+              {/* Trailers Section */}
+              {(loadingVideos || videos.length > 0) && (
+                <>
+                  <Divider borderColor="rgba(255, 255, 255, 0.1)" />
+                  <TrailerSection videos={videos} loading={loadingVideos} />
+                </>
               )}
 
               {/* Seasons and Episodes (TV Shows only) */}
@@ -191,6 +283,29 @@ const DetailModal = ({ isOpen, onClose, item, type, isLoading }) => {
                 <>
                   <Divider borderColor="rgba(255, 255, 255, 0.1)" />
                   <SeasonsList seasons={seasons} loading={loadingSeasons} />
+                </>
+              )}
+
+              {/* Cast and Crew Section */}
+              {(loadingCredits || credits.cast.length > 0 || credits.crew.length > 0) && (
+                <>
+                  <Divider borderColor="rgba(255, 255, 255, 0.1)" />
+                  <CastCrew
+                    cast={credits.cast}
+                    crew={credits.crew}
+                    loading={loadingCredits}
+                  />
+                </>
+              )}
+
+              {/* Watch Providers / Streaming Platforms */}
+              {(loadingProviders || watchProviders) && (
+                <>
+                  <Divider borderColor="rgba(255, 255, 255, 0.1)" />
+                  <WatchProviders
+                    watchProviders={watchProviders}
+                    loading={loadingProviders}
+                  />
                 </>
               )}
 

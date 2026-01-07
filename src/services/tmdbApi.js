@@ -248,3 +248,101 @@ export const getPopularTVShows = async (page = 1) => {
   }
 }
 
+/**
+ * Get movie credits (cast and crew)
+ * @param {number} movieId - Movie ID
+ * @returns {Promise<Object>} Object with cast and crew arrays
+ */
+export const getMovieCredits = async (movieId) => {
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/movie/${movieId}/credits?api_key=${API_KEY}&language=en-US`
+    )
+    
+    if (!response.ok) {
+      throw new Error(`API error: ${response.status}`)
+    }
+
+    const data = await response.json()
+    return {
+      cast: data.cast || [],
+      crew: data.crew || [],
+    }
+  } catch (error) {
+    console.error('Error fetching movie credits:', error)
+    throw error
+  }
+}
+
+/**
+ * Get TV show credits (cast and crew)
+ * @param {number} tvId - TV Show ID
+ * @returns {Promise<Object>} Object with cast and crew arrays
+ */
+export const getTVCredits = async (tvId) => {
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/tv/${tvId}/credits?api_key=${API_KEY}&language=en-US`
+    )
+    
+    if (!response.ok) {
+      throw new Error(`API error: ${response.status}`)
+    }
+
+    const data = await response.json()
+    return {
+      cast: data.cast || [],
+      crew: data.crew || [],
+    }
+  } catch (error) {
+    console.error('Error fetching TV credits:', error)
+    throw error
+  }
+}
+
+/**
+ * Get movie videos (trailers, teasers, etc.)
+ * @param {number} movieId - Movie ID
+ * @returns {Promise<Array>} Array of video objects
+ */
+export const getMovieVideos = async (movieId) => {
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/movie/${movieId}/videos?api_key=${API_KEY}&language=en-US`
+    )
+    
+    if (!response.ok) {
+      throw new Error(`API error: ${response.status}`)
+    }
+
+    const data = await response.json()
+    return data.results || []
+  } catch (error) {
+    console.error('Error fetching movie videos:', error)
+    throw error
+  }
+}
+
+/**
+ * Get TV show videos (trailers, teasers, etc.)
+ * @param {number} tvId - TV Show ID
+ * @returns {Promise<Array>} Array of video objects
+ */
+export const getTVVideos = async (tvId) => {
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/tv/${tvId}/videos?api_key=${API_KEY}&language=en-US`
+    )
+    
+    if (!response.ok) {
+      throw new Error(`API error: ${response.status}`)
+    }
+
+    const data = await response.json()
+    return data.results || []
+  } catch (error) {
+    console.error('Error fetching TV videos:', error)
+    throw error
+  }
+}
+

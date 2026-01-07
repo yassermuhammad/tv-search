@@ -1,4 +1,4 @@
-import { SimpleGrid, Box, VStack, HStack, Text, Badge, Image, IconButton } from '@chakra-ui/react'
+import { SimpleGrid, Box, VStack, HStack, Text, Badge, Image, IconButton, Flex, Wrap, WrapItem } from '@chakra-ui/react'
 import { getImageUrl } from '../../services/tmdbApi'
 import {
   formatDate,
@@ -29,10 +29,13 @@ const MediaInfo = ({ item, type }) => {
           src={getImageUrl(item.poster_path)}
           alt={item.title}
           borderRadius="md"
+          width="100%"
+          maxH={{ base: '200px', md: '400px' }}
+          objectFit="contain"
           fallback={
             <Box
               width="100%"
-              height={{ base: '300px', md: '400px' }}
+              height={{ base: '200px', md: '400px' }}
               bg="gray.200"
               display="flex"
               alignItems="center"
@@ -46,7 +49,7 @@ const MediaInfo = ({ item, type }) => {
       ) : (
         <Box
           width="100%"
-          height={{ base: '300px', md: '400px' }}
+          height={{ base: '200px', md: '400px' }}
           bg="gray.200"
           display="flex"
           alignItems="center"
@@ -62,10 +65,13 @@ const MediaInfo = ({ item, type }) => {
           src={item.image.original || item.image.medium}
           alt={item.name}
           borderRadius="md"
+          width="100%"
+          maxH={{ base: '200px', md: '400px' }}
+          objectFit="contain"
           fallback={
             <Box
               width="100%"
-              height={{ base: '300px', md: '400px' }}
+              height={{ base: '200px', md: '400px' }}
               bg="gray.200"
               display="flex"
               alignItems="center"
@@ -79,7 +85,7 @@ const MediaInfo = ({ item, type }) => {
       ) : (
         <Box
           width="100%"
-          height={{ base: '300px', md: '400px' }}
+          height={{ base: '200px', md: '400px' }}
           bg="gray.200"
           display="flex"
           alignItems="center"
@@ -95,8 +101,15 @@ const MediaInfo = ({ item, type }) => {
   return (
     <SimpleGrid columns={{ base: 1, md: 2 }} spacing={{ base: 4, md: 6 }}>
       {/* Poster Image */}
-      <Box position="relative">
-        {renderPoster()}
+      <Box position="relative" maxH={{ base: '200px', md: 'none' }} borderRadius="md">
+        <Box
+          maxH={{ base: '200px', md: 'none' }}
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+        >
+          {renderPoster()}
+        </Box>
         {/* Heart Icon Button - Mobile Only */}
         <IconButton
           aria-label={inWatchlist ? 'Remove from watchlist' : 'Add to watchlist'}
@@ -146,32 +159,33 @@ const MediaInfo = ({ item, type }) => {
       </Box>
 
       {/* Basic Info */}
-      <VStack align="stretch" spacing={{ base: 3, md: 4 }}>
-        {/* Rating */}
-        {(type === MEDIA_TYPES.MOVIE ? item.vote_average : item.rating?.average) && (
-          <Box>
-            <Text
-              fontSize={{ base: 'xs', md: 'sm' }}
-              fontWeight="semibold"
-              color={TEXT_COLOR}
-              mb={{ base: 1.5, md: 2 }}
-            >
-              Rating
-            </Text>
-            <Badge
-              bg="rgba(234, 179, 8, 0.2)"
-              color="yellow.400"
-              fontSize={{ base: 'md', md: 'lg' }}
-              p={{ base: 1.5, md: 2 }}
-              borderRadius="4px"
-              fontWeight="bold"
-            >
-                      ⭐ {formatRating(
-                        type === MEDIA_TYPES.MOVIE ? item.vote_average : item.rating.average
-                      )}/10
-            </Badge>
-          </Box>
-        )}
+      <Box>
+        <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={{ base: 3, md: 4 }} gap={{ base: 3, md: 4 }}>
+          {/* Rating */}
+          {(type === MEDIA_TYPES.MOVIE ? item.vote_average : item.rating?.average) && (
+            <Box>
+              <Text
+                fontSize={{ base: 'xs', md: 'sm' }}
+                fontWeight="semibold"
+                color={TEXT_COLOR}
+                mb={{ base: 1.5, md: 2 }}
+              >
+                Rating
+              </Text>
+              <Badge
+                bg="rgba(234, 179, 8, 0.2)"
+                color="yellow.400"
+                fontSize={{ base: 'md', md: 'lg' }}
+                p={{ base: 1.5, md: 2 }}
+                borderRadius="4px"
+                fontWeight="bold"
+              >
+                ⭐ {formatRating(
+                  type === MEDIA_TYPES.MOVIE ? item.vote_average : item.rating.average
+                )}/10
+              </Badge>
+            </Box>
+          )}
 
         {/* Genres */}
         {((type === MEDIA_TYPES.MOVIE && item.genres) || (type === MEDIA_TYPES.SHOW && item.genres)) && (
@@ -367,7 +381,8 @@ const MediaInfo = ({ item, type }) => {
             </VStack>
           </Box>
         )}
-      </VStack>
+        </SimpleGrid>
+      </Box>
     </SimpleGrid>
   )
 }

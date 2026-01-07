@@ -1,10 +1,10 @@
-import { Box, Heading, SimpleGrid } from '@chakra-ui/react'
+import { Box, Heading } from '@chakra-ui/react'
 import { usePopular } from '../../hooks/usePopular'
 import ShowCard from '../ShowCard'
 import LoadingState from '../shared/LoadingState'
 import EmptyState from '../shared/EmptyState'
 import { adaptTMDBShowsToTVMaze } from '../../utils/tmdbAdapter'
-import { GRID_COLUMNS, ANIMATION_DELAYS } from '../../utils/constants'
+import HorizontalScrollRow from '../shared/HorizontalScrollRow'
 
 /**
  * Popular TV Shows tab component
@@ -38,22 +38,13 @@ const PopularTVShowsTab = ({ onShowClick }) => {
       ) : error ? (
         <EmptyState title="Failed to load popular TV shows" message={error} />
       ) : popularTVShows.length > 0 ? (
-        <SimpleGrid columns={GRID_COLUMNS} spacing={{ base: 4, md: 6 }}>
-          {popularTVShows.map((show, index) => (
-            <Box
-              key={show.id}
-              sx={{
-                animation: `fadeIn 0.6s ease-out ${index * ANIMATION_DELAYS.CARD_STAGGER}s both`,
-                '@keyframes fadeIn': {
-                  from: { opacity: 0, transform: 'translateY(20px)' },
-                  to: { opacity: 1, transform: 'translateY(0)' },
-                },
-              }}
-            >
-              <ShowCard show={show} onClick={() => onShowClick(show)} />
-            </Box>
-          ))}
-        </SimpleGrid>
+        <HorizontalScrollRow
+          items={popularTVShows}
+          renderItem={(show) => (
+            <ShowCard show={show} onClick={() => onShowClick(show)} />
+          )}
+          spacing="16px"
+        />
       ) : (
         <EmptyState title="No popular TV shows found" />
       )}

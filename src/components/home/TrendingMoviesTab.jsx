@@ -1,10 +1,10 @@
-import { Box, Heading, HStack, Button, SimpleGrid } from '@chakra-ui/react'
+import { Box, Heading, HStack, Button } from '@chakra-ui/react'
 import { useState } from 'react'
 import { useTrending } from '../../hooks/useTrending'
 import MovieCard from '../MovieCard'
 import LoadingState from '../shared/LoadingState'
 import EmptyState from '../shared/EmptyState'
-import { GRID_COLUMNS, ANIMATION_DELAYS } from '../../utils/constants'
+import HorizontalScrollRow from '../shared/HorizontalScrollRow'
 
 /**
  * Trending Movies tab component
@@ -72,22 +72,13 @@ const TrendingMoviesTab = ({ onMovieClick }) => {
       ) : error ? (
         <EmptyState title="Failed to load trending movies" message={error} />
       ) : trendingMovies.length > 0 ? (
-        <SimpleGrid columns={GRID_COLUMNS} spacing={{ base: 4, md: 6 }}>
-          {trendingMovies.map((movie, index) => (
-            <Box
-              key={movie.id}
-              sx={{
-                animation: `fadeIn 0.6s ease-out ${index * ANIMATION_DELAYS.CARD_STAGGER}s both`,
-                '@keyframes fadeIn': {
-                  from: { opacity: 0, transform: 'translateY(20px)' },
-                  to: { opacity: 1, transform: 'translateY(0)' },
-                },
-              }}
-            >
-              <MovieCard movie={movie} onClick={() => onMovieClick(movie)} />
-            </Box>
-          ))}
-        </SimpleGrid>
+        <HorizontalScrollRow
+          items={trendingMovies}
+          renderItem={(movie) => (
+            <MovieCard movie={movie} onClick={() => onMovieClick(movie)} />
+          )}
+          spacing="16px"
+        />
       ) : (
         <EmptyState title="No trending movies found" />
       )}

@@ -1,9 +1,9 @@
-import { Box, Heading, SimpleGrid } from '@chakra-ui/react'
+import { Box, Heading } from '@chakra-ui/react'
 import { usePopular } from '../../hooks/usePopular'
 import MovieCard from '../MovieCard'
 import LoadingState from '../shared/LoadingState'
 import EmptyState from '../shared/EmptyState'
-import { GRID_COLUMNS, ANIMATION_DELAYS } from '../../utils/constants'
+import HorizontalScrollRow from '../shared/HorizontalScrollRow'
 
 /**
  * Popular Movies tab component
@@ -34,22 +34,13 @@ const PopularMoviesTab = ({ onMovieClick }) => {
       ) : error ? (
         <EmptyState title="Failed to load popular movies" message={error} />
       ) : popularMovies.length > 0 ? (
-        <SimpleGrid columns={GRID_COLUMNS} spacing={{ base: 4, md: 6 }}>
-          {popularMovies.map((movie, index) => (
-            <Box
-              key={movie.id}
-              sx={{
-                animation: `fadeIn 0.6s ease-out ${index * ANIMATION_DELAYS.CARD_STAGGER}s both`,
-                '@keyframes fadeIn': {
-                  from: { opacity: 0, transform: 'translateY(20px)' },
-                  to: { opacity: 1, transform: 'translateY(0)' },
-                },
-              }}
-            >
-              <MovieCard movie={movie} onClick={() => onMovieClick(movie)} />
-            </Box>
-          ))}
-        </SimpleGrid>
+        <HorizontalScrollRow
+          items={popularMovies}
+          renderItem={(movie) => (
+            <MovieCard movie={movie} onClick={() => onMovieClick(movie)} />
+          )}
+          spacing="16px"
+        />
       ) : (
         <EmptyState title="No popular movies found" />
       )}

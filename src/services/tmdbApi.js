@@ -141,12 +141,13 @@ export const searchTVShow = async (query) => {
 /**
  * Get trending movies
  * @param {string} timeWindow - Time window: 'day' or 'week' (default: 'day')
- * @returns {Promise<Array<Movie>>} Array of trending movies
+ * @param {number} page - Page number (default: 1)
+ * @returns {Promise<Object>} Object with results array and pagination info
  */
-export const getTrendingMovies = async (timeWindow = 'day') => {
+export const getTrendingMovies = async (timeWindow = 'day', page = 1) => {
   try {
     const response = await fetch(
-      `${API_BASE_URL}/trending/movie/${timeWindow}?api_key=${API_KEY}&language=en-US`
+      `${API_BASE_URL}/trending/movie/${timeWindow}?api_key=${API_KEY}&language=en-US&page=${page}`
     )
     
     if (!response.ok) {
@@ -154,7 +155,11 @@ export const getTrendingMovies = async (timeWindow = 'day') => {
     }
 
     const data = await response.json()
-    return data.results || []
+    return {
+      results: data.results || [],
+      totalPages: data.total_pages || 1,
+      page: data.page || 1,
+    }
   } catch (error) {
     console.error('Error fetching trending movies:', error)
     throw error
@@ -164,12 +169,13 @@ export const getTrendingMovies = async (timeWindow = 'day') => {
 /**
  * Get trending TV shows
  * @param {string} timeWindow - Time window: 'day' or 'week' (default: 'day')
- * @returns {Promise<Array<TVShow>>} Array of trending TV shows
+ * @param {number} page - Page number (default: 1)
+ * @returns {Promise<Object>} Object with results array and pagination info
  */
-export const getTrendingTVShows = async (timeWindow = 'day') => {
+export const getTrendingTVShows = async (timeWindow = 'day', page = 1) => {
   try {
     const response = await fetch(
-      `${API_BASE_URL}/trending/tv/${timeWindow}?api_key=${API_KEY}&language=en-US`
+      `${API_BASE_URL}/trending/tv/${timeWindow}?api_key=${API_KEY}&language=en-US&page=${page}`
     )
     
     if (!response.ok) {
@@ -177,7 +183,11 @@ export const getTrendingTVShows = async (timeWindow = 'day') => {
     }
 
     const data = await response.json()
-    return data.results || []
+    return {
+      results: data.results || [],
+      totalPages: data.total_pages || 1,
+      page: data.page || 1,
+    }
   } catch (error) {
     console.error('Error fetching trending TV shows:', error)
     throw error
@@ -187,7 +197,7 @@ export const getTrendingTVShows = async (timeWindow = 'day') => {
 /**
  * Get popular movies
  * @param {number} page - Page number (default: 1)
- * @returns {Promise<Array<Movie>>} Array of popular movies
+ * @returns {Promise<Object>} Object with results array and pagination info
  */
 export const getPopularMovies = async (page = 1) => {
   try {
@@ -200,7 +210,11 @@ export const getPopularMovies = async (page = 1) => {
     }
 
     const data = await response.json()
-    return data.results || []
+    return {
+      results: data.results || [],
+      totalPages: data.total_pages || 1,
+      page: data.page || 1,
+    }
   } catch (error) {
     console.error('Error fetching popular movies:', error)
     throw error
@@ -210,7 +224,7 @@ export const getPopularMovies = async (page = 1) => {
 /**
  * Get popular TV shows
  * @param {number} page - Page number (default: 1)
- * @returns {Promise<Array<TVShow>>} Array of popular TV shows
+ * @returns {Promise<Object>} Object with results array and pagination info
  */
 export const getPopularTVShows = async (page = 1) => {
   try {
@@ -223,7 +237,11 @@ export const getPopularTVShows = async (page = 1) => {
     }
 
     const data = await response.json()
-    return data.results || []
+    return {
+      results: data.results || [],
+      totalPages: data.total_pages || 1,
+      page: data.page || 1,
+    }
   } catch (error) {
     console.error('Error fetching popular TV shows:', error)
     throw error

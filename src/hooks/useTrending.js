@@ -18,13 +18,13 @@ export const useTrending = (timeWindow = 'day') => {
       setError(null)
 
       try {
-        const [movies, shows] = await Promise.all([
+        const [moviesData, showsData] = await Promise.all([
           getTrendingMovies(timeWindow),
           getTrendingTVShows(timeWindow),
         ])
         
-        setTrendingMovies(movies)
-        setTrendingTVShows(shows)
+        setTrendingMovies(moviesData.results || moviesData)
+        setTrendingTVShows(showsData.results || showsData)
       } catch (err) {
         setError('Failed to load trending content')
         console.error('Error fetching trending content:', err)

@@ -1,12 +1,18 @@
-import { Box, Container, Divider } from '@chakra-ui/react'
+import { Box, Container, Divider, VStack } from '@chakra-ui/react'
+import { useState } from 'react'
 import { getShowById } from '../services/tvmazeApi'
 import { getMovieById } from '../services/tmdbApi'
 import DetailModal from '../components/DetailModal'
 import Header from '../components/shared/Header'
 import HeroSection from '../components/shared/HeroSection'
-import ContentTabs from '../components/home/ContentTabs'
+import ContentRow from '../components/home/ContentRow'
+import MovieCard from '../components/MovieCard'
+import ShowCard from '../components/ShowCard'
 import { useModal } from '../hooks/useModal'
+import { useTrending } from '../hooks/useTrending'
+import { usePopular } from '../hooks/usePopular'
 import { MEDIA_TYPES } from '../models/constants'
+import { adaptTMDBShowsToTVMaze } from '../utils/tmdbAdapter'
 
 /**
  * Home page component - Redesigned with Trending/Popular features
@@ -18,6 +24,26 @@ import { MEDIA_TYPES } from '../models/constants'
  */
 const Home = () => {
   const modal = useModal()
+  const [trendingTimeWindow, setTrendingTimeWindow] = useState('day')
+  
+  // Fetch trending and popular content
+  const {
+    trendingMovies,
+    trendingTVShows: trendingTVShowsTMDB,
+    loading: trendingLoading,
+    error: trendingError,
+  } = useTrending(trendingTimeWindow)
+
+  const {
+    popularMovies,
+    popularTVShows: popularTVShowsTMDB,
+    loading: popularLoading,
+    error: popularError,
+  } = usePopular()
+
+  // Convert TMDB TV shows to TVMaze format for compatibility
+  const trendingTVShows = adaptTMDBShowsToTVMaze(trendingTVShowsTMDB)
+  const popularTVShows = adaptTMDBShowsToTVMaze(popularTVShowsTMDB)
 
   /**
    * Handles clicking on a TV show
@@ -80,11 +106,62 @@ const Home = () => {
 
         <Divider borderColor="rgba(255, 255, 255, 0.1)" my={{ base: 4, md: 6 }} />
 
-        {/* Content Tabs - Trending and Popular */}
-        <ContentTabs
-          onMovieClick={handleMovieClick}
-          onShowClick={handleShowClick}
-        />
+        {/* Content Rows - Horizontal Scrolling */}
+        <VStack spacing={0} align="stretch">
+          {/* Trending Movies Row */}
+          <ContentRow
+            title="Trending Movies"
+            items={trendingMovies}
+            renderItem={(movie) => (
+              <MovieCard movie={movie} onClick={() => handleMovieClick(movie)} />
+            )}
+            loading={trendingLoading}
+            error={trendingError}
+            showTimeWindow
+            timeWindow={trendingTimeWindow}
+            onTimeWindowChange={setTrendingTimeWindow}
+            viewAllPath={`/trending/movies?timeWindow=${trendingTimeWindow}`}
+          />
+
+          {/* Trending TV Shows Row */}
+          <ContentRow
+            title="Trending TV Shows"
+            items={trendingTVShows}
+            renderItem={(show) => (
+              <ShowCard show={show} onClick={() => handleShowClick(show)} />
+            )}
+            loading={trendingLoading}
+            error={trendingError}
+            showTimeWindow
+            timeWindow={trendingTimeWindow}
+            onTimeWindowChange={setTrendingTimeWindow}
+            viewAllPath={`/trending/tv-shows?timeWindow=${trendingTimeWindow}`}
+          />
+
+          {/* Popular Movies Row */}
+          <ContentRow
+            title="Popular Movies"
+            items={popularMovies}
+            renderItem={(movie) => (
+              <MovieCard movie={movie} onClick={() => handleMovieClick(movie)} />
+            )}
+            loading={popularLoading}
+            error={popularError}
+            viewAllPath="/popular/movies"
+          />
+
+          {/* Popular TV Shows Row */}
+          <ContentRow
+            title="Popular TV Shows"
+            items={popularTVShows}
+            renderItem={(show) => (
+              <ShowCard show={show} onClick={() => handleShowClick(show)} />
+            )}
+            loading={popularLoading}
+            error={popularError}
+            viewAllPath="/popular/tv-shows"
+          />
+        </VStack>
       </Container>
 
       {/* Detail Modal */}

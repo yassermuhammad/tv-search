@@ -18,13 +18,13 @@ export const usePopular = (page = 1) => {
       setError(null)
 
       try {
-        const [movies, shows] = await Promise.all([
+        const [moviesData, showsData] = await Promise.all([
           getPopularMovies(page),
           getPopularTVShows(page),
         ])
         
-        setPopularMovies(movies)
-        setPopularTVShows(shows)
+        setPopularMovies(moviesData.results || moviesData)
+        setPopularTVShows(showsData.results || showsData)
       } catch (err) {
         setError('Failed to load popular content')
         console.error('Error fetching popular content:', err)

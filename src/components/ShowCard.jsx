@@ -6,7 +6,7 @@ import {
   HStack,
   IconButton,
 } from '@chakra-ui/react'
-import { AddIcon, CheckIcon } from '@chakra-ui/icons'
+import { CheckIcon } from '@chakra-ui/icons'
 import { useWatchlist } from '../contexts/WatchlistContext'
 import { getStatusColor, stripHtml, formatDate } from '../utils/formatters'
 import { MEDIA_TYPES } from '../models/constants'
@@ -49,9 +49,6 @@ const ShowCard = ({ show, onClick }) => {
         '&:hover .card-overlay': {
           opacity: 1,
         },
-        '&:hover .card-button': {
-          opacity: 1,
-        },
         '&:hover .card-info': {
           transform: 'translateY(-4px)',
         },
@@ -68,13 +65,13 @@ const ShowCard = ({ show, onClick }) => {
             src={show.image.medium}
             alt={show.name}
             width="100%"
-            height="280px"
+            height={{ base: '240px', md: '280px' }}
             objectFit="cover"
             transition="transform 0.3s ease-out"
             fallback={
               <Box
                 width="100%"
-                height="280px"
+                height={{ base: '240px', md: '280px' }}
                 bg="linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
                 display="flex"
                 alignItems="center"
@@ -89,7 +86,7 @@ const ShowCard = ({ show, onClick }) => {
         ) : (
           <Box
             width="100%"
-            height="280px"
+            height={{ base: '240px', md: '280px' }}
             bg="linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
             display="flex"
             alignItems="center"
@@ -134,8 +131,8 @@ const ShowCard = ({ show, onClick }) => {
         {show.rating?.average && (
           <Badge
             position="absolute"
-            top="8px"
-            left="8px"
+            bottom="8px"
+            right="8px"
             bg="rgba(0, 0, 0, 0.8)"
             color="yellow.400"
             fontSize="xs"
@@ -148,19 +145,38 @@ const ShowCard = ({ show, onClick }) => {
           </Badge>
         )}
 
-        {/* Watchlist Button */}
+        {/* Watchlist Button - Heart Icon */}
         <IconButton
           className="card-button"
           position="absolute"
-          bottom="8px"
-          right="8px"
+          top="8px"
+          left="8px"
           aria-label={inWatchlist ? 'Remove from watchlist' : 'Add to watchlist'}
-          icon={inWatchlist ? <CheckIcon /> : <AddIcon />}
-          size="sm"
-          bg={inWatchlist ? 'netflix.500' : 'rgba(0, 0, 0, 0.7)'}
+          icon={
+            inWatchlist ? (
+              <CheckIcon />
+            ) : (
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+              </svg>
+            )
+          }
+          size="md"
+          minW="40px"
+          h="40px"
+          bg={inWatchlist ? 'rgba(229, 9, 20, 0.9)' : 'rgba(0, 0, 0, 0.7)'}
           color="white"
           _hover={{
-            bg: inWatchlist ? 'netflix.600' : 'rgba(0, 0, 0, 0.9)',
+            bg: inWatchlist ? 'rgba(229, 9, 20, 1)' : 'rgba(0, 0, 0, 0.9)',
             transform: 'scale(1.1)',
           }}
           onClick={(e) => {
@@ -169,7 +185,9 @@ const ShowCard = ({ show, onClick }) => {
           }}
           borderRadius="full"
           transition="all 0.2s"
-          opacity={0}
+          opacity={{ base: 1, md: 1 }}
+          zIndex={5}
+          boxShadow="0 2px 8px rgba(0, 0, 0, 0.4)"
         />
       </Box>
 

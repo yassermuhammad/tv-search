@@ -19,18 +19,21 @@ const SearchInput = ({ value, onChange, placeholder = 'Search...' }) => {
         },
       }}
     >
-      <InputGroup size="lg">
+      <InputGroup size={{ base: 'md', md: 'lg' }}>
         <InputLeftElement pointerEvents="none" h="100%">
-          <SearchIcon color="rgba(255, 255, 255, 0.5)" boxSize={5} />
+          <SearchIcon
+            color="rgba(255, 255, 255, 0.5)"
+            boxSize={{ base: 4, md: 5 }}
+          />
         </InputLeftElement>
         <Input
           variant="netflix"
           placeholder={placeholder}
           value={value}
           onChange={onChange}
-          size="lg"
-          h="56px"
-          fontSize="18px"
+          size={{ base: 'md', md: 'lg' }}
+          h={{ base: '44px', md: '56px' }}
+          fontSize={{ base: '16px', md: '18px' }}
         />
       </InputGroup>
     </Box>

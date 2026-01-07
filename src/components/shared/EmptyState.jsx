@@ -11,12 +11,21 @@ const EmptyState = ({
   message = 'Try searching with a different keyword'
 }) => {
   return (
-    <Center py={20}>
-      <VStack spacing={4}>
-        <Text fontSize="2xl" color="rgba(255, 255, 255, 0.7)" fontWeight="600">
+    <Center py={{ base: 12, md: 20 }} px={{ base: 4, md: 0 }}>
+      <VStack spacing={{ base: 3, md: 4 }}>
+        <Text
+          fontSize={{ base: 'lg', md: '2xl' }}
+          color="rgba(255, 255, 255, 0.7)"
+          fontWeight="600"
+        >
           {title}
         </Text>
-        <Text color="rgba(255, 255, 255, 0.5)" textAlign="center" fontSize="lg">
+        <Text
+          color="rgba(255, 255, 255, 0.5)"
+          textAlign="center"
+          fontSize={{ base: 'md', md: 'lg' }}
+          px={{ base: 4, md: 0 }}
+        >
           {message}
         </Text>
       </VStack>

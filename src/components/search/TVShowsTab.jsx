@@ -29,7 +29,7 @@ const TVShowsTab = ({ onShowClick }) => {
   } = useSearch(performShowSearch, SEARCH_DEBOUNCE_DELAY)
 
   return (
-    <VStack spacing={8} align="stretch">
+    <VStack spacing={{ base: 4, md: 8 }} align="stretch">
       <SearchInput
         value={query}
         onChange={(e) => setQuery(e.target.value)}

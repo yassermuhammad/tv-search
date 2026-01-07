@@ -7,10 +7,19 @@ import { Center, VStack, Spinner, Text } from '@chakra-ui/react'
  */
 const LoadingState = ({ message = 'Loading...' }) => {
   return (
-    <Center py={20}>
-      <VStack spacing={4}>
-        <Spinner size="xl" color="netflix.500" thickness="4px" speed="0.8s" />
-        <Text color="rgba(255, 255, 255, 0.7)" fontSize="lg">
+    <Center py={{ base: 12, md: 20 }} px={{ base: 4, md: 0 }}>
+      <VStack spacing={{ base: 3, md: 4 }}>
+        <Spinner
+          size={{ base: 'lg', md: 'xl' }}
+          color="netflix.500"
+          thickness="4px"
+          speed="0.8s"
+        />
+        <Text
+          color="rgba(255, 255, 255, 0.7)"
+          fontSize={{ base: 'md', md: 'lg' }}
+          textAlign="center"
+        >
           {message}
         </Text>
       </VStack>

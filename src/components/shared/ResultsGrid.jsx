@@ -25,11 +25,16 @@ const ResultsGrid = ({ items, renderItem, itemType = 'items', showCount = true }
       }}
     >
       {showCount && (
-        <Text fontSize="2xl" fontWeight="bold" color="white" mb={6}>
+        <Text
+          fontSize={{ base: 'lg', md: '2xl' }}
+          fontWeight="bold"
+          color="white"
+          mb={{ base: 4, md: 6 }}
+        >
           Found {items.length} {items.length === 1 ? itemType.slice(0, -1) : itemType}
         </Text>
       )}
-      <SimpleGrid columns={GRID_COLUMNS} spacing={6}>
+      <SimpleGrid columns={GRID_COLUMNS} spacing={{ base: 4, md: 6 }}>
         {items.map((item, index) => (
           <Box
             key={item.id}

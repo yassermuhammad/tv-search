@@ -1,22 +1,23 @@
-import { Box, Container, Divider } from '@chakra-ui/react'
+import { Box, Container } from '@chakra-ui/react'
+import { useNavigate } from 'react-router-dom'
 import { getShowById } from '../services/tvmazeApi'
 import { getMovieById } from '../services/tmdbApi'
 import DetailModal from '../components/DetailModal'
 import Header from '../components/shared/Header'
-import HeroSection from '../components/shared/HeroSection'
-import ContentTabs from '../components/home/ContentTabs'
+import SearchSection from '../components/home/SearchSection'
 import { useModal } from '../hooks/useModal'
 import { MEDIA_TYPES } from '../models/constants'
 
 /**
- * Home page component - Redesigned with Trending/Popular features
+ * Search page component
+ * Dedicated page for searching TV shows and movies
  * Features:
- * - Tabbed interface for Trending Movies, Trending TV Shows, Popular Movies, Popular TV Shows
- * - Search functionality
+ * - Full-screen search interface
+ * - Tabbed view for TV Shows and Movies
  * - Modal for viewing detailed information
- * - Hero section with welcome message
  */
-const Home = () => {
+const Search = () => {
+  const navigate = useNavigate()
   const modal = useModal()
 
   /**
@@ -66,24 +67,26 @@ const Home = () => {
     }
   }
 
+  /**
+   * Handles back navigation
+   */
+  const handleBack = () => {
+    navigate('/')
+  }
+
   return (
     <Box minH="100vh" bg="#141414" position="relative">
-      <Header />
+      <Header showBackButton onBack={handleBack} />
 
       <Container
         maxW="container.xl"
         py={{ base: 4, md: 8 }}
         px={{ base: 4, md: 6, lg: 8 }}
       >
-        {/* Hero section */}
-        <HeroSection />
-
-        <Divider borderColor="rgba(255, 255, 255, 0.1)" my={{ base: 4, md: 6 }} />
-
-        {/* Content Tabs - Trending and Popular */}
-        <ContentTabs
-          onMovieClick={handleMovieClick}
+        {/* Search Section */}
+        <SearchSection
           onShowClick={handleShowClick}
+          onMovieClick={handleMovieClick}
         />
       </Container>
 
@@ -99,4 +102,5 @@ const Home = () => {
   )
 }
 
-export default Home
+export default Search
+

@@ -66,33 +66,45 @@ const Watchlist = () => {
       <Box
         position="relative"
         bgGradient="linear(to-b, rgba(0,0,0,0.7), transparent)"
-        pb={8}
-        pt={4}
+        pb={{ base: 4, md: 8 }}
+        pt={{ base: 3, md: 4 }}
+        px={{ base: 4, md: 0 }}
       >
-        <Container maxW="container.xl">
-          <Flex justify="space-between" align="center" mb={8}>
-            <HStack spacing={4} align="center">
+        <Container maxW="container.xl" px={{ base: 4, md: 6, lg: 8 }}>
+          <Flex
+            justify="space-between"
+            align={{ base: 'flex-start', sm: 'center' }}
+            mb={{ base: 4, md: 8 }}
+            direction={{ base: 'column', sm: 'row' }}
+            gap={{ base: 3, sm: 0 }}
+          >
+            <HStack spacing={{ base: 2, md: 4 }} align="center" flex={1}>
               <Button
                 leftIcon={<ChevronLeftIcon />}
                 onClick={() => navigate('/')}
                 variant="ghost"
                 color="white"
                 _hover={{ bg: 'rgba(255, 255, 255, 0.1)' }}
-                size="md"
+                size={{ base: 'sm', md: 'md' }}
+                display={{ base: 'none', sm: 'flex' }}
               >
                 Back
               </Button>
-              <VStack align="flex-start" spacing={2}>
+              <VStack align={{ base: 'flex-start', sm: 'flex-start' }} spacing={1}>
                 <Heading
                   as="h1"
-                  size="xl"
+                  size={{ base: 'lg', md: 'xl' }}
                   color="netflix.500"
                   fontWeight="900"
                   letterSpacing="tight"
+                  fontSize={{ base: '20px', sm: '24px', md: '28px' }}
                 >
                   My Watchlist
                 </Heading>
-                <Text color="rgba(255, 255, 255, 0.7)" fontSize="md">
+                <Text
+                  color="rgba(255, 255, 255, 0.7)"
+                  fontSize={{ base: 'sm', md: 'md' }}
+                >
                   {watchlist.length} {watchlist.length === 1 ? 'item' : 'items'} saved
                 </Text>
               </VStack>
@@ -104,7 +116,9 @@ const Watchlist = () => {
                 variant="ghost"
                 color="rgba(255, 255, 255, 0.7)"
                 _hover={{ bg: 'rgba(255, 255, 255, 0.1)', color: 'netflix.500' }}
-                size="md"
+                size={{ base: 'sm', md: 'md' }}
+                fontSize={{ base: 'xs', md: 'sm' }}
+                w={{ base: '100%', sm: 'auto' }}
               >
                 Clear All
               </Button>
@@ -113,7 +127,7 @@ const Watchlist = () => {
         </Container>
       </Box>
 
-      <Container maxW="container.xl" py={8}>
+      <Container maxW="container.xl" py={{ base: 4, md: 8 }} px={{ base: 4, md: 6, lg: 8 }}>
         {watchlist.length === 0 ? (
           <EmptyState
             title="Your watchlist is empty"
@@ -121,19 +135,41 @@ const Watchlist = () => {
           />
         ) : (
           <Tabs variant="netflix" colorScheme="netflix">
-            <TabList mb={8} borderBottom="none">
-              <Tab fontSize="20px" px={6} py={4}>
+            <TabList mb={{ base: 4, md: 8 }} borderBottom="none">
+              <Tab
+                fontSize={{ base: '16px', md: '20px' }}
+                px={{ base: 4, md: 6 }}
+                py={{ base: 3, md: 4 }}
+              >
                 TV Shows
                 {shows.length > 0 && (
-                  <Badge ml={2} bg="netflix.500" color="white" borderRadius="full" px={2}>
+                  <Badge
+                    ml={2}
+                    bg="netflix.500"
+                    color="white"
+                    borderRadius="full"
+                    px={{ base: 1.5, md: 2 }}
+                    fontSize={{ base: '10px', md: 'xs' }}
+                  >
                     {shows.length}
                   </Badge>
                 )}
               </Tab>
-              <Tab fontSize="20px" px={6} py={4}>
+              <Tab
+                fontSize={{ base: '16px', md: '20px' }}
+                px={{ base: 4, md: 6 }}
+                py={{ base: 3, md: 4 }}
+              >
                 Movies
                 {movies.length > 0 && (
-                  <Badge ml={2} bg="netflix.500" color="white" borderRadius="full" px={2}>
+                  <Badge
+                    ml={2}
+                    bg="netflix.500"
+                    color="white"
+                    borderRadius="full"
+                    px={{ base: 1.5, md: 2 }}
+                    fontSize={{ base: '10px', md: 'xs' }}
+                  >
                     {movies.length}
                   </Badge>
                 )}

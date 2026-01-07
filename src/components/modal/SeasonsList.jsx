@@ -62,10 +62,13 @@ const SeasonsList = ({ seasons, loading }) => {
 
   if (loading) {
     return (
-      <Center py={8}>
+      <Center py={{ base: 6, md: 8 }}>
         <VStack spacing={2}>
-          <Spinner size="md" color="netflix.500" />
-          <Text color="rgba(255, 255, 255, 0.7)" fontSize="sm">
+          <Spinner size={{ base: 'sm', md: 'md' }} color="netflix.500" />
+          <Text
+            color="rgba(255, 255, 255, 0.7)"
+            fontSize={{ base: 'xs', md: 'sm' }}
+          >
             Loading seasons...
           </Text>
         </VStack>
@@ -75,7 +78,7 @@ const SeasonsList = ({ seasons, loading }) => {
 
   if (seasons.length === 0) {
     return (
-      <Text color="rgba(255, 255, 255, 0.5)" fontSize="sm">
+      <Text color="rgba(255, 255, 255, 0.5)" fontSize={{ base: 'xs', md: 'sm' }}>
         No seasons information available
       </Text>
     )
@@ -83,10 +86,15 @@ const SeasonsList = ({ seasons, loading }) => {
 
   return (
     <Box>
-      <Heading size="md" color="white" mb={4}>
+      <Heading
+        size={{ base: 'sm', md: 'md' }}
+        color="white"
+        mb={{ base: 3, md: 4 }}
+        fontSize={{ base: '18px', md: '20px' }}
+      >
         Seasons & Episodes
       </Heading>
-      <VStack align="stretch" spacing={3}>
+      <VStack align="stretch" spacing={{ base: 2, md: 3 }}>
         {seasons.map((season) => {
           const isExpanded = expandedSeasons.has(season.id)
           const episodes = episodesBySeason[season.id] || []
@@ -105,22 +113,23 @@ const SeasonsList = ({ seasons, loading }) => {
               <Button
                 w="100%"
                 justifyContent="space-between"
-                p={4}
+                p={{ base: 3, md: 4 }}
                 bg="transparent"
                 color="white"
                 fontWeight="bold"
                 _hover={{ bg: 'rgba(255, 255, 255, 0.1)' }}
                 onClick={() => toggleSeason(season.id, season.number)}
                 borderRadius="0"
+                fontSize={{ base: 'sm', md: 'md' }}
               >
-                <HStack spacing={4}>
-                  <Text fontSize="lg">Season {season.number}</Text>
+                <HStack spacing={{ base: 2, md: 4 }} flexWrap="wrap">
+                  <Text fontSize={{ base: 'md', md: 'lg' }}>Season {season.number}</Text>
                   {season.premiereDate && (
                     <Badge
                       bg="rgba(255, 255, 255, 0.1)"
                       color="rgba(255, 255, 255, 0.7)"
-                      fontSize="xs"
-                      px={2}
+                      fontSize={{ base: '10px', md: 'xs' }}
+                      px={{ base: 1.5, md: 2 }}
                       py={1}
                     >
                       {new Date(season.premiereDate).getFullYear()}
@@ -130,8 +139,8 @@ const SeasonsList = ({ seasons, loading }) => {
                     <Badge
                       bg="rgba(255, 255, 255, 0.1)"
                       color="rgba(255, 255, 255, 0.7)"
-                      fontSize="xs"
-                      px={2}
+                      fontSize={{ base: '10px', md: 'xs' }}
+                      px={{ base: 1.5, md: 2 }}
                       py={1}
                     >
                       {season.episodeOrder} episodes
@@ -142,17 +151,22 @@ const SeasonsList = ({ seasons, loading }) => {
               </Button>
 
               {isExpanded && (
-                <Box p={4} pt={0}>
+                <Box p={{ base: 3, md: 4 }} pt={0}>
                   {isLoadingEp ? (
                     <Center py={4}>
                       <Spinner size="sm" color="netflix.500" />
                     </Center>
                   ) : episodes.length > 0 ? (
-                    <VStack align="stretch" spacing={2} maxH="400px" overflowY="auto">
+                    <VStack
+                      align="stretch"
+                      spacing={{ base: 1.5, md: 2 }}
+                      maxH={{ base: '300px', md: '400px' }}
+                      overflowY="auto"
+                    >
                       {episodes.map((episode) => (
                         <Box
                           key={episode.id}
-                          p={3}
+                          p={{ base: 2, md: 3 }}
                           bg="rgba(0, 0, 0, 0.3)"
                           borderRadius="4px"
                           border="1px solid rgba(255, 255, 255, 0.05)"
@@ -162,28 +176,38 @@ const SeasonsList = ({ seasons, loading }) => {
                           }}
                           transition="all 0.2s"
                         >
-                          <HStack justify="space-between" mb={2}>
-                            <HStack spacing={2}>
+                          <HStack justify="space-between" mb={{ base: 1, md: 2 }} flexWrap="wrap">
+                            <HStack spacing={{ base: 1.5, md: 2 }} flex={1} minW={0}>
                               <Text
-                                fontSize="sm"
+                                fontSize={{ base: 'xs', md: 'sm' }}
                                 fontWeight="bold"
                                 color="netflix.500"
+                                flexShrink={0}
                               >
                                 E{episode.number}
                               </Text>
-                              <Text fontSize="sm" fontWeight="semibold" color="white">
+                              <Text
+                                fontSize={{ base: 'xs', md: 'sm' }}
+                                fontWeight="semibold"
+                                color="white"
+                                noOfLines={1}
+                              >
                                 {episode.name || 'Untitled Episode'}
                               </Text>
                             </HStack>
                             {episode.airdate && (
-                              <Text fontSize="xs" color="rgba(255, 255, 255, 0.6)">
-                                {formatDate(episode.airdate)}
+                              <Text
+                                fontSize={{ base: '10px', md: 'xs' }}
+                                color="rgba(255, 255, 255, 0.6)"
+                                flexShrink={0}
+                              >
+                                {formatDate(episode.airdate, { yearOnly: true })}
                               </Text>
                             )}
                           </HStack>
                           {episode.summary && (
                             <Text
-                              fontSize="xs"
+                              fontSize={{ base: '10px', md: 'xs' }}
                               color="rgba(255, 255, 255, 0.7)"
                               noOfLines={2}
                               lineHeight="1.4"
@@ -192,7 +216,11 @@ const SeasonsList = ({ seasons, loading }) => {
                             </Text>
                           )}
                           {episode.runtime && (
-                            <Text fontSize="xs" color="rgba(255, 255, 255, 0.5)" mt={1}>
+                            <Text
+                              fontSize={{ base: '10px', md: 'xs' }}
+                              color="rgba(255, 255, 255, 0.5)"
+                              mt={1}
+                            >
                               {episode.runtime} min
                             </Text>
                           )}
@@ -200,7 +228,11 @@ const SeasonsList = ({ seasons, loading }) => {
                       ))}
                     </VStack>
                   ) : (
-                    <Text color="rgba(255, 255, 255, 0.5)" fontSize="sm" py={4}>
+                    <Text
+                      color="rgba(255, 255, 255, 0.5)"
+                      fontSize={{ base: 'xs', md: 'sm' }}
+                      py={{ base: 3, md: 4 }}
+                    >
                       No episodes available
                     </Text>
                   )}

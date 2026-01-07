@@ -1,15 +1,18 @@
-// TMDB API - Free API key can be obtained from https://www.themoviedb.org/settings/api
-// Get your free API key at: https://www.themoviedb.org/settings/api
-const API_BASE_URL = 'https://api.themoviedb.org/3'
-// Using a demo API key - Replace with your own API key from TMDB
-// You can set it via environment variable: VITE_TMDB_API_KEY
+import { API_CONFIG } from '../utils/constants'
+
+/**
+ * TMDB API Service
+ * Free API key can be obtained from https://www.themoviedb.org/settings/api
+ * Set via environment variable: VITE_TMDB_API_KEY
+ */
+const API_BASE_URL = API_CONFIG.TMDB_BASE_URL
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY || '1f54bd990f1cdfb230adb312546d765d'
-const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w500'
+const IMAGE_BASE_URL = API_CONFIG.TMDB_IMAGE_BASE_URL
 
 /**
  * Search for movies by name
  * @param {string} query - Search query
- * @returns {Promise<Array>} Array of movie results
+ * @returns {Promise<Array<Movie>>} Array of movie results
  */
 export const searchMovies = async (query) => {
   if (!query || query.trim() === '') {
@@ -36,7 +39,7 @@ export const searchMovies = async (query) => {
 /**
  * Get movie details by ID
  * @param {number} movieId - Movie ID
- * @returns {Promise<Object>} Movie details
+ * @returns {Promise<Movie>} Movie details
  */
 export const getMovieById = async (movieId) => {
   try {
@@ -69,7 +72,7 @@ export const getImageUrl = (path) => {
 /**
  * Get watch providers (streaming platforms) for a movie
  * @param {number} movieId - Movie ID
- * @returns {Promise<Object>} Watch providers data
+ * @returns {Promise<WatchProviders>} Watch providers data
  */
 export const getMovieWatchProviders = async (movieId) => {
   try {
@@ -92,7 +95,7 @@ export const getMovieWatchProviders = async (movieId) => {
 /**
  * Get watch providers (streaming platforms) for a TV show
  * @param {number} tvId - TV Show ID
- * @returns {Promise<Object>} Watch providers data
+ * @returns {Promise<WatchProviders>} Watch providers data
  */
 export const getTVWatchProviders = async (tvId) => {
   try {
@@ -115,7 +118,7 @@ export const getTVWatchProviders = async (tvId) => {
 /**
  * Search for TV show by name to get TMDB ID
  * @param {string} query - TV show name
- * @returns {Promise<Object|null>} First matching TV show or null
+ * @returns {Promise<TVShow|null>} First matching TV show or null
  */
 export const searchTVShow = async (query) => {
   try {

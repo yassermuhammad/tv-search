@@ -3,23 +3,30 @@ import {
   Image,
   Text,
   Badge,
-  HStack,
-  useColorModeValue,
+  IconButton,
 } from '@chakra-ui/react'
+import { AddIcon, CheckIcon } from '@chakra-ui/icons'
 import { getImageUrl } from '../services/tmdbApi'
+import { useWatchlist } from '../contexts/WatchlistContext'
+import { formatDate, formatRating } from '../utils/formatters'
+import { MEDIA_TYPES } from '../models/constants'
+import { RATING_THRESHOLDS } from '../models/constants'
 
+/**
+ * Movie card component for displaying movie information
+ * Features:
+ * - Poster image with hover effects
+ * - Rating badge
+ * - Watchlist toggle button
+ * - Movie details on hover
+ * 
+ * @param {Object} props - Component props
+ * @param {Object} props.movie - Movie object from TMDB API
+ * @param {Function} props.onClick - Callback when card is clicked
+ */
 const MovieCard = ({ movie, onClick }) => {
-  // Format date
-  const formatDate = (dateString) => {
-    if (!dateString) return 'N/A'
-    return new Date(dateString).getFullYear()
-  }
-
-  // Format rating (TMDB uses 10-point scale)
-  const formatRating = (rating) => {
-    if (!rating) return null
-    return rating.toFixed(1)
-  }
+  const { isInWatchlist, toggleWatchlist } = useWatchlist()
+  const inWatchlist = isInWatchlist(movie.id, MEDIA_TYPES.MOVIE)
 
   const posterUrl = getImageUrl(movie.poster_path)
 
@@ -37,21 +44,35 @@ const MovieCard = ({ movie, onClick }) => {
         zIndex: 10,
         boxShadow: '0 10px 40px rgba(0, 0, 0, 0.8)',
       }}
-      group
+      sx={{
+        '&:hover .card-image': {
+          transform: 'scale(1.1)',
+        },
+        '&:hover .card-overlay': {
+          opacity: 1,
+        },
+        '&:hover .card-button': {
+          opacity: 1,
+        },
+        '&:hover .card-info': {
+          transform: 'translateY(-4px)',
+        },
+        '&:hover .card-description': {
+          maxHeight: '60px',
+        },
+      }}
     >
       {/* Poster Image */}
       <Box position="relative" overflow="hidden" bg="#2a2a2a">
         {posterUrl ? (
           <Image
+            className="card-image"
             src={posterUrl}
             alt={movie.title}
             width="100%"
             height="280px"
             objectFit="cover"
             transition="transform 0.3s ease-out"
-            _groupHover={{
-              transform: 'scale(1.1)',
-            }}
             fallback={
               <Box
                 width="100%"
@@ -84,6 +105,7 @@ const MovieCard = ({ movie, onClick }) => {
         
         {/* Gradient overlay on hover */}
         <Box
+          className="card-overlay"
           position="absolute"
           top="0"
           left="0"
@@ -92,9 +114,6 @@ const MovieCard = ({ movie, onClick }) => {
           bgGradient="linear(to-t, rgba(0,0,0,0.9), transparent)"
           opacity={0}
           transition="opacity 0.3s ease-out"
-          _groupHover={{
-            opacity: 1,
-          }}
         />
 
         {/* Rating Badge */}
@@ -103,7 +122,13 @@ const MovieCard = ({ movie, onClick }) => {
             position="absolute"
             top="8px"
             right="8px"
-            bg={movie.vote_average >= 7 ? 'rgba(34, 197, 94, 0.9)' : movie.vote_average >= 5 ? 'rgba(234, 179, 8, 0.9)' : 'rgba(239, 68, 68, 0.9)'}
+            bg={
+              movie.vote_average >= RATING_THRESHOLDS.EXCELLENT
+                ? 'rgba(34, 197, 94, 0.9)'
+                : movie.vote_average >= RATING_THRESHOLDS.GOOD
+                ? 'rgba(234, 179, 8, 0.9)'
+                : 'rgba(239, 68, 68, 0.9)'
+            }
             color="white"
             fontSize="xs"
             px={2}
@@ -131,17 +156,39 @@ const MovieCard = ({ movie, onClick }) => {
         >
           Movie
         </Badge>
+
+        {/* Watchlist Button */}
+        <IconButton
+          className="card-button"
+          position="absolute"
+          bottom="8px"
+          right="8px"
+          aria-label={inWatchlist ? 'Remove from watchlist' : 'Add to watchlist'}
+          icon={inWatchlist ? <CheckIcon /> : <AddIcon />}
+          size="sm"
+          bg={inWatchlist ? 'netflix.500' : 'rgba(0, 0, 0, 0.7)'}
+          color="white"
+          _hover={{
+            bg: inWatchlist ? 'netflix.600' : 'rgba(0, 0, 0, 0.9)',
+            transform: 'scale(1.1)',
+          }}
+          onClick={(e) => {
+            e.stopPropagation()
+            toggleWatchlist(movie, MEDIA_TYPES.MOVIE)
+          }}
+          borderRadius="full"
+          transition="all 0.2s"
+          opacity={0}
+        />
       </Box>
 
       {/* Card Info - Shows on hover */}
       <Box
+        className="card-info"
         p={4}
         bg="#1a1a1a"
         transform="translateY(0)"
         transition="all 0.3s ease-out"
-        _groupHover={{
-          transform: 'translateY(-4px)',
-        }}
       >
         <Text
           fontSize="md"
@@ -157,21 +204,19 @@ const MovieCard = ({ movie, onClick }) => {
         {/* Year */}
         {movie.release_date && (
           <Text fontSize="xs" color="rgba(255, 255, 255, 0.6)" mb={2}>
-            {formatDate(movie.release_date)}
+            {formatDate(movie.release_date, { yearOnly: true })}
           </Text>
         )}
 
         {/* Description - Only visible on hover */}
         <Text
+          className="card-description"
           fontSize="xs"
           color="rgba(255, 255, 255, 0.7)"
           noOfLines={3}
           maxH="0"
           overflow="hidden"
           transition="max-height 0.3s ease-out"
-          _groupHover={{
-            maxH: "60px",
-          }}
         >
           {movie.overview || 'No description available'}
         </Text>

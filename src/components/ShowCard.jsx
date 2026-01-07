@@ -4,36 +4,29 @@ import {
   Text,
   Badge,
   HStack,
-  VStack,
-  useColorModeValue,
+  IconButton,
 } from '@chakra-ui/react'
+import { AddIcon, CheckIcon } from '@chakra-ui/icons'
+import { useWatchlist } from '../contexts/WatchlistContext'
+import { getStatusColor, stripHtml, formatDate } from '../utils/formatters'
+import { MEDIA_TYPES } from '../models/constants'
 
+/**
+ * TV Show card component for displaying show information
+ * Features:
+ * - Poster image with hover effects
+ * - Status badge (Running, Ended, etc.)
+ * - Rating badge
+ * - Watchlist toggle button
+ * - Show details on hover
+ * 
+ * @param {Object} props - Component props
+ * @param {Object} props.show - Show object from TVMaze API
+ * @param {Function} props.onClick - Callback when card is clicked
+ */
 const ShowCard = ({ show, onClick }) => {
-  // Get status color
-  const getStatusColor = (status) => {
-    switch (status) {
-      case 'Running':
-        return 'green'
-      case 'Ended':
-        return 'red'
-      case 'To Be Determined':
-        return 'yellow'
-      default:
-        return 'gray'
-    }
-  }
-
-  // Strip HTML from summary
-  const stripHtml = (html) => {
-    if (!html) return 'No description available'
-    return html.replace(/<[^>]*>/g, '').trim() || 'No description available'
-  }
-
-  // Format date
-  const formatDate = (dateString) => {
-    if (!dateString) return 'N/A'
-    return new Date(dateString).getFullYear()
-  }
+  const { isInWatchlist, toggleWatchlist } = useWatchlist()
+  const inWatchlist = isInWatchlist(show.id, MEDIA_TYPES.SHOW)
 
   return (
     <Box
@@ -49,21 +42,35 @@ const ShowCard = ({ show, onClick }) => {
         zIndex: 10,
         boxShadow: '0 10px 40px rgba(0, 0, 0, 0.8)',
       }}
-      group
+      sx={{
+        '&:hover .card-image': {
+          transform: 'scale(1.1)',
+        },
+        '&:hover .card-overlay': {
+          opacity: 1,
+        },
+        '&:hover .card-button': {
+          opacity: 1,
+        },
+        '&:hover .card-info': {
+          transform: 'translateY(-4px)',
+        },
+        '&:hover .card-description': {
+          maxHeight: '60px',
+        },
+      }}
     >
       {/* Poster Image */}
       <Box position="relative" overflow="hidden" bg="#2a2a2a">
         {show.image?.medium ? (
           <Image
+            className="card-image"
             src={show.image.medium}
             alt={show.name}
             width="100%"
             height="280px"
             objectFit="cover"
             transition="transform 0.3s ease-out"
-            _groupHover={{
-              transform: 'scale(1.1)',
-            }}
             fallback={
               <Box
                 width="100%"
@@ -96,6 +103,7 @@ const ShowCard = ({ show, onClick }) => {
         
         {/* Gradient overlay on hover */}
         <Box
+          className="card-overlay"
           position="absolute"
           top="0"
           left="0"
@@ -104,9 +112,6 @@ const ShowCard = ({ show, onClick }) => {
           bgGradient="linear(to-t, rgba(0,0,0,0.9), transparent)"
           opacity={0}
           transition="opacity 0.3s ease-out"
-          _groupHover={{
-            opacity: 1,
-          }}
         />
 
         {/* Status Badge */}
@@ -142,17 +147,39 @@ const ShowCard = ({ show, onClick }) => {
             ⭐ {show.rating.average}/10
           </Badge>
         )}
+
+        {/* Watchlist Button */}
+        <IconButton
+          className="card-button"
+          position="absolute"
+          bottom="8px"
+          right="8px"
+          aria-label={inWatchlist ? 'Remove from watchlist' : 'Add to watchlist'}
+          icon={inWatchlist ? <CheckIcon /> : <AddIcon />}
+          size="sm"
+          bg={inWatchlist ? 'netflix.500' : 'rgba(0, 0, 0, 0.7)'}
+          color="white"
+          _hover={{
+            bg: inWatchlist ? 'netflix.600' : 'rgba(0, 0, 0, 0.9)',
+            transform: 'scale(1.1)',
+          }}
+          onClick={(e) => {
+            e.stopPropagation()
+            toggleWatchlist(show, MEDIA_TYPES.SHOW)
+          }}
+          borderRadius="full"
+          transition="all 0.2s"
+          opacity={0}
+        />
       </Box>
 
       {/* Card Info - Shows on hover */}
       <Box
+        className="card-info"
         p={4}
         bg="#1a1a1a"
         transform="translateY(0)"
         transition="all 0.3s ease-out"
-        _groupHover={{
-          transform: 'translateY(-4px)',
-        }}
       >
         <Text
           fontSize="md"
@@ -188,7 +215,7 @@ const ShowCard = ({ show, onClick }) => {
         <HStack spacing={2} mb={2}>
           {show.premiered && (
             <Text fontSize="xs" color="rgba(255, 255, 255, 0.6)">
-              {formatDate(show.premiered)}
+              {formatDate(show.premiered, { yearOnly: true })}
             </Text>
           )}
           {(show.runtime || show.averageRuntime) && (
@@ -200,15 +227,13 @@ const ShowCard = ({ show, onClick }) => {
 
         {/* Description - Only visible on hover */}
         <Text
+          className="card-description"
           fontSize="xs"
           color="rgba(255, 255, 255, 0.7)"
           noOfLines={3}
           maxH="0"
           overflow="hidden"
           transition="max-height 0.3s ease-out"
-          _groupHover={{
-            maxH: "60px",
-          }}
         >
           {stripHtml(show.summary)}
         </Text>

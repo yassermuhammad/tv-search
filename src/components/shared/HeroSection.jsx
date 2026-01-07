@@ -12,8 +12,9 @@ const HeroSection = ({
 }) => {
   return (
     <VStack
-      spacing={6}
-      py={12}
+      spacing={{ base: 2, md: 3 }}
+      py={{ base: 3, md: 4 }}
+      px={{ base: 4, md: 0 }}
       textAlign="center"
       sx={{
         animation: 'fadeIn 0.8s ease-out',
@@ -25,15 +26,22 @@ const HeroSection = ({
     >
       <Heading
         as="h2"
-        size="3xl"
+        size={{ base: 'lg', sm: 'xl', md: '2xl' }}
         color="white"
         fontWeight="900"
         letterSpacing="tight"
         lineHeight="1.2"
+        fontSize={{ base: '24px', sm: '28px', md: '36px' }}
+        px={{ base: 2, md: 0 }}
       >
         {title}
       </Heading>
-      <Text fontSize="xl" color="rgba(255, 255, 255, 0.8)" maxW="600px">
+      <Text
+        fontSize={{ base: 'sm', sm: 'md', md: 'lg' }}
+        color="rgba(255, 255, 255, 0.8)"
+        maxW="600px"
+        px={{ base: 4, md: 0 }}
+      >
         {subtitle}
       </Text>
     </VStack>

@@ -119,22 +119,30 @@ const DetailModal = ({ isOpen, onClose, item, type, isLoading }) => {
   if (!item) return null
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} size="4xl" scrollBehavior="inside">
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      size={{ base: 'full', md: '4xl' }}
+      scrollBehavior="inside"
+      isCentered
+    >
       <ModalOverlay bg="rgba(0, 0, 0, 0.8)" />
       <ModalContent
         bg={MODAL_BG_COLOR}
-        maxH="90vh"
+        maxH={{ base: '100vh', md: '90vh' }}
         border="1px solid rgba(255, 255, 255, 0.1)"
-        borderRadius="8px"
+        borderRadius={{ base: 0, md: '8px' }}
+        m={{ base: 0, md: 'auto' }}
       >
         <ModalHeader item={item} type={type} />
         <ModalCloseButton
           color="white"
           _hover={{ bg: 'rgba(255, 255, 255, 0.1)' }}
-          top="16px"
-          right="16px"
+          top={{ base: '12px', md: '16px' }}
+          right={{ base: '12px', md: '16px' }}
+          size={{ base: 'md', md: 'lg' }}
         />
-        <ModalBody>
+        <ModalBody px={{ base: 4, md: 6 }} py={{ base: 4, md: 6 }}>
           {isLoading ? (
             <Center py={12}>
               <VStack spacing={4}>
@@ -143,7 +151,7 @@ const DetailModal = ({ isOpen, onClose, item, type, isLoading }) => {
               </VStack>
             </Center>
           ) : (
-            <VStack spacing={6} align="stretch">
+            <VStack spacing={{ base: 4, md: 6 }} align="stretch">
               {/* Hero Section with Image and Basic Info */}
               <MediaInfo item={item} type={type} />
 
@@ -151,10 +159,19 @@ const DetailModal = ({ isOpen, onClose, item, type, isLoading }) => {
 
               {/* Description/Overview */}
               <Box>
-                <Text fontSize="lg" fontWeight="semibold" color={TEXT_COLOR} mb={3}>
+                <Text
+                  fontSize={{ base: 'md', md: 'lg' }}
+                  fontWeight="semibold"
+                  color={TEXT_COLOR}
+                  mb={{ base: 2, md: 3 }}
+                >
                   {type === MEDIA_TYPES.MOVIE ? 'Overview' : 'Summary'}
                 </Text>
-                <Text color={TEXT_COLOR} lineHeight="tall">
+                <Text
+                  color={TEXT_COLOR}
+                  lineHeight="tall"
+                  fontSize={{ base: 'sm', md: 'md' }}
+                >
                   {type === MEDIA_TYPES.MOVIE
                     ? item.overview || 'No description available'
                     : stripHtml(item.summary)}
@@ -181,7 +198,11 @@ const DetailModal = ({ isOpen, onClose, item, type, isLoading }) => {
 
               {/* External Links */}
               <Box>
-                <HStack spacing={4}>
+                <HStack
+                  spacing={{ base: 2, md: 4 }}
+                  flexWrap="wrap"
+                  gap={{ base: 2, md: 0 }}
+                >
                   {type === MEDIA_TYPES.MOVIE ? (
                     <Link
                       href={EXTERNAL_LINKS.TMDB_MOVIE(item.id)}
@@ -189,6 +210,7 @@ const DetailModal = ({ isOpen, onClose, item, type, isLoading }) => {
                       color="netflix.500"
                       _hover={{ color: 'netflix.400' }}
                       fontWeight="600"
+                      fontSize={{ base: 'sm', md: 'md' }}
                     >
                       View on TMDB <ExternalLinkIcon />
                     </Link>
@@ -200,6 +222,7 @@ const DetailModal = ({ isOpen, onClose, item, type, isLoading }) => {
                         color="netflix.500"
                         _hover={{ color: 'netflix.400' }}
                         fontWeight="600"
+                        fontSize={{ base: 'sm', md: 'md' }}
                       >
                         View on TVMaze <ExternalLinkIcon />
                       </Link>
@@ -212,6 +235,7 @@ const DetailModal = ({ isOpen, onClose, item, type, isLoading }) => {
                       color="netflix.500"
                       _hover={{ color: 'netflix.400' }}
                       fontWeight="600"
+                      fontSize={{ base: 'sm', md: 'md' }}
                     >
                       View on IMDb <ExternalLinkIcon />
                     </Link>
@@ -233,14 +257,20 @@ const DetailModal = ({ isOpen, onClose, item, type, isLoading }) => {
           )}
         </ModalBody>
 
-        <ModalFooter borderTop="1px solid rgba(255, 255, 255, 0.1)" pt={4}>
+        <ModalFooter
+          borderTop="1px solid rgba(255, 255, 255, 0.1)"
+          pt={{ base: 3, md: 4 }}
+          px={{ base: 4, md: 6 }}
+        >
           <Button
             bg="netflix.500"
             color="white"
             _hover={{ bg: 'netflix.600' }}
             onClick={onClose}
             fontWeight="bold"
-            px={8}
+            px={{ base: 6, md: 8 }}
+            w={{ base: '100%', sm: 'auto' }}
+            size={{ base: 'md', md: 'lg' }}
           >
             Close
           </Button>

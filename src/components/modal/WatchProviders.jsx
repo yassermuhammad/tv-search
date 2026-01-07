@@ -65,7 +65,7 @@ const WatchProviders = ({ watchProviders, loading }) => {
         <Text fontSize="lg" fontWeight="semibold" color={TEXT_COLOR} mb={3}>
           Where to Watch
         </Text>
-        <Text color={TEXT_COLOR} fontSize="sm" fontStyle="italic">
+        <Text color={TEXT_COLOR} fontSize={{ base: 'xs', md: 'sm' }} fontStyle="italic">
           Streaming information not available
         </Text>
       </Box>
@@ -74,27 +74,37 @@ const WatchProviders = ({ watchProviders, loading }) => {
 
   return (
     <Box>
-      <Text fontSize="lg" fontWeight="semibold" color={TEXT_COLOR} mb={3}>
+      <Text
+        fontSize={{ base: 'md', md: 'lg' }}
+        fontWeight="semibold"
+        color={TEXT_COLOR}
+        mb={{ base: 2, md: 3 }}
+      >
         Where to Watch
       </Text>
-      <VStack align="stretch" spacing={4}>
+      <VStack align="stretch" spacing={{ base: 3, md: 4 }}>
         {/* Streaming (Subscription) */}
         {platforms[PROVIDER_TYPE.FLATRATE] && platforms[PROVIDER_TYPE.FLATRATE].length > 0 && (
           <Box>
-            <Text fontSize="sm" fontWeight="semibold" color={TEXT_COLOR} mb={2}>
+            <Text
+              fontSize={{ base: 'xs', md: 'sm' }}
+              fontWeight="semibold"
+              color={TEXT_COLOR}
+              mb={{ base: 1.5, md: 2 }}
+            >
               Stream
             </Text>
-            <HStack spacing={2} flexWrap="wrap">
+            <HStack spacing={{ base: 1.5, md: 2 }} flexWrap="wrap">
               {platforms[PROVIDER_TYPE.FLATRATE].map((provider) => (
-                <Badge
-                  key={provider.provider_id}
-                  colorScheme={PROVIDER_COLORS[PROVIDER_TYPE.FLATRATE]}
-                  variant="subtle"
-                  fontSize="sm"
-                  p={2}
-                >
-                  {provider.provider_name}
-                </Badge>
+                              <Badge
+                                key={provider.provider_id}
+                                colorScheme={PROVIDER_COLORS[PROVIDER_TYPE.FLATRATE]}
+                                variant="subtle"
+                                fontSize={{ base: 'xs', md: 'sm' }}
+                                p={{ base: 1.5, md: 2 }}
+                              >
+                                {provider.provider_name}
+                              </Badge>
               ))}
             </HStack>
           </Box>
@@ -103,17 +113,22 @@ const WatchProviders = ({ watchProviders, loading }) => {
         {/* Buy */}
         {platforms[PROVIDER_TYPE.BUY] && platforms[PROVIDER_TYPE.BUY].length > 0 && (
           <Box>
-            <Text fontSize="sm" fontWeight="semibold" color={TEXT_COLOR} mb={2}>
+            <Text
+              fontSize={{ base: 'xs', md: 'sm' }}
+              fontWeight="semibold"
+              color={TEXT_COLOR}
+              mb={{ base: 1.5, md: 2 }}
+            >
               Buy
             </Text>
-            <HStack spacing={2} flexWrap="wrap">
+            <HStack spacing={{ base: 1.5, md: 2 }} flexWrap="wrap">
               {platforms[PROVIDER_TYPE.BUY].map((provider) => (
                 <Badge
                   key={provider.provider_id}
                   colorScheme={PROVIDER_COLORS[PROVIDER_TYPE.BUY]}
                   variant="subtle"
-                  fontSize="sm"
-                  p={2}
+                  fontSize={{ base: 'xs', md: 'sm' }}
+                  p={{ base: 1.5, md: 2 }}
                 >
                   {provider.provider_name}
                 </Badge>
@@ -125,17 +140,22 @@ const WatchProviders = ({ watchProviders, loading }) => {
         {/* Rent */}
         {platforms[PROVIDER_TYPE.RENT] && platforms[PROVIDER_TYPE.RENT].length > 0 && (
           <Box>
-            <Text fontSize="sm" fontWeight="semibold" color={TEXT_COLOR} mb={2}>
+            <Text
+              fontSize={{ base: 'xs', md: 'sm' }}
+              fontWeight="semibold"
+              color={TEXT_COLOR}
+              mb={{ base: 1.5, md: 2 }}
+            >
               Rent
             </Text>
-            <HStack spacing={2} flexWrap="wrap">
+            <HStack spacing={{ base: 1.5, md: 2 }} flexWrap="wrap">
               {platforms[PROVIDER_TYPE.RENT].map((provider) => (
                 <Badge
                   key={provider.provider_id}
                   colorScheme={PROVIDER_COLORS[PROVIDER_TYPE.RENT]}
                   variant="subtle"
-                  fontSize="sm"
-                  p={2}
+                  fontSize={{ base: 'xs', md: 'sm' }}
+                  p={{ base: 1.5, md: 2 }}
                 >
                   {provider.provider_name}
                 </Badge>
@@ -147,7 +167,7 @@ const WatchProviders = ({ watchProviders, loading }) => {
         {!platforms[PROVIDER_TYPE.FLATRATE]?.length &&
           !platforms[PROVIDER_TYPE.BUY]?.length &&
           !platforms[PROVIDER_TYPE.RENT]?.length && (
-            <Text color={TEXT_COLOR} fontSize="sm" fontStyle="italic">
+            <Text color={TEXT_COLOR} fontSize={{ base: 'xs', md: 'sm' }} fontStyle="italic">
               No streaming information available
             </Text>
           )}

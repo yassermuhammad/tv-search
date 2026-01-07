@@ -1,23 +1,14 @@
 import {
   Box,
-  Card,
-  CardBody,
   Image,
-  Stack,
-  Heading,
   Text,
   Badge,
   HStack,
   VStack,
-  Link,
   useColorModeValue,
 } from '@chakra-ui/react'
-import { ExternalLinkIcon } from '@chakra-ui/icons'
 
 const ShowCard = ({ show, onClick }) => {
-  const cardBg = useColorModeValue('white', 'gray.800')
-  const borderColor = useColorModeValue('gray.200', 'gray.700')
-
   // Get status color
   const getStatusColor = (status) => {
     switch (status) {
@@ -35,7 +26,6 @@ const ShowCard = ({ show, onClick }) => {
   // Strip HTML from summary
   const stripHtml = (html) => {
     if (!html) return 'No description available'
-    // Simple HTML tag removal using regex
     return html.replace(/<[^>]*>/g, '').trim() || 'No description available'
   }
 
@@ -46,128 +36,185 @@ const ShowCard = ({ show, onClick }) => {
   }
 
   return (
-    <Card
-      bg={cardBg}
-      borderWidth="1px"
-      borderColor={borderColor}
-      overflow="hidden"
-      _hover={{ shadow: 'lg', transform: 'translateY(-2px)', cursor: 'pointer' }}
-      transition="all 0.2s"
-      height="100%"
+    <Box
+      position="relative"
+      cursor="pointer"
       onClick={onClick}
+      borderRadius="4px"
+      overflow="hidden"
+      bg="#1a1a1a"
+      transition="all 0.3s cubic-bezier(0.4, 0, 0.2, 1)"
+      _hover={{
+        transform: 'scale(1.05) translateY(-8px)',
+        zIndex: 10,
+        boxShadow: '0 10px 40px rgba(0, 0, 0, 0.8)',
+      }}
+      group
     >
-      <Box position="relative">
+      {/* Poster Image */}
+      <Box position="relative" overflow="hidden" bg="#2a2a2a">
         {show.image?.medium ? (
           <Image
             src={show.image.medium}
             alt={show.name}
             width="100%"
-            height="300px"
+            height="280px"
             objectFit="cover"
+            transition="transform 0.3s ease-out"
+            _groupHover={{
+              transform: 'scale(1.1)',
+            }}
             fallback={
               <Box
                 width="100%"
-                height="300px"
-                bg="gray.200"
+                height="280px"
+                bg="linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
                 display="flex"
                 alignItems="center"
                 justifyContent="center"
               >
-                <Text color="gray.500">No Image</Text>
+                <Text color="rgba(255, 255, 255, 0.5)" fontSize="sm" fontWeight="600">
+                  No Image
+                </Text>
               </Box>
             }
           />
         ) : (
           <Box
             width="100%"
-            height="300px"
-            bg="gray.200"
+            height="280px"
+            bg="linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
             display="flex"
             alignItems="center"
             justifyContent="center"
           >
-            <Text color="gray.500">No Image Available</Text>
+            <Text color="rgba(255, 255, 255, 0.5)" fontSize="sm" fontWeight="600">
+              No Image Available
+            </Text>
           </Box>
         )}
+        
+        {/* Gradient overlay on hover */}
+        <Box
+          position="absolute"
+          top="0"
+          left="0"
+          right="0"
+          bottom="0"
+          bgGradient="linear(to-t, rgba(0,0,0,0.9), transparent)"
+          opacity={0}
+          transition="opacity 0.3s ease-out"
+          _groupHover={{
+            opacity: 1,
+          }}
+        />
+
+        {/* Status Badge */}
         <Badge
           position="absolute"
-          top="2"
-          right="2"
+          top="8px"
+          right="8px"
           colorScheme={getStatusColor(show.status)}
+          fontSize="xs"
+          px={2}
+          py={1}
+          borderRadius="4px"
+          fontWeight="bold"
+          textTransform="uppercase"
         >
           {show.status}
         </Badge>
+
+        {/* Rating Badge */}
+        {show.rating?.average && (
+          <Badge
+            position="absolute"
+            top="8px"
+            left="8px"
+            bg="rgba(0, 0, 0, 0.8)"
+            color="yellow.400"
+            fontSize="xs"
+            px={2}
+            py={1}
+            borderRadius="4px"
+            fontWeight="bold"
+          >
+            ⭐ {show.rating.average}/10
+          </Badge>
+        )}
       </Box>
 
-      <CardBody>
-        <Stack spacing="3">
-          <Heading size="md" noOfLines={2}>
-            {show.name}
-          </Heading>
+      {/* Card Info - Shows on hover */}
+      <Box
+        p={4}
+        bg="#1a1a1a"
+        transform="translateY(0)"
+        transition="all 0.3s ease-out"
+        _groupHover={{
+          transform: 'translateY(-4px)',
+        }}
+      >
+        <Text
+          fontSize="md"
+          fontWeight="bold"
+          color="white"
+          noOfLines={2}
+          mb={2}
+          lineHeight="1.3"
+        >
+          {show.name}
+        </Text>
 
-          <HStack spacing="2" flexWrap="wrap">
-            {show.genres?.map((genre) => (
-              <Badge key={genre} colorScheme="blue" variant="subtle">
+        {/* Genres */}
+        {show.genres && show.genres.length > 0 && (
+          <HStack spacing={1} mb={2} flexWrap="wrap">
+            {show.genres.slice(0, 2).map((genre) => (
+              <Badge
+                key={genre}
+                bg="rgba(255, 255, 255, 0.1)"
+                color="rgba(255, 255, 255, 0.7)"
+                fontSize="xs"
+                px={2}
+                py={0.5}
+                borderRadius="4px"
+              >
                 {genre}
               </Badge>
             ))}
           </HStack>
+        )}
 
-          <VStack align="stretch" spacing="1">
-            {show.rating?.average && (
-              <HStack>
-                <Text fontSize="sm" fontWeight="semibold">
-                  Rating:
-                </Text>
-                <Badge colorScheme="yellow" fontSize="sm">
-                  {show.rating.average}/10
-                </Badge>
-              </HStack>
-            )}
-
-            <HStack>
-              <Text fontSize="sm" color="gray.600">
-                {show.type} • {show.runtime || show.averageRuntime || 'N/A'} min
-              </Text>
-            </HStack>
-
-            {show.premiered && (
-              <Text fontSize="sm" color="gray.600">
-                Premiered: {formatDate(show.premiered)}
-                {show.ended && ` • Ended: ${formatDate(show.ended)}`}
-              </Text>
-            )}
-
-            {(show.network || show.webChannel) && (
-              <Text fontSize="sm" color="gray.600">
-                {show.network?.name || show.webChannel?.name}
-                {show.network?.country && ` • ${show.network.country.name}`}
-              </Text>
-            )}
-          </VStack>
-
-          <Text fontSize="sm" noOfLines={3} color="gray.600">
-            {stripHtml(show.summary)}
-          </Text>
-
-          {show.url && (
-            <Link
-              href={show.url}
-              isExternal
-              color="blue.500"
-              fontSize="sm"
-              display="flex"
-              alignItems="center"
-              gap="1"
-            >
-              View on TVMaze <ExternalLinkIcon />
-            </Link>
+        {/* Year and Runtime */}
+        <HStack spacing={2} mb={2}>
+          {show.premiered && (
+            <Text fontSize="xs" color="rgba(255, 255, 255, 0.6)">
+              {formatDate(show.premiered)}
+            </Text>
           )}
-        </Stack>
-      </CardBody>
-    </Card>
+          {(show.runtime || show.averageRuntime) && (
+            <Text fontSize="xs" color="rgba(255, 255, 255, 0.6)">
+              • {show.runtime || show.averageRuntime} min
+            </Text>
+          )}
+        </HStack>
+
+        {/* Description - Only visible on hover */}
+        <Text
+          fontSize="xs"
+          color="rgba(255, 255, 255, 0.7)"
+          noOfLines={3}
+          maxH="0"
+          overflow="hidden"
+          transition="max-height 0.3s ease-out"
+          _groupHover={{
+            maxH: "60px",
+          }}
+        >
+          {stripHtml(show.summary)}
+        </Text>
+      </Box>
+    </Box>
   )
 }
 
 export default ShowCard
-

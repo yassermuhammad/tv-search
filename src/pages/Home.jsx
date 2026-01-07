@@ -13,9 +13,6 @@ import {
   Alert,
   AlertIcon,
   Heading,
-  useColorModeValue,
-  IconButton,
-  useColorMode,
   Flex,
   Tabs,
   TabList,
@@ -23,7 +20,7 @@ import {
   Tab,
   TabPanel,
 } from '@chakra-ui/react'
-import { SearchIcon, MoonIcon, SunIcon } from '@chakra-ui/icons'
+import { SearchIcon } from '@chakra-ui/icons'
 import { searchShows, getShowById } from '../services/tvmazeApi'
 import { searchMovies, getMovieById } from '../services/tmdbApi'
 import ShowCard from '../components/ShowCard'
@@ -40,14 +37,8 @@ const Home = () => {
   const [activeTab, setActiveTab] = useState(0)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [selectedItem, setSelectedItem] = useState(null)
-  const [itemType, setItemType] = useState(null) // 'show' or 'movie'
+  const [itemType, setItemType] = useState(null)
   const [loadingDetails, setLoadingDetails] = useState(false)
-  const { colorMode, toggleColorMode } = useColorMode()
-
-  const bgGradient = useColorModeValue(
-    'linear(to-b, blue.50, white)',
-    'linear(to-b, gray.900, gray.800)'
-  )
 
   // Debounced search function for TV Shows
   const performShowSearch = useCallback(async (query) => {
@@ -104,12 +95,10 @@ const Home = () => {
     setItemType('show')
     
     try {
-      // Fetch full show details
       const fullDetails = await getShowById(show.id)
       setSelectedItem(fullDetails)
     } catch (err) {
       console.error('Error fetching show details:', err)
-      // Fallback to the show data we already have
       setSelectedItem(show)
     } finally {
       setLoadingDetails(false)
@@ -123,12 +112,10 @@ const Home = () => {
     setItemType('movie')
     
     try {
-      // Fetch full movie details (to get genres, runtime, etc.)
       const fullDetails = await getMovieById(movie.id)
       setSelectedItem(fullDetails)
     } catch (err) {
       console.error('Error fetching movie details:', err)
-      // Fallback to the movie data we already have
       setSelectedItem(movie)
     } finally {
       setLoadingDetails(false)
@@ -159,237 +146,322 @@ const Home = () => {
       } else {
         performMovieSearch(searchQuery)
       }
-    }, 500) // 500ms delay
+    }, 500)
 
     return () => clearTimeout(timer)
   }, [searchQuery, activeTab, performShowSearch, performMovieSearch])
 
   return (
-    <Box minH="100vh" bgGradient={bgGradient}>
-      <Container maxW="container.xl" py={8}>
-        {/* Color Mode Toggle - Top Right */}
-        <Flex justify="flex-end" mb={4}>
-          <IconButton
-            aria-label="Toggle color mode"
-            icon={colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
-            onClick={toggleColorMode}
-            variant="ghost"
-            size="md"
-          />
-        </Flex>
-
-        <VStack spacing={8} align="stretch">
-          {/* Header */}
-          <VStack spacing={4} py={8}>
+    <Box minH="100vh" bg="#141414" position="relative">
+      {/* Netflix-style header with gradient overlay */}
+      <Box
+        position="relative"
+        bgGradient="linear(to-b, rgba(0,0,0,0.7), transparent)"
+        pb={8}
+        pt={4}
+      >
+        <Container maxW="container.xl">
+          {/* Top bar with logo */}
+          <Flex justify="flex-start" align="center" mb={8}>
             <Heading
               as="h1"
-              size="2xl"
-              bgGradient="linear(to-r, blue.400, purple.500)"
-              bgClip="text"
-              textAlign="center"
+              size="xl"
+              color="netflix.500"
+              fontWeight="900"
+              letterSpacing="tight"
+              sx={{
+                animation: 'fadeIn 0.6s ease-out',
+                '@keyframes fadeIn': {
+                  from: { opacity: 0, transform: 'translateY(20px)' },
+                  to: { opacity: 1, transform: 'translateY(0)' },
+                },
+              }}
             >
-              TV Shows & Movies Search
+              STREAMSPOT
             </Heading>
-            <Text fontSize="lg" color="gray.600" textAlign="center">
-              Discover your next favorite show or movie
-            </Text>
-          </VStack>
+          </Flex>
 
-          {/* Tabs for TV Shows and Movies */}
-          <Tabs
-            index={activeTab}
-            onChange={setActiveTab}
-            colorScheme="blue"
-            variant="enclosed"
-          >
-            <TabList>
-              <Tab>TV Shows</Tab>
-              <Tab>Movies</Tab>
-            </TabList>
+          {/* Hero section */}
+          {!hasSearched && (
+            <VStack
+              spacing={6}
+              py={12}
+              textAlign="center"
+              sx={{
+                animation: 'fadeIn 0.8s ease-out',
+                '@keyframes fadeIn': {
+                  from: { opacity: 0, transform: 'translateY(20px)' },
+                  to: { opacity: 1, transform: 'translateY(0)' },
+                },
+              }}
+            >
+              <Heading
+                as="h2"
+                size="3xl"
+                color="white"
+                fontWeight="900"
+                letterSpacing="tight"
+                lineHeight="1.2"
+              >
+                Find Your Next Binge
+              </Heading>
+              <Text fontSize="xl" color="rgba(255, 255, 255, 0.8)" maxW="600px">
+                Search and discover TV shows and movies
+              </Text>
+            </VStack>
+          )}
+        </Container>
+      </Box>
 
-            <TabPanels>
-              {/* TV Shows Tab */}
-              <TabPanel px={0}>
-                <VStack spacing={8} align="stretch">
-                  {/* Search Input */}
-                  <Box>
-                    <InputGroup size="lg">
-                      <InputLeftElement pointerEvents="none">
-                        <SearchIcon color="gray.400" />
-                      </InputLeftElement>
-                      <Input
-                        placeholder="Search for a TV show or series..."
-                        value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
-                        bg="white"
-                        _dark={{ bg: 'gray.700' }}
-                        focusBorderColor="blue.500"
-                      />
-                    </InputGroup>
-                  </Box>
+      <Container maxW="container.xl" py={8}>
+        {/* Tabs for TV Shows and Movies */}
+        <Tabs
+          index={activeTab}
+          onChange={setActiveTab}
+          variant="netflix"
+          colorScheme="netflix"
+        >
+          <TabList mb={8} borderBottom="none">
+            <Tab fontSize="20px" px={6} py={4}>TV Shows</Tab>
+            <Tab fontSize="20px" px={6} py={4}>Movies</Tab>
+          </TabList>
 
-                  {/* Error Message */}
-                  {error && (
-                    <Alert status="error" borderRadius="md">
-                      <AlertIcon />
-                      {error}
-                    </Alert>
-                  )}
+          <TabPanels>
+            {/* TV Shows Tab */}
+            <TabPanel px={0}>
+              <VStack spacing={8} align="stretch">
+                {/* Search Input */}
+                <Box
+                  sx={{
+                    animation: 'slideIn 0.5s ease-out',
+                    '@keyframes slideIn': {
+                      from: { opacity: 0, transform: 'translateX(-20px)' },
+                      to: { opacity: 1, transform: 'translateX(0)' },
+                    },
+                  }}
+                >
+                  <InputGroup size="lg">
+                    <InputLeftElement pointerEvents="none" h="100%">
+                      <SearchIcon color="rgba(255, 255, 255, 0.5)" boxSize={5} />
+                    </InputLeftElement>
+                    <Input
+                      variant="netflix"
+                      placeholder="Search for a TV show or series..."
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      size="lg"
+                      h="56px"
+                      fontSize="18px"
+                    />
+                  </InputGroup>
+                </Box>
 
-                  {/* Loading State */}
-                  {loading && (
-                    <Center py={12}>
-                      <VStack spacing={4}>
-                        <Spinner size="xl" color="blue.500" thickness="4px" />
-                        <Text color="gray.600">Searching shows...</Text>
-                      </VStack>
-                    </Center>
-                  )}
+                {/* Error Message */}
+                {error && (
+                  <Alert status="error" borderRadius="md" bg="rgba(229, 9, 20, 0.2)" border="1px solid" borderColor="netflix.500">
+                    <AlertIcon />
+                    {error}
+                  </Alert>
+                )}
 
-                  {/* Results */}
-                  {!loading && hasSearched && (
-                    <>
-                      {shows.length > 0 ? (
-                        <>
-                          <Text fontSize="lg" fontWeight="semibold" color="gray.700" _dark={{ color: 'gray.300' }}>
-                            Found {shows.length} {shows.length === 1 ? 'show' : 'shows'}
-                          </Text>
-                          <SimpleGrid
-                            columns={{ base: 1, sm: 2, md: 3, lg: 4 }}
-                            spacing={6}
-                          >
-                            {shows.map((show) => (
+                {/* Loading State */}
+                {loading && (
+                  <Center py={20}>
+                    <VStack spacing={4}>
+                      <Spinner size="xl" color="netflix.500" thickness="4px" speed="0.8s" />
+                      <Text color="rgba(255, 255, 255, 0.7)" fontSize="lg">Searching shows...</Text>
+                    </VStack>
+                  </Center>
+                )}
+
+                {/* Results */}
+                {!loading && hasSearched && (
+                  <Box
+                    sx={{
+                      animation: 'fadeIn 0.6s ease-out',
+                      '@keyframes fadeIn': {
+                        from: { opacity: 0, transform: 'translateY(20px)' },
+                        to: { opacity: 1, transform: 'translateY(0)' },
+                      },
+                    }}
+                  >
+                    {shows.length > 0 ? (
+                      <>
+                        <Text fontSize="2xl" fontWeight="bold" color="white" mb={6}>
+                          Found {shows.length} {shows.length === 1 ? 'show' : 'shows'}
+                        </Text>
+                        <SimpleGrid
+                          columns={{ base: 1, sm: 2, md: 3, lg: 4, xl: 5 }}
+                          spacing={6}
+                        >
+                          {shows.map((show, index) => (
+                            <Box
+                              key={show.id}
+                              sx={{
+                                animation: `fadeIn 0.6s ease-out ${index * 0.1}s both`,
+                                '@keyframes fadeIn': {
+                                  from: { opacity: 0, transform: 'translateY(20px)' },
+                                  to: { opacity: 1, transform: 'translateY(0)' },
+                                },
+                              }}
+                            >
                               <ShowCard
-                                key={show.id}
                                 show={show}
                                 onClick={() => handleShowClick(show)}
                               />
-                            ))}
-                          </SimpleGrid>
-                        </>
-                      ) : (
-                        <Center py={12}>
-                          <VStack spacing={4}>
-                            <Text fontSize="xl" color="gray.600" _dark={{ color: 'gray.400' }}>
-                              No shows found
-                            </Text>
-                            <Text color="gray.500" textAlign="center">
-                              Try searching with a different keyword
-                            </Text>
-                          </VStack>
-                        </Center>
-                      )}
-                    </>
-                  )}
-
-                  {/* Initial State */}
-                  {!hasSearched && !loading && (
-                    <Center py={12}>
-                      <VStack spacing={4}>
-                        <Text fontSize="xl" color="gray.600" _dark={{ color: 'gray.400' }}>
-                          Start searching for TV shows
-                        </Text>
-                        <Text color="gray.500" textAlign="center">
-                          Type a show name in the search box above
-                        </Text>
-                      </VStack>
-                    </Center>
-                  )}
-                </VStack>
-              </TabPanel>
-
-              {/* Movies Tab */}
-              <TabPanel px={0}>
-                <VStack spacing={8} align="stretch">
-                  {/* Search Input */}
-                  <Box>
-                    <InputGroup size="lg">
-                      <InputLeftElement pointerEvents="none">
-                        <SearchIcon color="gray.400" />
-                      </InputLeftElement>
-                      <Input
-                        placeholder="Search for a movie..."
-                        value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
-                        bg="white"
-                        _dark={{ bg: 'gray.700' }}
-                        focusBorderColor="purple.500"
-                      />
-                    </InputGroup>
-                  </Box>
-
-                  {/* Error Message */}
-                  {error && (
-                    <Alert status="error" borderRadius="md">
-                      <AlertIcon />
-                      {error}
-                    </Alert>
-                  )}
-
-                  {/* Loading State */}
-                  {loading && (
-                    <Center py={12}>
-                      <VStack spacing={4}>
-                        <Spinner size="xl" color="purple.500" thickness="4px" />
-                        <Text color="gray.600">Searching movies...</Text>
-                      </VStack>
-                    </Center>
-                  )}
-
-                  {/* Results */}
-                  {!loading && hasSearched && (
-                    <>
-                      {movies.length > 0 ? (
-                        <>
-                          <Text fontSize="lg" fontWeight="semibold" color="gray.700" _dark={{ color: 'gray.300' }}>
-                            Found {movies.length} {movies.length === 1 ? 'movie' : 'movies'}
+                            </Box>
+                          ))}
+                        </SimpleGrid>
+                      </>
+                    ) : (
+                      <Center py={20}>
+                        <VStack spacing={4}>
+                          <Text fontSize="2xl" color="rgba(255, 255, 255, 0.7)" fontWeight="600">
+                            No shows found
                           </Text>
-                          <SimpleGrid
-                            columns={{ base: 1, sm: 2, md: 3, lg: 4 }}
-                            spacing={6}
-                          >
-                            {movies.map((movie) => (
+                          <Text color="rgba(255, 255, 255, 0.5)" textAlign="center" fontSize="lg">
+                            Try searching with a different keyword
+                          </Text>
+                        </VStack>
+                      </Center>
+                    )}
+                  </Box>
+                )}
+
+                {/* Initial State */}
+                {!hasSearched && !loading && (
+                  <Center py={20}>
+                    <VStack spacing={4}>
+                      <Text fontSize="2xl" color="rgba(255, 255, 255, 0.7)" fontWeight="600">
+                        Start searching for TV shows
+                      </Text>
+                      <Text color="rgba(255, 255, 255, 0.5)" textAlign="center" fontSize="lg">
+                        Type a show name in the search box above
+                      </Text>
+                    </VStack>
+                  </Center>
+                )}
+              </VStack>
+            </TabPanel>
+
+            {/* Movies Tab */}
+            <TabPanel px={0}>
+              <VStack spacing={8} align="stretch">
+                {/* Search Input */}
+                <Box
+                  sx={{
+                    animation: 'slideIn 0.5s ease-out',
+                    '@keyframes slideIn': {
+                      from: { opacity: 0, transform: 'translateX(-20px)' },
+                      to: { opacity: 1, transform: 'translateX(0)' },
+                    },
+                  }}
+                >
+                  <InputGroup size="lg">
+                    <InputLeftElement pointerEvents="none" h="100%">
+                      <SearchIcon color="rgba(255, 255, 255, 0.5)" boxSize={5} />
+                    </InputLeftElement>
+                    <Input
+                      variant="netflix"
+                      placeholder="Search for a movie..."
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      size="lg"
+                      h="56px"
+                      fontSize="18px"
+                    />
+                  </InputGroup>
+                </Box>
+
+                {/* Error Message */}
+                {error && (
+                  <Alert status="error" borderRadius="md" bg="rgba(229, 9, 20, 0.2)" border="1px solid" borderColor="netflix.500">
+                    <AlertIcon />
+                    {error}
+                  </Alert>
+                )}
+
+                {/* Loading State */}
+                {loading && (
+                  <Center py={20}>
+                    <VStack spacing={4}>
+                      <Spinner size="xl" color="netflix.500" thickness="4px" speed="0.8s" />
+                      <Text color="rgba(255, 255, 255, 0.7)" fontSize="lg">Searching movies...</Text>
+                    </VStack>
+                  </Center>
+                )}
+
+                {/* Results */}
+                {!loading && hasSearched && (
+                  <Box
+                    sx={{
+                      animation: 'fadeIn 0.6s ease-out',
+                      '@keyframes fadeIn': {
+                        from: { opacity: 0, transform: 'translateY(20px)' },
+                        to: { opacity: 1, transform: 'translateY(0)' },
+                      },
+                    }}
+                  >
+                    {movies.length > 0 ? (
+                      <>
+                        <Text fontSize="2xl" fontWeight="bold" color="white" mb={6}>
+                          Found {movies.length} {movies.length === 1 ? 'movie' : 'movies'}
+                        </Text>
+                        <SimpleGrid
+                          columns={{ base: 1, sm: 2, md: 3, lg: 4, xl: 5 }}
+                          spacing={6}
+                        >
+                          {movies.map((movie, index) => (
+                            <Box
+                              key={movie.id}
+                              sx={{
+                                animation: `fadeIn 0.6s ease-out ${index * 0.1}s both`,
+                                '@keyframes fadeIn': {
+                                  from: { opacity: 0, transform: 'translateY(20px)' },
+                                  to: { opacity: 1, transform: 'translateY(0)' },
+                                },
+                              }}
+                            >
                               <MovieCard
-                                key={movie.id}
                                 movie={movie}
                                 onClick={() => handleMovieClick(movie)}
                               />
-                            ))}
-                          </SimpleGrid>
-                        </>
-                      ) : (
-                        <Center py={12}>
-                          <VStack spacing={4}>
-                            <Text fontSize="xl" color="gray.600" _dark={{ color: 'gray.400' }}>
-                              No movies found
-                            </Text>
-                            <Text color="gray.500" textAlign="center">
-                              Try searching with a different keyword
-                            </Text>
-                          </VStack>
-                        </Center>
-                      )}
-                    </>
-                  )}
+                            </Box>
+                          ))}
+                        </SimpleGrid>
+                      </>
+                    ) : (
+                      <Center py={20}>
+                        <VStack spacing={4}>
+                          <Text fontSize="2xl" color="rgba(255, 255, 255, 0.7)" fontWeight="600">
+                            No movies found
+                          </Text>
+                          <Text color="rgba(255, 255, 255, 0.5)" textAlign="center" fontSize="lg">
+                            Try searching with a different keyword
+                          </Text>
+                        </VStack>
+                      </Center>
+                    )}
+                  </Box>
+                )}
 
-                  {/* Initial State */}
-                  {!hasSearched && !loading && (
-                    <Center py={12}>
-                      <VStack spacing={4}>
-                        <Text fontSize="xl" color="gray.600" _dark={{ color: 'gray.400' }}>
-                          Start searching for movies
-                        </Text>
-                        <Text color="gray.500" textAlign="center">
-                          Type a movie name in the search box above
-                        </Text>
-                      </VStack>
-                    </Center>
-                  )}
-                </VStack>
-              </TabPanel>
-            </TabPanels>
-          </Tabs>
-        </VStack>
+                {/* Initial State */}
+                {!hasSearched && !loading && (
+                  <Center py={20}>
+                    <VStack spacing={4}>
+                      <Text fontSize="2xl" color="rgba(255, 255, 255, 0.7)" fontWeight="600">
+                        Start searching for movies
+                      </Text>
+                      <Text color="rgba(255, 255, 255, 0.5)" textAlign="center" fontSize="lg">
+                        Type a movie name in the search box above
+                      </Text>
+                    </VStack>
+                  </Center>
+                )}
+              </VStack>
+            </TabPanel>
+          </TabPanels>
+        </Tabs>
       </Container>
 
       {/* Detail Modal */}
@@ -405,4 +477,3 @@ const Home = () => {
 }
 
 export default Home
-

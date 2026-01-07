@@ -1,24 +1,14 @@
 import {
   Box,
-  Card,
-  CardBody,
   Image,
-  Stack,
-  Heading,
   Text,
   Badge,
   HStack,
-  VStack,
-  Link,
   useColorModeValue,
 } from '@chakra-ui/react'
-import { ExternalLinkIcon } from '@chakra-ui/icons'
 import { getImageUrl } from '../services/tmdbApi'
 
 const MovieCard = ({ movie, onClick }) => {
-  const cardBg = useColorModeValue('white', 'gray.800')
-  const borderColor = useColorModeValue('gray.200', 'gray.700')
-
   // Format date
   const formatDate = (dateString) => {
     if (!dateString) return 'N/A'
@@ -34,120 +24,160 @@ const MovieCard = ({ movie, onClick }) => {
   const posterUrl = getImageUrl(movie.poster_path)
 
   return (
-    <Card
-      bg={cardBg}
-      borderWidth="1px"
-      borderColor={borderColor}
-      overflow="hidden"
-      _hover={{ shadow: 'lg', transform: 'translateY(-2px)', cursor: 'pointer' }}
-      transition="all 0.2s"
-      height="100%"
+    <Box
+      position="relative"
+      cursor="pointer"
       onClick={onClick}
+      borderRadius="4px"
+      overflow="hidden"
+      bg="#1a1a1a"
+      transition="all 0.3s cubic-bezier(0.4, 0, 0.2, 1)"
+      _hover={{
+        transform: 'scale(1.05) translateY(-8px)',
+        zIndex: 10,
+        boxShadow: '0 10px 40px rgba(0, 0, 0, 0.8)',
+      }}
+      group
     >
-      <Box position="relative">
+      {/* Poster Image */}
+      <Box position="relative" overflow="hidden" bg="#2a2a2a">
         {posterUrl ? (
           <Image
             src={posterUrl}
             alt={movie.title}
             width="100%"
-            height="300px"
+            height="280px"
             objectFit="cover"
+            transition="transform 0.3s ease-out"
+            _groupHover={{
+              transform: 'scale(1.1)',
+            }}
             fallback={
               <Box
                 width="100%"
-                height="300px"
-                bg="gray.200"
+                height="280px"
+                bg="linear-gradient(135deg, #f093fb 0%, #f5576c 100%)"
                 display="flex"
                 alignItems="center"
                 justifyContent="center"
               >
-                <Text color="gray.500">No Image</Text>
+                <Text color="rgba(255, 255, 255, 0.5)" fontSize="sm" fontWeight="600">
+                  No Image
+                </Text>
               </Box>
             }
           />
         ) : (
           <Box
             width="100%"
-            height="300px"
-            bg="gray.200"
+            height="280px"
+            bg="linear-gradient(135deg, #f093fb 0%, #f5576c 100%)"
             display="flex"
             alignItems="center"
             justifyContent="center"
           >
-            <Text color="gray.500">No Image Available</Text>
+            <Text color="rgba(255, 255, 255, 0.5)" fontSize="sm" fontWeight="600">
+              No Image Available
+            </Text>
           </Box>
         )}
+        
+        {/* Gradient overlay on hover */}
+        <Box
+          position="absolute"
+          top="0"
+          left="0"
+          right="0"
+          bottom="0"
+          bgGradient="linear(to-t, rgba(0,0,0,0.9), transparent)"
+          opacity={0}
+          transition="opacity 0.3s ease-out"
+          _groupHover={{
+            opacity: 1,
+          }}
+        />
+
+        {/* Rating Badge */}
         {movie.vote_average > 0 && (
           <Badge
             position="absolute"
-            top="2"
-            right="2"
-            colorScheme={movie.vote_average >= 7 ? 'green' : movie.vote_average >= 5 ? 'yellow' : 'red'}
+            top="8px"
+            right="8px"
+            bg={movie.vote_average >= 7 ? 'rgba(34, 197, 94, 0.9)' : movie.vote_average >= 5 ? 'rgba(234, 179, 8, 0.9)' : 'rgba(239, 68, 68, 0.9)'}
+            color="white"
+            fontSize="xs"
+            px={2}
+            py={1}
+            borderRadius="4px"
+            fontWeight="bold"
           >
-            {formatRating(movie.vote_average)}/10
+            ⭐ {formatRating(movie.vote_average)}
           </Badge>
         )}
+
+        {/* Movie Badge */}
+        <Badge
+          position="absolute"
+          top="8px"
+          left="8px"
+          bg="rgba(229, 9, 20, 0.9)"
+          color="white"
+          fontSize="xs"
+          px={2}
+          py={1}
+          borderRadius="4px"
+          fontWeight="bold"
+          textTransform="uppercase"
+        >
+          Movie
+        </Badge>
       </Box>
 
-      <CardBody>
-        <Stack spacing="3">
-          <Heading size="md" noOfLines={2}>
-            {movie.title}
-          </Heading>
+      {/* Card Info - Shows on hover */}
+      <Box
+        p={4}
+        bg="#1a1a1a"
+        transform="translateY(0)"
+        transition="all 0.3s ease-out"
+        _groupHover={{
+          transform: 'translateY(-4px)',
+        }}
+      >
+        <Text
+          fontSize="md"
+          fontWeight="bold"
+          color="white"
+          noOfLines={2}
+          mb={2}
+          lineHeight="1.3"
+        >
+          {movie.title}
+        </Text>
 
-          {movie.genre_ids && movie.genre_ids.length > 0 && (
-            <HStack spacing="2" flexWrap="wrap">
-              <Badge colorScheme="purple" variant="subtle">
-                Movie
-              </Badge>
-            </HStack>
-          )}
-
-          <VStack align="stretch" spacing="1">
-            {movie.vote_average > 0 && (
-              <HStack>
-                <Text fontSize="sm" fontWeight="semibold">
-                  Rating:
-                </Text>
-                <Badge colorScheme="yellow" fontSize="sm">
-                  {formatRating(movie.vote_average)}/10
-                </Badge>
-              </HStack>
-            )}
-
-            {movie.release_date && (
-              <Text fontSize="sm" color="gray.600">
-                Released: {formatDate(movie.release_date)}
-              </Text>
-            )}
-
-            {movie.original_language && (
-              <Text fontSize="sm" color="gray.600" textTransform="uppercase">
-                Language: {movie.original_language}
-              </Text>
-            )}
-          </VStack>
-
-          <Text fontSize="sm" noOfLines={3} color="gray.600">
-            {movie.overview || 'No description available'}
+        {/* Year */}
+        {movie.release_date && (
+          <Text fontSize="xs" color="rgba(255, 255, 255, 0.6)" mb={2}>
+            {formatDate(movie.release_date)}
           </Text>
+        )}
 
-          <Link
-            href={`https://www.themoviedb.org/movie/${movie.id}`}
-            isExternal
-            color="blue.500"
-            fontSize="sm"
-            display="flex"
-            alignItems="center"
-            gap="1"
-          >
-            View on TMDB <ExternalLinkIcon />
-          </Link>
-        </Stack>
-      </CardBody>
-    </Card>
+        {/* Description - Only visible on hover */}
+        <Text
+          fontSize="xs"
+          color="rgba(255, 255, 255, 0.7)"
+          noOfLines={3}
+          maxH="0"
+          overflow="hidden"
+          transition="max-height 0.3s ease-out"
+          _groupHover={{
+            maxH: "60px",
+          }}
+        >
+          {movie.overview || 'No description available'}
+        </Text>
+      </Box>
+    </Box>
   )
 }
 
 export default MovieCard
-

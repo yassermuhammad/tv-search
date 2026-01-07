@@ -3,8 +3,9 @@ import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
 
 // https://vitejs.dev/config/
+const isProduction = process.env.NODE_ENV === 'production' || process.env.GITHUB_ACTIONS === 'true'
 export default defineConfig({
-  base: process.env.NODE_ENV === 'production' ? '/tv-search/' : '/',
+  base: isProduction ? '/tv-search/' : '/',
   server: {
     host: true, // Allow external connections
     port: 5173,
@@ -22,8 +23,8 @@ export default defineConfig({
         background_color: '#ffffff',
         display: 'standalone',
         orientation: 'portrait',
-        scope: process.env.NODE_ENV === 'production' ? '/tv-search/' : '/',
-        start_url: process.env.NODE_ENV === 'production' ? '/tv-search/' : '/',
+        scope: isProduction ? '/tv-search/' : '/',
+        start_url: isProduction ? '/tv-search/' : '/',
         icons: [
           {
             src: '/icon-72x72.png',

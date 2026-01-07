@@ -1,0 +1,599 @@
+[
+  {
+    "score": 0.6925326,
+    "show": {
+      "id": 35265,
+      "url": "https://www.tvmaze.com/shows/35265/fast-layne",
+      "name": "Fast Layne",
+      "type": "Scripted",
+      "language": "English",
+      "genres": [
+        "Comedy",
+        "Action",
+        "Mystery"
+      ],
+      "status": "Ended",
+      "runtime": 30,
+      "averageRuntime": 30,
+      "premiered": "2019-02-15",
+      "ended": "2019-03-31",
+      "officialSite": "https://www.disneyabcpress.com/disneychannel/shows/fast-layne/",
+      "schedule": {
+        "time": "19:00",
+        "days": [
+          "Sunday"
+        ]
+      },
+      "rating": {
+        "average": 7.2
+      },
+      "weight": 84,
+      "network": {
+        "id": 78,
+        "name": "Disney Channel",
+        "country": {
+          "name": "United States",
+          "code": "US",
+          "timezone": "America/New_York"
+        },
+        "officialSite": "https://disneynow.com/all-shows/disney-channel"
+      },
+      "webChannel": null,
+      "dvdCountry": null,
+      "externals": {
+        "tvrage": null,
+        "thetvdb": 349670,
+        "imdb": "tt8115666"
+      },
+      "image": {
+        "medium": "https://static.tvmaze.com/uploads/images/medium_portrait/180/451511.jpg",
+        "original": "https://static.tvmaze.com/uploads/images/original_untouched/180/451511.jpg"
+      },
+      "summary": "\u003Cp\u003ETwelve-year-old over-achiever Layne finds her orderly life thrown into a tailspin when she discovers a sophisticated talking car named \"V.I.N.\" hidden in an abandoned shed. With the help of her eccentric neighbor Zora, Layne embarks on a high-speed adventure filled with bad guys, secret agents and other surprises to unlock the mystery behind V.I.N.'s creation.\u003C/p\u003E",
+      "updated": 1681657090,
+      "_links": {
+        "self": {
+          "href": "https://api.tvmaze.com/shows/35265"
+        },
+        "previousepisode": {
+          "href": "https://api.tvmaze.com/episodes/1609478",
+          "name": "Mile 8: Helicopter Parents"
+        }
+      }
+    }
+  },
+  {
+    "score": 0.6908291,
+    "show": {
+      "id": 54473,
+      "url": "https://www.tvmaze.com/shows/54473/fast-justice",
+      "name": "Fast Justice",
+      "type": "Documentary",
+      "language": "English",
+      "genres": [
+        "Crime"
+      ],
+      "status": "Running",
+      "runtime": 60,
+      "averageRuntime": 60,
+      "premiered": "2021-04-18",
+      "ended": null,
+      "officialSite": "https://dave.uktv.co.uk/shows/fast-justice/",
+      "schedule": {
+        "time": "18:00",
+        "days": [
+          "Sunday"
+        ]
+      },
+      "rating": {
+        "average": null
+      },
+      "weight": 81,
+      "network": {
+        "id": 59,
+        "name": "U&Dave",
+        "country": {
+          "name": "United Kingdom",
+          "code": "GB",
+          "timezone": "Europe/London"
+        },
+        "officialSite": "https://u.co.uk/channel/dave"
+      },
+      "webChannel": null,
+      "dvdCountry": null,
+      "externals": {
+        "tvrage": null,
+        "thetvdb": 401333,
+        "imdb": "tt14482382"
+      },
+      "image": {
+        "medium": "https://static.tvmaze.com/uploads/images/medium_portrait/310/775416.jpg",
+        "original": "https://static.tvmaze.com/uploads/images/original_untouched/310/775416.jpg"
+      },
+      "summary": "\u003Cp\u003E\u003Cb\u003EFast Justice\u003C/b\u003E reveals, for the first time, the drama of the operation on the ground and back at base. Viewers get unprecedented access into the snap decision making between officers in the thick of the action and in the dedicated control room. \u003C/p\u003E\u003Cp\u003E\u003Ci\u003EFast Justice\u003C/i\u003E follows real stories as they happen, including hair-raising chases, adrenaline fuelled raids, and multiple arrests.\u003C/p\u003E",
+      "updated": 1651519003,
+      "_links": {
+        "self": {
+          "href": "https://api.tvmaze.com/shows/54473"
+        },
+        "previousepisode": {
+          "href": "https://api.tvmaze.com/episodes/2253522",
+          "name": "Episode 10"
+        }
+      }
+    }
+  },
+  {
+    "score": 0.68478817,
+    "show": {
+      "id": 33426,
+      "url": "https://www.tvmaze.com/shows/33426/nowhere-fast",
+      "name": "Nowhere Fast",
+      "type": "Scripted",
+      "language": "English",
+      "genres": [
+        "Comedy"
+      ],
+      "status": "Ended",
+      "runtime": 30,
+      "averageRuntime": 30,
+      "premiered": "2017-11-13",
+      "ended": "2017-12-18",
+      "officialSite": "https://www.rte.ie/tv/programmes/917004-nowhere-fast/",
+      "schedule": {
+        "time": "22:00",
+        "days": [
+          "Monday"
+        ]
+      },
+      "rating": {
+        "average": null
+      },
+      "weight": 71,
+      "network": {
+        "id": 1054,
+        "name": "RTÉ2",
+        "country": {
+          "name": "Ireland",
+          "code": "IE",
+          "timezone": "Europe/Dublin"
+        },
+        "officialSite": "https://www.rte.ie/tv/"
+      },
+      "webChannel": null,
+      "dvdCountry": null,
+      "externals": {
+        "tvrage": null,
+        "thetvdb": 337830,
+        "imdb": null
+      },
+      "image": {
+        "medium": "https://static.tvmaze.com/uploads/images/medium_portrait/136/342071.jpg",
+        "original": "https://static.tvmaze.com/uploads/images/original_untouched/136/342071.jpg"
+      },
+      "summary": "\u003Cp\u003E\u003Cb\u003ENowhere Fast\u003C/b\u003E, a new six part comedy series for RTÉ2, is the brain child of stand-up comedian Alison Spittle. The show is a comedy about life in small town Ireland as seen from the perspective of the returning millennial.\u003C/p\u003E\u003Cp\u003E\u003Ci\u003ENowhere Fast\u003C/i\u003E is a comedy about women in rural Ireland, and one woman in particular. Fresh from a disaster in her media career in the big smoke, Angela (played by Alison) returns to her family home to lick her wounds and plan her next move. Can she escape the quicksand of small town Ireland and get her life back on track? And in the meantime can she keep her friends and family happy so she can get lifts?\u003C/p\u003E\u003Cp\u003EStarring alongside Spittle are Clare Monnelly (Moone Boy), Genevieve Hulme Beaman (Pondling) as Angela's best friends Mary and Brid, with Angela's family being played by a stellar cast including Cathy Belton and Mark Doherty. The series is written by Spittle and Simon Mulholland, with additional writing by Cian McGarrigle and directed by International Emmy and BAFTA nominated director Simon Gibney.\u003C/p\u003E",
+      "updated": 1566258728,
+      "_links": {
+        "self": {
+          "href": "https://api.tvmaze.com/shows/33426"
+        },
+        "previousepisode": {
+          "href": "https://api.tvmaze.com/episodes/1363497",
+          "name": "Episode 6"
+        }
+      }
+    }
+  },
+  {
+    "score": 0.6834289,
+    "show": {
+      "id": 79755,
+      "url": "https://www.tvmaze.com/shows/79755/fast-friends",
+      "name": "Fast Friends",
+      "type": "Game Show",
+      "language": null,
+      "genres": [],
+      "status": "To Be Determined",
+      "runtime": null,
+      "averageRuntime": 45,
+      "premiered": "2024-12-19",
+      "ended": null,
+      "officialSite": "https://play.max.com/show/37ca33f2-8837-4e7e-9154-177c9fc19756",
+      "schedule": {
+        "time": "",
+        "days": [
+          "Thursday"
+        ]
+      },
+      "rating": {
+        "average": null
+      },
+      "weight": 69,
+      "network": null,
+      "webChannel": {
+        "id": 329,
+        "name": "HBO Max",
+        "country": null,
+        "officialSite": "https://www.hbomax.com"
+      },
+      "dvdCountry": null,
+      "externals": {
+        "tvrage": null,
+        "thetvdb": 457698,
+        "imdb": "tt33481273"
+      },
+      "image": {
+        "medium": "https://static.tvmaze.com/uploads/images/medium_portrait/551/1377670.jpg",
+        "original": "https://static.tvmaze.com/uploads/images/original_untouched/551/1377670.jpg"
+      },
+      "summary": "\u003Cp\u003ECelebrating 30 years of Friends, this four-part game show tests contestants with trivia and puzzles while re-living fan favorite moments.\u003C/p\u003E",
+      "updated": 1736683049,
+      "_links": {
+        "self": {
+          "href": "https://api.tvmaze.com/shows/79755"
+        },
+        "previousepisode": {
+          "href": "https://api.tvmaze.com/episodes/3064216",
+          "name": "The One With the Winner"
+        }
+      }
+    }
+  },
+  {
+    "score": 0.66970456,
+    "show": {
+      "id": 4543,
+      "url": "https://www.tvmaze.com/shows/4543/fast-track",
+      "name": "Fast Track",
+      "type": "Scripted",
+      "language": "English",
+      "genres": [
+        "Drama"
+      ],
+      "status": "Ended",
+      "runtime": 60,
+      "averageRuntime": 60,
+      "premiered": "1997-08-03",
+      "ended": "1998-03-25",
+      "officialSite": null,
+      "schedule": {
+        "time": "",
+        "days": [
+          "Wednesday"
+        ]
+      },
+      "rating": {
+        "average": null
+      },
+      "weight": 53,
+      "network": {
+        "id": 9,
+        "name": "Paramount+ with Showtime",
+        "country": {
+          "name": "United States",
+          "code": "US",
+          "timezone": "America/New_York"
+        },
+        "officialSite": "https://www.sho.com/"
+      },
+      "webChannel": null,
+      "dvdCountry": null,
+      "externals": {
+        "tvrage": 3521,
+        "thetvdb": 70972,
+        "imdb": "tt0124239"
+      },
+      "image": {
+        "medium": "https://static.tvmaze.com/uploads/images/medium_portrait/20/52116.jpg",
+        "original": "https://static.tvmaze.com/uploads/images/original_untouched/20/52116.jpg"
+      },
+      "summary": "\u003Cp\u003E\u003Cb\u003EFast Track\u003C/b\u003E was a drama set at the auto race track in the fictional U.S. town of Eagle Ridge, focusing on the track doctor who's also a former driver. Other characters included the morally ambivalent owner of the track, his younger sister/associate who had a thing for \"Dr. Beckett\", a photographer, the ex-\"Mrs. Chandler\" and former love of \"Beckett\"'s, and Rogers (who also served as a technical consultant) the owner of the local bar. Even with a number of diverse characters and the potential for a fast pased series, Fast Track was cancelled after first season.\u003C/p\u003E",
+      "updated": 1504154939,
+      "_links": {
+        "self": {
+          "href": "https://api.tvmaze.com/shows/4543"
+        },
+        "previousepisode": {
+          "href": "https://api.tvmaze.com/episodes/293661",
+          "name": "The Temptation of Beckett"
+        }
+      }
+    }
+  },
+  {
+    "score": 0.6651163,
+    "show": {
+      "id": 86210,
+      "url": "https://www.tvmaze.com/shows/86210/fast-friends",
+      "name": "Fast Friends",
+      "type": "Game Show",
+      "language": "English",
+      "genres": [],
+      "status": "Ended",
+      "runtime": 30,
+      "averageRuntime": 30,
+      "premiered": "1991-03-30",
+      "ended": "1991-06-28",
+      "officialSite": null,
+      "schedule": {
+        "time": "",
+        "days": [
+          "Friday"
+        ]
+      },
+      "rating": {
+        "average": null
+      },
+      "weight": 49,
+      "network": {
+        "id": 12,
+        "name": "BBC One",
+        "country": {
+          "name": "United Kingdom",
+          "code": "GB",
+          "timezone": "Europe/London"
+        },
+        "officialSite": "https://www.bbc.co.uk/bbcone"
+      },
+      "webChannel": null,
+      "dvdCountry": null,
+      "externals": {
+        "tvrage": null,
+        "thetvdb": null,
+        "imdb": null
+      },
+      "image": {
+        "medium": "https://static.tvmaze.com/uploads/images/medium_portrait/606/1516557.jpg",
+        "original": "https://static.tvmaze.com/uploads/images/original_untouched/606/1516557.jpg"
+      },
+      "summary": "\u003Cp\u003EGame show hosted by Les Dawson in which two team captains have 30 seconds to make \u003Cb\u003EFast Friends\u003C/b\u003E.\u003C/p\u003E",
+      "updated": 1767537788,
+      "_links": {
+        "self": {
+          "href": "https://api.tvmaze.com/shows/86210"
+        },
+        "previousepisode": {
+          "href": "https://api.tvmaze.com/episodes/3316222",
+          "name": "Episode 14"
+        }
+      }
+    }
+  },
+  {
+    "score": 0.6597173,
+    "show": {
+      "id": 53080,
+      "url": "https://www.tvmaze.com/shows/53080/fast-foodies",
+      "name": "Fast Foodies",
+      "type": "Reality",
+      "language": "English",
+      "genres": [
+        "Food"
+      ],
+      "status": "To Be Determined",
+      "runtime": 30,
+      "averageRuntime": 30,
+      "premiered": "2021-02-04",
+      "ended": null,
+      "officialSite": "https://www.trutv.com/shows/fast-foodies",
+      "schedule": {
+        "time": "22:30",
+        "days": [
+          "Thursday"
+        ]
+      },
+      "rating": {
+        "average": null
+      },
+      "weight": 44,
+      "network": {
+        "id": 84,
+        "name": "truTV",
+        "country": {
+          "name": "United States",
+          "code": "US",
+          "timezone": "America/New_York"
+        },
+        "officialSite": "https://www.trutv.com/"
+      },
+      "webChannel": null,
+      "dvdCountry": null,
+      "externals": {
+        "tvrage": null,
+        "thetvdb": 396301,
+        "imdb": "tt13476730"
+      },
+      "image": {
+        "medium": "https://static.tvmaze.com/uploads/images/medium_portrait/388/972153.jpg",
+        "original": "https://static.tvmaze.com/uploads/images/original_untouched/388/972153.jpg"
+      },
+      "summary": "\u003Cp\u003ECelebrity guests challenge three gourmet chefs to recreate, then reimagine classic fast foods.\u003C/p\u003E",
+      "updated": 1694736394,
+      "_links": {
+        "self": {
+          "href": "https://api.tvmaze.com/shows/53080"
+        },
+        "previousepisode": {
+          "href": "https://api.tvmaze.com/episodes/2305493",
+          "name": "Joel McHale"
+        }
+      }
+    }
+  },
+  {
+    "score": 0.654593,
+    "show": {
+      "id": 8647,
+      "url": "https://www.tvmaze.com/shows/8647/turbo-fast",
+      "name": "Turbo FAST",
+      "type": "Animation",
+      "language": "English",
+      "genres": [
+        "Comedy",
+        "Action",
+        "Children"
+      ],
+      "status": "Ended",
+      "runtime": 23,
+      "averageRuntime": 23,
+      "premiered": "2013-12-24",
+      "ended": "2016-02-05",
+      "officialSite": "https://www.netflix.com/title/70271773",
+      "schedule": {
+        "time": "",
+        "days": [
+          "Friday"
+        ]
+      },
+      "rating": {
+        "average": null
+      },
+      "weight": 41,
+      "network": null,
+      "webChannel": {
+        "id": 1,
+        "name": "Netflix",
+        "country": null,
+        "officialSite": "https://www.netflix.com/"
+      },
+      "dvdCountry": null,
+      "externals": {
+        "tvrage": null,
+        "thetvdb": 268855,
+        "imdb": "tt3010520"
+      },
+      "image": {
+        "medium": "https://static.tvmaze.com/uploads/images/medium_portrait/30/77026.jpg",
+        "original": "https://static.tvmaze.com/uploads/images/original_untouched/30/77026.jpg"
+      },
+      "summary": "\u003Cp\u003ETurbo and his crew face challenges at home and abroad against crazy opponents -- surfing roaches, a con artist gecko, a pirate rat and a drift-racing cricket -- in far-flung destinations like Africa and a Mississippi swamp.\u003C/p\u003E",
+      "updated": 1704795029,
+      "_links": {
+        "self": {
+          "href": "https://api.tvmaze.com/shows/8647"
+        },
+        "previousepisode": {
+          "href": "https://api.tvmaze.com/episodes/583075",
+          "name": "137 Hours / Stalks on a Plane"
+        }
+      }
+    }
+  },
+  {
+    "score": 0.6544503,
+    "show": {
+      "id": 36102,
+      "url": "https://www.tvmaze.com/shows/36102/fast-forward",
+      "name": "Fast Forward",
+      "type": "Variety",
+      "language": "English",
+      "genres": [
+        "Comedy"
+      ],
+      "status": "Ended",
+      "runtime": 45,
+      "averageRuntime": 60,
+      "premiered": "1989-04-12",
+      "ended": "1992-11-26",
+      "officialSite": null,
+      "schedule": {
+        "time": "",
+        "days": [
+          "Thursday"
+        ]
+      },
+      "rating": {
+        "average": null
+      },
+      "weight": 40,
+      "network": {
+        "id": 251,
+        "name": "Seven Network",
+        "country": {
+          "name": "Australia",
+          "code": "AU",
+          "timezone": "Australia/Sydney"
+        },
+        "officialSite": "https://7plus.com.au/"
+      },
+      "webChannel": null,
+      "dvdCountry": null,
+      "externals": {
+        "tvrage": null,
+        "thetvdb": 77720,
+        "imdb": "tt0096581"
+      },
+      "image": {
+        "medium": "https://static.tvmaze.com/uploads/images/medium_portrait/152/382160.jpg",
+        "original": "https://static.tvmaze.com/uploads/images/original_untouched/152/382160.jpg"
+      },
+      "summary": "\u003Cp\u003E\u003Cb\u003EFast Forward\u003C/b\u003E is an Australian commercial television sketch comedy show that ran for 90 episodes from 12 April 1989 to 26 November 1992. It starred several former members of the ABC series The D-Generation such as Magda Szubanski, Marg Downey, Michael Veitch as well as other Melbourne-based comedians such as The Eleventh Hour's Steve Vizard and Peter Moon, and Jane Turner and Gina Riley who are now famous for Kath &amp; Kim. It also marked the first time that Kath &amp; Kim stars Turner, Riley and Szubanski worked together on screen. All episodes were directed by Ted Emery. \u003Ci\u003EFast Forward\u003C/i\u003E was formatted to simulate continuous channel surfing, and after the punchline, each sketch would abruptly switch to a momentary segment of static, followed by another sketch, simulating the effect of the viewer repeatedly switching channels. It featured many spoofs of television programs of the day, politicians...\u003C/p\u003E",
+      "updated": 1574017525,
+      "_links": {
+        "self": {
+          "href": "https://api.tvmaze.com/shows/36102"
+        },
+        "previousepisode": {
+          "href": "https://api.tvmaze.com/episodes/1447659",
+          "name": "Episode 16"
+        }
+      }
+    }
+  },
+  {
+    "score": 0.64689267,
+    "show": {
+      "id": 33043,
+      "url": "https://www.tvmaze.com/shows/33043/fast-inc",
+      "name": "Fast Inc.",
+      "type": "Reality",
+      "language": "English",
+      "genres": [],
+      "status": "Ended",
+      "runtime": 30,
+      "averageRuntime": 30,
+      "premiered": "2006-06-05",
+      "ended": "2006-07-24",
+      "officialSite": null,
+      "schedule": {
+        "time": "22:30",
+        "days": [
+          "Monday"
+        ]
+      },
+      "rating": {
+        "average": null
+      },
+      "weight": 36,
+      "network": {
+        "id": 22,
+        "name": "MTV",
+        "country": {
+          "name": "United States",
+          "code": "US",
+          "timezone": "America/New_York"
+        },
+        "officialSite": null
+      },
+      "webChannel": null,
+      "dvdCountry": null,
+      "externals": {
+        "tvrage": null,
+        "thetvdb": null,
+        "imdb": null
+      },
+      "image": null,
+      "summary": "\u003Cp\u003ERide shotgun with Christian, Todd and Tater, three unique characters who utilize their connections, craftiness, and charisma as they field vintage and muscle car requests from celebrities, models, and eccentric millionaires. They are on the inside lane of what's hip in the car world. They are truly the purveyors of cool.\u003C/p\u003E",
+      "updated": 1509473575,
+      "_links": {
+        "self": {
+          "href": "https://api.tvmaze.com/shows/33043"
+        },
+        "previousepisode": {
+          "href": "https://api.tvmaze.com/episodes/1346963",
+          "name": "Death Race 2006"
+        }
+      }
+    }
+  }
+]

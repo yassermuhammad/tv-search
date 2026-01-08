@@ -60,6 +60,29 @@ export const getMovieById = async (movieId) => {
 }
 
 /**
+ * Get TV show details by ID
+ * @param {number} tvId - TV Show ID
+ * @returns {Promise<TVShow>} TV show details
+ */
+export const getTVShowById = async (tvId) => {
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/tv/${tvId}?api_key=${API_KEY}&language=en-US`
+    )
+    
+    if (!response.ok) {
+      throw new Error(`API error: ${response.status}`)
+    }
+
+    const data = await response.json()
+    return data
+  } catch (error) {
+    console.error('Error fetching TV show:', error)
+    throw error
+  }
+}
+
+/**
  * Get full image URL
  * @param {string} path - Image path from TMDB
  * @returns {string} Full image URL

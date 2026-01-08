@@ -51,12 +51,15 @@ const ContentRow = ({
         direction={{ base: 'column', sm: 'row' }}
         spacing={{ base: 3, sm: 0 }}
         gap={{ base: 3, sm: 0 }}
+        flexWrap={{ base: 'wrap', sm: 'nowrap' }}
       >
         <Heading
           size={{ base: 'md', md: 'lg' }}
           color="white"
           fontWeight="600"
           fontSize={{ base: '20px', md: '24px' }}
+          whiteSpace="nowrap"
+          flexShrink={0}
         >
           {title}
         </Heading>

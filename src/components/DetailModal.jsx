@@ -256,17 +256,21 @@ const DetailModal = ({ isOpen, onClose, item, type, isLoading, onItemClick }) =>
     <Modal
       isOpen={isOpen}
       onClose={onClose}
-      size={{ base: 'full', md: '4xl' }}
+      size={{ base: 'xl', md: '4xl' }}
       scrollBehavior="inside"
       isCentered
     >
       <ModalOverlay bg="rgba(0, 0, 0, 0.8)" />
       <ModalContent
         bg={MODAL_BG_COLOR}
-        maxH={{ base: '100vh', md: '90vh' }}
+        maxH={{ base: 'calc(100vh - 120px)', md: '90vh' }}
+        maxW={{ base: 'calc(100vw - 32px)', md: '4xl' }}
+        w={{ base: 'calc(100vw - 32px)', md: 'auto' }}
         border="1px solid rgba(255, 255, 255, 0.1)"
-        borderRadius={{ base: 0, md: '8px' }}
-        m={{ base: 0, md: 'auto' }}
+        borderRadius={{ base: '8px', md: '8px' }}
+        mt={{ base: '60px', md: 'auto' }}
+        mb={{ base: '60px', md: 'auto' }}
+        mx={{ base: 4, md: 'auto' }}
       >
         <ModalHeader item={item} type={type} />
         <ModalCloseButton

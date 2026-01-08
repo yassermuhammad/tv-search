@@ -283,6 +283,23 @@ const DetailModal = ({ isOpen, onClose, item, type, isLoading, onItemClick }) =>
     }
   }
 
+  // Extract US rating from content ratings for use as fallback in episodes
+  const getUSShowRating = () => {
+    if (!contentRatings || contentRatings.length === 0) return null
+    
+    const usRating = contentRatings.find((rating) => rating.iso_3166_1 === 'US')
+    if (!usRating) return null
+
+    // For TV shows: direct rating string
+    if (usRating.rating) {
+      return usRating.rating
+    }
+
+    return null
+  }
+
+  const showRating = getUSShowRating()
+
   if (!item) return null
 
   return (
@@ -372,7 +389,12 @@ const DetailModal = ({ isOpen, onClose, item, type, isLoading, onItemClick }) =>
               {type === MEDIA_TYPES.SHOW && (
                 <>
                   <Divider borderColor="rgba(255, 255, 255, 0.1)" />
-                  <SeasonsList seasons={seasons} loading={loadingSeasons} />
+                  <SeasonsList
+                    seasons={seasons}
+                    loading={loadingSeasons}
+                    tmdbId={tmdbId}
+                    showRating={showRating}
+                  />
                 </>
               )}
 

@@ -6,9 +6,17 @@ import {
   Badge,
   SimpleGrid,
   Icon,
+  Collapse,
+  Button,
 } from '@chakra-ui/react'
-import { WarningIcon } from '@chakra-ui/icons'
-import { CONTENT_WARNING_LABELS, SEVERITY_LABELS, MPAA_RATINGS } from '../../models/parentGuideConstants'
+import { WarningIcon, ChevronDownIcon, ChevronUpIcon } from '@chakra-ui/icons'
+import { useState } from 'react'
+import {
+  CONTENT_WARNING_LABELS,
+  SEVERITY_LABELS,
+  MPAA_RATINGS,
+  getRatingDescription,
+} from '../../models/parentGuideConstants'
 
 /**
  * Parent Guide component to display content warnings and ratings
@@ -20,6 +28,7 @@ import { CONTENT_WARNING_LABELS, SEVERITY_LABELS, MPAA_RATINGS } from '../../mod
  * @param {boolean} props.loading - Loading state
  */
 const ParentGuide = ({ contentRatings = [], parentGuide = null, loading = false }) => {
+  const [isRatingExpanded, setIsRatingExpanded] = useState(false)
   // Extract US rating (MPAA) from content ratings
   // TMDB API structure:
   // - Movies: /release_dates returns array with iso_3166_1 and release_dates array
@@ -50,6 +59,7 @@ const ParentGuide = ({ contentRatings = [], parentGuide = null, loading = false 
   }
 
   const usRating = getUSRating()
+  const ratingDescription = usRating ? getRatingDescription(usRating) : null
 
   // If we have detailed parent guide data, use it
   // Otherwise, show basic certification info
@@ -81,27 +91,64 @@ const ParentGuide = ({ contentRatings = [], parentGuide = null, loading = false 
       </HStack>
 
       <VStack spacing={4} align="stretch">
-        {/* Content Rating Badge */}
-        {usRating && (
-          <Box>
-            <Text fontSize="sm" color="rgba(255, 255, 255, 0.7)" mb={2}>
-              Content Rating
+        {/* Content Rating with Details */}
+        {usRating && ratingDescription && (
+          <Box
+            border="1px solid rgba(255, 255, 255, 0.1)"
+            borderRadius="md"
+            p={3}
+            bg="rgba(255, 255, 255, 0.03)"
+          >
+            <HStack justify="space-between" mb={2}>
+              <Text fontSize="sm" color="rgba(255, 255, 255, 0.7)" fontWeight="medium">
+                Content Rating
+              </Text>
+              <Badge
+                fontSize={{ base: 'sm', md: 'md' }}
+                px={3}
+                py={1}
+                colorScheme={
+                  usRating === 'G' || usRating === 'PG' || usRating === 'TV-G' || usRating === 'TV-Y' || usRating === 'TV-Y7'
+                    ? 'green'
+                    : usRating === 'PG-13' || usRating === 'TV-PG'
+                    ? 'yellow'
+                    : usRating === 'TV-14'
+                    ? 'orange'
+                    : 'red'
+                }
+                borderRadius="md"
+              >
+                {ratingDescription.title}
+              </Badge>
+            </HStack>
+            
+            <Text fontSize="sm" color="rgba(255, 255, 255, 0.9)" mb={2} fontWeight="medium">
+              {ratingDescription.description}
             </Text>
-            <Badge
-              fontSize={{ base: 'sm', md: 'md' }}
-              px={3}
-              py={1}
-              colorScheme={
-                usRating === 'G' || usRating === 'PG'
-                  ? 'green'
-                  : usRating === 'PG-13'
-                  ? 'yellow'
-                  : 'red'
-              }
-              borderRadius="md"
+            
+            <Collapse in={isRatingExpanded} animateOpacity>
+              <Box
+                mt={2}
+                pt={2}
+                borderTop="1px solid rgba(255, 255, 255, 0.1)"
+              >
+                <Text fontSize="xs" color="rgba(255, 255, 255, 0.7)" lineHeight="tall">
+                  {ratingDescription.content}
+                </Text>
+              </Box>
+            </Collapse>
+            
+            <Button
+              size="xs"
+              variant="ghost"
+              color="rgba(255, 255, 255, 0.6)"
+              onClick={() => setIsRatingExpanded(!isRatingExpanded)}
+              mt={2}
+              leftIcon={isRatingExpanded ? <ChevronUpIcon /> : <ChevronDownIcon />}
+              _hover={{ color: 'white', bg: 'rgba(255, 255, 255, 0.1)' }}
             >
-              {MPAA_RATINGS[usRating] || usRating}
-            </Badge>
+              {isRatingExpanded ? 'Show Less' : 'Show More Details'}
+            </Button>
           </Box>
         )}
 

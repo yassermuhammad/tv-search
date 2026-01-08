@@ -517,3 +517,60 @@ export const getTVExternalIds = async (tvId) => {
   }
 }
 
+/**
+ * Get TV episode details including content ratings
+ * @param {number} tvId - TV Show ID
+ * @param {number} seasonNumber - Season number
+ * @param {number} episodeNumber - Episode number
+ * @returns {Promise<Object>} Episode details
+ */
+export const getTVEpisodeDetails = async (tvId, seasonNumber, episodeNumber) => {
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/tv/${tvId}/season/${seasonNumber}/episode/${episodeNumber}?api_key=${API_KEY}&language=en-US`
+    )
+    
+    if (!response.ok) {
+      throw new Error(`API error: ${response.status}`)
+    }
+
+    const data = await response.json()
+    return data
+  } catch (error) {
+    console.error('Error fetching TV episode details:', error)
+    return null
+  }
+}
+
+/**
+ * Get content ratings for a specific TV episode
+ * Note: TMDB doesn't provide episode-level content ratings endpoint
+ * This function attempts to get rating from episode details, but episodes
+ * typically inherit the show's rating unless specified otherwise
+ * 
+ * @param {number} tvId - TV Show ID
+ * @param {number} seasonNumber - Season number
+ * @param {number} episodeNumber - Episode number
+ * @returns {Promise<string|null>} Content rating (certification) or null
+ */
+export const getTVEpisodeContentRating = async (tvId, seasonNumber, episodeNumber) => {
+  try {
+    const episodeDetails = await getTVEpisodeDetails(tvId, seasonNumber, episodeNumber)
+    if (!episodeDetails) return null
+
+    // Check if episode has a specific content_ratings endpoint
+    // TMDB API structure: episode details might not include ratings directly
+    // We'll check the episode details response structure
+    
+    // Some episodes might have rating information in the details
+    // If not available, we return null (episodes typically use show-level rating)
+    // Note: TMDB doesn't have a dedicated endpoint for episode content ratings
+    // Episodes usually inherit the show's content rating
+    
+    return null // Episodes typically use show-level rating
+  } catch (error) {
+    console.error('Error fetching TV episode content rating:', error)
+    return null
+  }
+}
+

@@ -37,6 +37,7 @@ import SeasonsList from './modal/SeasonsList'
 import CastCrew from './modal/CastCrew'
 import TrailerSection from './modal/TrailerSection'
 import SimilarContent from './modal/SimilarContent'
+import ShareModal from './modal/ShareModal'
 import { stripHtml } from '../utils/formatters'
 import { COLORS } from '../utils/constants'
 import { MEDIA_TYPES } from '../models/constants'
@@ -74,6 +75,7 @@ const DetailModal = ({ isOpen, onClose, item, type, isLoading, onItemClick }) =>
   const [similarItems, setSimilarItems] = useState([])
   const [loadingSimilar, setLoadingSimilar] = useState(false)
   const [tmdbId, setTmdbId] = useState(null)
+  const [isShareModalOpen, setIsShareModalOpen] = useState(false)
 
   // Get TMDB ID for TV shows
   useEffect(() => {
@@ -248,6 +250,12 @@ const DetailModal = ({ isOpen, onClose, item, type, isLoading, onItemClick }) =>
     if (onItemClick) {
       onItemClick(similarItem, itemType)
     }
+  }
+
+  // Handle share button click
+  const handleShareClick = () => {
+    if (!item) return
+    setIsShareModalOpen(true)
   }
 
   if (!item) return null
@@ -443,20 +451,43 @@ const DetailModal = ({ isOpen, onClose, item, type, isLoading, onItemClick }) =>
           pt={{ base: 3, md: 4 }}
           px={{ base: 4, md: 6 }}
         >
-          <Button
-            bg="netflix.500"
-            color="white"
-            _hover={{ bg: 'netflix.600' }}
-            onClick={onClose}
-            fontWeight="bold"
-            px={{ base: 6, md: 8 }}
-            w={{ base: '100%', sm: 'auto' }}
-            size={{ base: 'md', md: 'lg' }}
-          >
-            Close
-          </Button>
+          <HStack spacing={{ base: 3, md: 4 }} w="100%" justify={{ base: 'stretch', sm: 'flex-end' }}>
+            <Button
+              variant="outline"
+              color="white"
+              borderColor="rgba(255, 255, 255, 0.3)"
+              _hover={{ bg: 'rgba(255, 255, 255, 0.1)', borderColor: 'rgba(255, 255, 255, 0.5)' }}
+              onClick={handleShareClick}
+              fontWeight="semibold"
+              px={{ base: 6, md: 8 }}
+              w={{ base: '100%', sm: 'auto' }}
+              size={{ base: 'md', md: 'lg' }}
+            >
+              Share
+            </Button>
+            <Button
+              bg="netflix.500"
+              color="white"
+              _hover={{ bg: 'netflix.600' }}
+              onClick={onClose}
+              fontWeight="bold"
+              px={{ base: 6, md: 8 }}
+              w={{ base: '100%', sm: 'auto' }}
+              size={{ base: 'md', md: 'lg' }}
+            >
+              Close
+            </Button>
+          </HStack>
         </ModalFooter>
       </ModalContent>
+
+      {/* Share Modal */}
+      <ShareModal
+        isOpen={isShareModalOpen}
+        onClose={() => setIsShareModalOpen(false)}
+        item={item}
+        type={type}
+      />
     </Modal>
   )
 }

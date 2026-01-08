@@ -346,3 +346,82 @@ export const getTVVideos = async (tvId) => {
   }
 }
 
+/**
+ * Get similar movies
+ * @param {number} movieId - Movie ID
+ * @param {number} page - Page number (default: 1)
+ * @returns {Promise<Object>} Object with results array and pagination info
+ */
+export const getSimilarMovies = async (movieId, page = 1) => {
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/movie/${movieId}/similar?api_key=${API_KEY}&language=en-US&page=${page}`
+    )
+    
+    if (!response.ok) {
+      throw new Error(`API error: ${response.status}`)
+    }
+
+    const data = await response.json()
+    return {
+      results: data.results || [],
+      totalPages: data.total_pages || 1,
+      page: data.page || 1,
+    }
+  } catch (error) {
+    console.error('Error fetching similar movies:', error)
+    throw error
+  }
+}
+
+/**
+ * Get similar TV shows
+ * @param {number} tvId - TV Show ID
+ * @param {number} page - Page number (default: 1)
+ * @returns {Promise<Object>} Object with results array and pagination info
+ */
+export const getSimilarTVShows = async (tvId, page = 1) => {
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/tv/${tvId}/similar?api_key=${API_KEY}&language=en-US&page=${page}`
+    )
+    
+    if (!response.ok) {
+      throw new Error(`API error: ${response.status}`)
+    }
+
+    const data = await response.json()
+    return {
+      results: data.results || [],
+      totalPages: data.total_pages || 1,
+      page: data.page || 1,
+    }
+  } catch (error) {
+    console.error('Error fetching similar TV shows:', error)
+    throw error
+  }
+}
+
+/**
+ * Get movies from a collection
+ * @param {number} collectionId - Collection ID
+ * @returns {Promise<Array>} Array of movies in the collection
+ */
+export const getCollectionMovies = async (collectionId) => {
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/collection/${collectionId}?api_key=${API_KEY}&language=en-US`
+    )
+    
+    if (!response.ok) {
+      throw new Error(`API error: ${response.status}`)
+    }
+
+    const data = await response.json()
+    return data.parts || []
+  } catch (error) {
+    console.error('Error fetching collection movies:', error)
+    return []
+  }
+}
+

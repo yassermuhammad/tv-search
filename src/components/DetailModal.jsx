@@ -27,6 +27,8 @@ import {
   getTVVideos,
   getSimilarMovies,
   getSimilarTVShows,
+  getMovieContentRatings,
+  getTVContentRatings,
 } from '../services/tmdbApi'
 import { getShowSeasons } from '../services/tvmazeApi'
 import { useWatchlist } from '../contexts/WatchlistContext'
@@ -37,6 +39,7 @@ import SeasonsList from './modal/SeasonsList'
 import CastCrew from './modal/CastCrew'
 import TrailerSection from './modal/TrailerSection'
 import SimilarContent from './modal/SimilarContent'
+import ParentGuide from './modal/ParentGuide'
 import ShareModal from './modal/ShareModal'
 import { stripHtml } from '../utils/formatters'
 import { COLORS } from '../utils/constants'
@@ -75,6 +78,8 @@ const DetailModal = ({ isOpen, onClose, item, type, isLoading, onItemClick }) =>
   const [similarItems, setSimilarItems] = useState([])
   const [loadingSimilar, setLoadingSimilar] = useState(false)
   const [tmdbId, setTmdbId] = useState(null)
+  const [contentRatings, setContentRatings] = useState([])
+  const [loadingContentRatings, setLoadingContentRatings] = useState(false)
   const [isShareModalOpen, setIsShareModalOpen] = useState(false)
 
   // Get TMDB ID for TV shows
@@ -245,12 +250,57 @@ const DetailModal = ({ isOpen, onClose, item, type, isLoading, onItemClick }) =>
     fetchSimilar()
   }, [isOpen, item, type, isLoading, tmdbId])
 
+  // Fetch content ratings (parent guide)
+  useEffect(() => {
+    const fetchContentRatings = async () => {
+      if (!isOpen || !item || isLoading || !tmdbId) {
+        setContentRatings([])
+        return
+      }
+
+      setLoadingContentRatings(true)
+      try {
+        if (type === MEDIA_TYPES.MOVIE) {
+          const ratings = await getMovieContentRatings(tmdbId)
+          setContentRatings(ratings)
+        } else if (type === MEDIA_TYPES.SHOW) {
+          const ratings = await getTVContentRatings(tmdbId)
+          setContentRatings(ratings)
+        }
+      } catch (error) {
+        console.error('Error fetching content ratings:', error)
+        setContentRatings([])
+      } finally {
+        setLoadingContentRatings(false)
+      }
+    }
+
+    fetchContentRatings()
+  }, [isOpen, item, type, isLoading, tmdbId])
+
   // Handle clicking on similar items
   const handleSimilarItemClick = (similarItem, itemType) => {
     if (onItemClick) {
       onItemClick(similarItem, itemType)
     }
   }
+
+  // Extract US rating from content ratings for use as fallback in episodes
+  const getUSShowRating = () => {
+    if (!contentRatings || contentRatings.length === 0) return null
+    
+    const usRating = contentRatings.find((rating) => rating.iso_3166_1 === 'US')
+    if (!usRating) return null
+
+    // For TV shows: direct rating string
+    if (usRating.rating) {
+      return usRating.rating
+    }
+
+    return null
+  }
+
+  const showRating = getUSShowRating()
 
   // Handle share button click
   const handleShareClick = () => {
@@ -324,6 +374,17 @@ const DetailModal = ({ isOpen, onClose, item, type, isLoading, onItemClick }) =>
                 </Text>
               </Box>
 
+              {/* Parent Guide Section */}
+              {(loadingContentRatings || contentRatings.length > 0) && (
+                <>
+                  <Divider borderColor="rgba(255, 255, 255, 0.1)" />
+                  <ParentGuide
+                    contentRatings={contentRatings}
+                    loading={loadingContentRatings}
+                  />
+                </>
+              )}
+
               {/* Trailers Section */}
               {(loadingVideos || videos.length > 0) && (
                 <>
@@ -336,7 +397,12 @@ const DetailModal = ({ isOpen, onClose, item, type, isLoading, onItemClick }) =>
               {type === MEDIA_TYPES.SHOW && (
                 <>
                   <Divider borderColor="rgba(255, 255, 255, 0.1)" />
-                  <SeasonsList seasons={seasons} loading={loadingSeasons} />
+                  <SeasonsList
+                    seasons={seasons}
+                    loading={loadingSeasons}
+                    tmdbId={tmdbId}
+                    showRating={showRating}
+                  />
                 </>
               )}
 

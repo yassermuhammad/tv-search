@@ -12,25 +12,66 @@ import {
 import { ChevronDownIcon, ChevronUpIcon } from '@chakra-ui/icons'
 import { useState } from 'react'
 import { getSeasonEpisodes } from '../../services/tvmazeApi'
+import { getTVEpisodeContentRating } from '../../services/tmdbApi'
 import { stripHtml, formatDate } from '../../utils/formatters'
+import EpisodeParentGuide from './EpisodeParentGuide'
 
 /**
  * Seasons and episodes list component for TV shows
  * @param {Object} props - Component props
  * @param {Array} props.seasons - Array of seasons
  * @param {boolean} props.loading - Loading state
+ * @param {number} props.tmdbId - TMDB TV show ID (for fetching episode content ratings)
+ * @param {string} props.showRating - Show-level content rating (fallback for episodes)
  */
-const SeasonsList = ({ seasons, loading }) => {
+const SeasonsList = ({ seasons, loading, tmdbId, showRating = null }) => {
   const [episodesBySeason, setEpisodesBySeason] = useState({})
   const [loadingEpisodes, setLoadingEpisodes] = useState({})
   const [expandedSeasons, setExpandedSeasons] = useState(new Set())
+  const [episodeRatings, setEpisodeRatings] = useState({}) // { 'season-episode': rating }
+  const [loadingRatings, setLoadingRatings] = useState({}) // { 'season-episode': boolean }
+
+  /**
+   * Fetches content rating for a specific episode from TMDB
+   */
+  const fetchEpisodeRating = async (seasonNumber, episodeNumber) => {
+    if (!tmdbId || !seasonNumber || !episodeNumber) return null
+
+    const ratingKey = `${seasonNumber}-${episodeNumber}`
+    
+    // Check if already loaded
+    if (episodeRatings[ratingKey] !== undefined) {
+      return episodeRatings[ratingKey]
+    }
+
+    setLoadingRatings((prev) => ({ ...prev, [ratingKey]: true }))
+    try {
+      const rating = await getTVEpisodeContentRating(tmdbId, seasonNumber, episodeNumber)
+      setEpisodeRatings((prev) => ({ ...prev, [ratingKey]: rating }))
+      return rating
+    } catch (error) {
+      console.error('Error fetching episode rating:', error)
+      setEpisodeRatings((prev) => ({ ...prev, [ratingKey]: null }))
+      return null
+    } finally {
+      setLoadingRatings((prev) => ({ ...prev, [ratingKey]: false }))
+    }
+  }
 
   /**
    * Fetches episodes for a season when expanded
    */
   const fetchEpisodesForSeason = async (seasonId, seasonNumber) => {
     if (episodesBySeason[seasonId]) {
-      // Already loaded
+      // Already loaded, but fetch ratings if we have tmdbId
+      if (tmdbId) {
+        const episodes = episodesBySeason[seasonId]
+        episodes.forEach((episode) => {
+          if (episode.number) {
+            fetchEpisodeRating(seasonNumber, episode.number)
+          }
+        })
+      }
       return
     }
 
@@ -38,6 +79,15 @@ const SeasonsList = ({ seasons, loading }) => {
     try {
       const episodesData = await getSeasonEpisodes(seasonId)
       setEpisodesBySeason((prev) => ({ ...prev, [seasonId]: episodesData }))
+      
+      // Fetch content ratings for all episodes if we have tmdbId
+      if (tmdbId && episodesData.length > 0) {
+        episodesData.forEach((episode) => {
+          if (episode.number) {
+            fetchEpisodeRating(seasonNumber, episode.number)
+          }
+        })
+      }
     } catch (error) {
       console.error('Error fetching episodes:', error)
       setEpisodesBySeason((prev) => ({ ...prev, [seasonId]: [] }))
@@ -195,15 +245,26 @@ const SeasonsList = ({ seasons, loading }) => {
                                 {episode.name || 'Untitled Episode'}
                               </Text>
                             </HStack>
-                            {episode.airdate && (
-                              <Text
-                                fontSize={{ base: '10px', md: 'xs' }}
-                                color="rgba(255, 255, 255, 0.6)"
-                                flexShrink={0}
-                              >
-                                {formatDate(episode.airdate, { yearOnly: true })}
-                              </Text>
-                            )}
+                            <HStack spacing={2} flexShrink={0}>
+                              {/* Parent Guide Rating */}
+                              {(tmdbId || showRating) && (
+                                <EpisodeParentGuide
+                                  rating={
+                                    episodeRatings[`${season.number}-${episode.number}`] ||
+                                    showRating
+                                  }
+                                  loading={loadingRatings[`${season.number}-${episode.number}`]}
+                                />
+                              )}
+                              {episode.airdate && (
+                                <Text
+                                  fontSize={{ base: '10px', md: 'xs' }}
+                                  color="rgba(255, 255, 255, 0.6)"
+                                >
+                                  {formatDate(episode.airdate, { yearOnly: true })}
+                                </Text>
+                              )}
+                            </HStack>
                           </HStack>
                           {episode.summary && (
                             <Text

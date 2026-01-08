@@ -8,6 +8,7 @@ import PopularMovies from './pages/PopularMovies'
 import PopularTVShows from './pages/PopularTVShows'
 import SimilarMovies from './pages/SimilarMovies'
 import SimilarTVShows from './pages/SimilarTVShows'
+import Share from './pages/Share'
 
 /**
  * Main App component
@@ -21,6 +22,7 @@ import SimilarTVShows from './pages/SimilarTVShows'
  * - "/trending/tv-shows" - All trending TV shows with infinite scroll
  * - "/popular/movies" - All popular movies with infinite scroll
  * - "/popular/tv-shows" - All popular TV shows with infinite scroll
+ * - "/share/:type/:id" - Share page that opens detail modal
  * 
  * @returns {JSX.Element} App component
  */
@@ -40,6 +42,7 @@ function App() {
         <Route path="/popular/tv-shows" element={<PopularTVShows />} />
         <Route path="/similar/movies/:movieId" element={<SimilarMovies />} />
         <Route path="/similar/tv-shows/:tvId" element={<SimilarTVShows />} />
+        <Route path="/share/:type/:id" element={<Share />} />
       </Routes>
     </BrowserRouter>
   )

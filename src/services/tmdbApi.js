@@ -425,3 +425,95 @@ export const getCollectionMovies = async (collectionId) => {
   }
 }
 
+/**
+ * Get content ratings (certifications) for a movie
+ * @param {number} movieId - Movie ID
+ * @returns {Promise<Object>} Content ratings by country
+ */
+export const getMovieContentRatings = async (movieId) => {
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/movie/${movieId}/release_dates?api_key=${API_KEY}`
+    )
+    
+    if (!response.ok) {
+      throw new Error(`API error: ${response.status}`)
+    }
+
+    const data = await response.json()
+    return data.results || []
+  } catch (error) {
+    console.error('Error fetching movie content ratings:', error)
+    return []
+  }
+}
+
+/**
+ * Get content ratings (certifications) for a TV show
+ * @param {number} tvId - TV Show ID
+ * @returns {Promise<Object>} Content ratings by country
+ */
+export const getTVContentRatings = async (tvId) => {
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/tv/${tvId}/content_ratings?api_key=${API_KEY}`
+    )
+    
+    if (!response.ok) {
+      throw new Error(`API error: ${response.status}`)
+    }
+
+    const data = await response.json()
+    return data.results || []
+  } catch (error) {
+    console.error('Error fetching TV content ratings:', error)
+    return []
+  }
+}
+
+/**
+ * Get external IDs (including IMDb ID) for a movie
+ * @param {number} movieId - Movie ID
+ * @returns {Promise<Object>} External IDs object
+ */
+export const getMovieExternalIds = async (movieId) => {
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/movie/${movieId}/external_ids?api_key=${API_KEY}`
+    )
+    
+    if (!response.ok) {
+      throw new Error(`API error: ${response.status}`)
+    }
+
+    const data = await response.json()
+    return data
+  } catch (error) {
+    console.error('Error fetching movie external IDs:', error)
+    return {}
+  }
+}
+
+/**
+ * Get external IDs (including IMDb ID) for a TV show
+ * @param {number} tvId - TV Show ID
+ * @returns {Promise<Object>} External IDs object
+ */
+export const getTVExternalIds = async (tvId) => {
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/tv/${tvId}/external_ids?api_key=${API_KEY}`
+    )
+    
+    if (!response.ok) {
+      throw new Error(`API error: ${response.status}`)
+    }
+
+    const data = await response.json()
+    return data
+  } catch (error) {
+    console.error('Error fetching TV external IDs:', error)
+    return {}
+  }
+}
+

@@ -27,6 +27,8 @@ import {
   getTVVideos,
   getSimilarMovies,
   getSimilarTVShows,
+  getMovieContentRatings,
+  getTVContentRatings,
 } from '../services/tmdbApi'
 import { getShowSeasons } from '../services/tvmazeApi'
 import { useWatchlist } from '../contexts/WatchlistContext'
@@ -37,6 +39,7 @@ import SeasonsList from './modal/SeasonsList'
 import CastCrew from './modal/CastCrew'
 import TrailerSection from './modal/TrailerSection'
 import SimilarContent from './modal/SimilarContent'
+import ParentGuide from './modal/ParentGuide'
 import { stripHtml } from '../utils/formatters'
 import { COLORS } from '../utils/constants'
 import { MEDIA_TYPES } from '../models/constants'
@@ -74,6 +77,8 @@ const DetailModal = ({ isOpen, onClose, item, type, isLoading, onItemClick }) =>
   const [similarItems, setSimilarItems] = useState([])
   const [loadingSimilar, setLoadingSimilar] = useState(false)
   const [tmdbId, setTmdbId] = useState(null)
+  const [contentRatings, setContentRatings] = useState([])
+  const [loadingContentRatings, setLoadingContentRatings] = useState(false)
 
   // Get TMDB ID for TV shows
   useEffect(() => {
@@ -243,6 +248,34 @@ const DetailModal = ({ isOpen, onClose, item, type, isLoading, onItemClick }) =>
     fetchSimilar()
   }, [isOpen, item, type, isLoading, tmdbId])
 
+  // Fetch content ratings (parent guide)
+  useEffect(() => {
+    const fetchContentRatings = async () => {
+      if (!isOpen || !item || isLoading || !tmdbId) {
+        setContentRatings([])
+        return
+      }
+
+      setLoadingContentRatings(true)
+      try {
+        if (type === MEDIA_TYPES.MOVIE) {
+          const ratings = await getMovieContentRatings(tmdbId)
+          setContentRatings(ratings)
+        } else if (type === MEDIA_TYPES.SHOW) {
+          const ratings = await getTVContentRatings(tmdbId)
+          setContentRatings(ratings)
+        }
+      } catch (error) {
+        console.error('Error fetching content ratings:', error)
+        setContentRatings([])
+      } finally {
+        setLoadingContentRatings(false)
+      }
+    }
+
+    fetchContentRatings()
+  }, [isOpen, item, type, isLoading, tmdbId])
+
   // Handle clicking on similar items
   const handleSimilarItemClick = (similarItem, itemType) => {
     if (onItemClick) {
@@ -315,6 +348,17 @@ const DetailModal = ({ isOpen, onClose, item, type, isLoading, onItemClick }) =>
                     : stripHtml(item.summary)}
                 </Text>
               </Box>
+
+              {/* Parent Guide Section */}
+              {(loadingContentRatings || contentRatings.length > 0) && (
+                <>
+                  <Divider borderColor="rgba(255, 255, 255, 0.1)" />
+                  <ParentGuide
+                    contentRatings={contentRatings}
+                    loading={loadingContentRatings}
+                  />
+                </>
+              )}
 
               {/* Trailers Section */}
               {(loadingVideos || videos.length > 0) && (

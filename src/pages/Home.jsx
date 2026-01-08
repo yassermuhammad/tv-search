@@ -92,6 +92,22 @@ const Home = () => {
     }
   }
 
+  /**
+   * Handles clicking on a similar item in the detail modal
+   * Closes current modal and opens a new one with the similar item
+   */
+  const handleSimilarItemClick = async (item, itemType) => {
+    modal.closeModal()
+    // Small delay to allow modal to close smoothly
+    setTimeout(() => {
+      if (itemType === MEDIA_TYPES.MOVIE) {
+        handleMovieClick(item)
+      } else {
+        handleShowClick(item)
+      }
+    }, 100)
+  }
+
   return (
     <Box minH="100vh" bg="#141414" position="relative">
       <Header />

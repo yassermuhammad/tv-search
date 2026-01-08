@@ -6,6 +6,8 @@ import TrendingMovies from './pages/TrendingMovies'
 import TrendingTVShows from './pages/TrendingTVShows'
 import PopularMovies from './pages/PopularMovies'
 import PopularTVShows from './pages/PopularTVShows'
+import SimilarMovies from './pages/SimilarMovies'
+import SimilarTVShows from './pages/SimilarTVShows'
 
 /**
  * Main App component
@@ -36,6 +38,8 @@ function App() {
         <Route path="/trending/tv-shows" element={<TrendingTVShows />} />
         <Route path="/popular/movies" element={<PopularMovies />} />
         <Route path="/popular/tv-shows" element={<PopularTVShows />} />
+        <Route path="/similar/movies/:movieId" element={<SimilarMovies />} />
+        <Route path="/similar/tv-shows/:tvId" element={<SimilarTVShows />} />
       </Routes>
     </BrowserRouter>
   )

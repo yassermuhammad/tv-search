@@ -25,6 +25,8 @@ import {
   getTVCredits,
   getMovieVideos,
   getTVVideos,
+  getSimilarMovies,
+  getSimilarTVShows,
 } from '../services/tmdbApi'
 import { getShowSeasons } from '../services/tvmazeApi'
 import { useWatchlist } from '../contexts/WatchlistContext'
@@ -34,6 +36,7 @@ import WatchProviders from './modal/WatchProviders'
 import SeasonsList from './modal/SeasonsList'
 import CastCrew from './modal/CastCrew'
 import TrailerSection from './modal/TrailerSection'
+import SimilarContent from './modal/SimilarContent'
 import { stripHtml } from '../utils/formatters'
 import { COLORS } from '../utils/constants'
 import { MEDIA_TYPES } from '../models/constants'
@@ -57,8 +60,9 @@ const TEXT_COLOR = COLORS.TEXT_PRIMARY
  * @param {Object} props.item - Movie or show item
  * @param {string} props.type - Item type ('movie' or 'show')
  * @param {boolean} props.isLoading - Loading state for initial data fetch
+ * @param {Function} props.onItemClick - Callback when a similar item is clicked (optional)
  */
-const DetailModal = ({ isOpen, onClose, item, type, isLoading }) => {
+const DetailModal = ({ isOpen, onClose, item, type, isLoading, onItemClick }) => {
   const [watchProviders, setWatchProviders] = useState(null)
   const [loadingProviders, setLoadingProviders] = useState(false)
   const [seasons, setSeasons] = useState([])
@@ -67,6 +71,8 @@ const DetailModal = ({ isOpen, onClose, item, type, isLoading }) => {
   const [loadingCredits, setLoadingCredits] = useState(false)
   const [videos, setVideos] = useState([])
   const [loadingVideos, setLoadingVideos] = useState(false)
+  const [similarItems, setSimilarItems] = useState([])
+  const [loadingSimilar, setLoadingSimilar] = useState(false)
   const [tmdbId, setTmdbId] = useState(null)
 
   // Get TMDB ID for TV shows
@@ -208,6 +214,42 @@ const DetailModal = ({ isOpen, onClose, item, type, isLoading }) => {
     fetchSeasons()
   }, [isOpen, item, type, isLoading])
 
+  // Fetch similar content
+  useEffect(() => {
+    const fetchSimilar = async () => {
+      if (!isOpen || !item || isLoading || !tmdbId) {
+        setSimilarItems([])
+        return
+      }
+
+      setLoadingSimilar(true)
+      try {
+        let similarData
+        if (type === MEDIA_TYPES.MOVIE) {
+          similarData = await getSimilarMovies(tmdbId)
+          setSimilarItems(similarData.results || [])
+        } else if (type === MEDIA_TYPES.SHOW) {
+          similarData = await getSimilarTVShows(tmdbId)
+          setSimilarItems(similarData.results || [])
+        }
+      } catch (error) {
+        console.error('Error fetching similar content:', error)
+        setSimilarItems([])
+      } finally {
+        setLoadingSimilar(false)
+      }
+    }
+
+    fetchSimilar()
+  }, [isOpen, item, type, isLoading, tmdbId])
+
+  // Handle clicking on similar items
+  const handleSimilarItemClick = (similarItem, itemType) => {
+    if (onItemClick) {
+      onItemClick(similarItem, itemType)
+    }
+  }
+
   if (!item) return null
 
   return (
@@ -305,6 +347,26 @@ const DetailModal = ({ isOpen, onClose, item, type, isLoading }) => {
                   <WatchProviders
                     watchProviders={watchProviders}
                     loading={loadingProviders}
+                  />
+                </>
+              )}
+
+              {/* Similar Content Section */}
+              {(loadingSimilar || similarItems.length > 0) && (
+                <>
+                  <Divider borderColor="rgba(255, 255, 255, 0.1)" />
+                  <SimilarContent
+                    similarItems={similarItems}
+                    loading={loadingSimilar}
+                    type={type}
+                    onItemClick={handleSimilarItemClick}
+                    viewAllPath={
+                      tmdbId
+                        ? type === MEDIA_TYPES.MOVIE
+                          ? `/similar/movies/${tmdbId}`
+                          : `/similar/tv-shows/${tmdbId}`
+                        : null
+                    }
                   />
                 </>
               )}

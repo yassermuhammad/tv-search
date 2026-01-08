@@ -68,6 +68,24 @@ const Search = () => {
   }
 
   /**
+   * Handles clicking on a similar item from the detail modal
+   * Closes current modal and opens a new one with the clicked item
+   */
+  const handleSimilarItemClick = async (item, itemType) => {
+    // Close current modal
+    modal.closeModal()
+    
+    // Small delay to ensure modal closes smoothly
+    setTimeout(() => {
+      if (itemType === MEDIA_TYPES.MOVIE) {
+        handleMovieClick(item)
+      } else {
+        handleShowClick(item)
+      }
+    }, 100)
+  }
+
+  /**
    * Handles back navigation
    */
   const handleBack = () => {
@@ -97,6 +115,7 @@ const Search = () => {
         item={modal.selectedItem}
         type={modal.itemType}
         isLoading={modal.loadingDetails}
+        onItemClick={handleSimilarItemClick}
       />
     </Box>
   )

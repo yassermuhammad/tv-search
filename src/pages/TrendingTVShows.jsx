@@ -1,6 +1,7 @@
 import { Box, Container, Heading, SimpleGrid, Button } from '@chakra-ui/react'
 import { useSearchParams, useNavigate } from 'react-router-dom'
 import { useCallback } from 'react'
+import { useTranslation } from 'react-i18next'
 import { getShowById } from '../services/tvmazeApi'
 import DetailModal from '../components/DetailModal'
 import Header from '../components/shared/Header'
@@ -19,6 +20,7 @@ import { GRID_COLUMNS } from '../utils/constants'
  * Displays all trending TV shows with pagination
  */
 const TrendingTVShows = () => {
+  const { t } = useTranslation()
   const [searchParams] = useSearchParams()
   const navigate = useNavigate()
   const modal = useModal()
@@ -87,13 +89,13 @@ const TrendingTVShows = () => {
           fontWeight="bold"
           mb={{ base: 4, md: 6 }}
         >
-          Trending TV Shows ({timeWindow === 'day' ? 'Today' : 'This Week'})
+          {t('pages.trendingTVShows')} ({timeWindow === 'day' ? t('home.today') : t('home.thisWeek')})
         </Heading>
 
         {loading && shows.length === 0 ? (
-          <LoadingState message="Loading trending TV shows..." />
+          <LoadingState message={t('pages.loadingTrendingTVShows')} />
         ) : error ? (
-          <EmptyState title="Failed to load trending TV shows" message={error} />
+          <EmptyState title={t('pages.failedToLoadTrendingTVShows')} message={error} />
         ) : shows.length > 0 ? (
           <>
             <SimpleGrid columns={GRID_COLUMNS} spacing={{ base: 4, md: 6 }} mb={8}>
@@ -110,16 +112,16 @@ const TrendingTVShows = () => {
             {hasMore && (
               <Box ref={observerTarget} py={8} textAlign="center" minH="100px">
                 {loadingMore ? (
-                  <LoadingState message="Loading more TV shows..." />
+                  <LoadingState message={t('pages.loadingMoreTVShows')} />
                 ) : (
                   <Button
                     onClick={loadMore}
                     colorScheme="netflix"
                     size="lg"
                     isLoading={loadingMore}
-                    loadingText="Loading..."
+                    loadingText={t('common.loading')}
                   >
-                    Load More TV Shows
+                    {t('pages.loadMoreTVShows')}
                   </Button>
                 )}
               </Box>
@@ -127,13 +129,13 @@ const TrendingTVShows = () => {
             {!hasMore && shows.length > 0 && (
               <Box py={8} textAlign="center">
                 <Box color="rgba(255, 255, 255, 0.6)" fontSize="sm">
-                  No more TV shows to load ({shows.length} total)
+                  {t('pages.noMoreTVShows')} ({shows.length} {t('pages.total')})
                 </Box>
               </Box>
             )}
           </>
         ) : (
-          <EmptyState title="No trending TV shows found" />
+          <EmptyState title={t('pages.noTrendingTVShowsFound')} />
         )}
       </Container>
 

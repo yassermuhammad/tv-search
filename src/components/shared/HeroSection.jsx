@@ -1,15 +1,20 @@
 import { VStack, Heading, Text } from '@chakra-ui/react'
+import { useTranslation } from 'react-i18next'
 
 /**
  * Hero section component displayed when no search has been performed
  * @param {Object} props - Component props
- * @param {string} props.title - Hero title
- * @param {string} props.subtitle - Hero subtitle
+ * @param {string} props.title - Hero title (optional, uses translation if not provided)
+ * @param {string} props.subtitle - Hero subtitle (optional, uses translation if not provided)
  */
 const HeroSection = ({ 
-  title = 'Find Your Next Binge',
-  subtitle = 'Search and discover TV shows and movies'
+  title,
+  subtitle
 }) => {
+  const { t } = useTranslation()
+  
+  const heroTitle = title || t('home.title')
+  const heroSubtitle = subtitle || t('home.subtitle')
   return (
     <VStack
       spacing={{ base: 2, md: 3 }}
@@ -34,7 +39,7 @@ const HeroSection = ({
         fontSize={{ base: '24px', sm: '28px', md: '36px' }}
         px={{ base: 2, md: 0 }}
       >
-        {title}
+        {heroTitle}
       </Heading>
       <Text
         fontSize={{ base: 'sm', sm: 'md', md: 'lg' }}
@@ -42,7 +47,7 @@ const HeroSection = ({
         maxW="600px"
         px={{ base: 4, md: 0 }}
       >
-        {subtitle}
+        {heroSubtitle}
       </Text>
     </VStack>
   )

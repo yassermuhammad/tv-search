@@ -1,4 +1,5 @@
 import { VStack, Alert, AlertIcon } from '@chakra-ui/react'
+import { useTranslation } from 'react-i18next'
 import { searchShows } from '../../services/tvmazeApi'
 import { useSearch } from '../../hooks/useSearch'
 import SearchInput from '../shared/SearchInput'
@@ -14,6 +15,7 @@ import { SEARCH_DEBOUNCE_DELAY } from '../../utils/constants'
  * @param {Function} props.onShowClick - Callback when a show is clicked
  */
 const TVShowsTab = ({ onShowClick }) => {
+  const { t } = useTranslation()
   const performShowSearch = async (query) => {
     const results = await searchShows(query)
     return results.map((item) => item.show)
@@ -33,7 +35,7 @@ const TVShowsTab = ({ onShowClick }) => {
       <SearchInput
         value={query}
         onChange={(e) => setQuery(e.target.value)}
-        placeholder="Search for a TV show or series..."
+        placeholder={t('search.placeholderShows')}
       />
 
       {error && (
@@ -49,7 +51,7 @@ const TVShowsTab = ({ onShowClick }) => {
         </Alert>
       )}
 
-      {loading && <LoadingState message="Searching shows..." />}
+      {loading && <LoadingState message={t('common.loading')} />}
 
       {!loading && hasSearched && (
         <>
@@ -63,8 +65,8 @@ const TVShowsTab = ({ onShowClick }) => {
             />
           ) : (
             <EmptyState
-              title="No shows found"
-              message="Try searching with a different keyword"
+              title={t('search.noShowsFound')}
+              message={t('search.tryDifferentKeyword')}
             />
           )}
         </>
@@ -72,8 +74,8 @@ const TVShowsTab = ({ onShowClick }) => {
 
       {!hasSearched && !loading && (
         <EmptyState
-          title="Start searching for TV shows"
-          message="Type a show name in the search box above"
+          title={t('search.startSearchingShows')}
+          message={t('search.searchHintShows')}
         />
       )}
     </VStack>

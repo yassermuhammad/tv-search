@@ -18,6 +18,7 @@ import {
 } from '@chakra-ui/react'
 import { DeleteIcon, ChevronLeftIcon } from '@chakra-ui/icons'
 import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { useWatchlist } from '../contexts/WatchlistContext'
 import ShowCard from '../components/ShowCard'
 import MovieCard from '../components/MovieCard'
@@ -37,6 +38,7 @@ import { MEDIA_TYPES } from '../models/constants'
  * - Modal for viewing details
  */
 const Watchlist = () => {
+  const { t } = useTranslation()
   const { watchlist, getWatchlistByType, clearWatchlist } = useWatchlist()
   const navigate = useNavigate()
   const modal = useModal()
@@ -88,7 +90,7 @@ const Watchlist = () => {
                 size={{ base: 'sm', md: 'md' }}
                 display={{ base: 'none', sm: 'flex' }}
               >
-                Back
+                {t('common.back')}
               </Button>
               <VStack align={{ base: 'flex-start', sm: 'flex-start' }} spacing={1}>
                 <Heading
@@ -99,13 +101,13 @@ const Watchlist = () => {
                   letterSpacing="tight"
                   fontSize={{ base: '20px', sm: '24px', md: '28px' }}
                 >
-                  My Watchlist
+                  {t('common.myWatchlist')}
                 </Heading>
                 <Text
                   color="rgba(255, 255, 255, 0.7)"
                   fontSize={{ base: 'sm', md: 'md' }}
                 >
-                  {watchlist.length} {watchlist.length === 1 ? 'item' : 'items'} saved
+                  {watchlist.length} {watchlist.length === 1 ? t('watchlist.item') : t('watchlist.items')} {t('watchlist.saved')}
                 </Text>
               </VStack>
             </HStack>
@@ -120,7 +122,7 @@ const Watchlist = () => {
                 fontSize={{ base: 'xs', md: 'sm' }}
                 w={{ base: '100%', sm: 'auto' }}
               >
-                Clear All
+                {t('watchlist.clearAll')}
               </Button>
             )}
           </Flex>
@@ -130,8 +132,8 @@ const Watchlist = () => {
       <Container maxW="container.xl" py={{ base: 4, md: 8 }} px={{ base: 4, md: 6, lg: 8 }}>
         {watchlist.length === 0 ? (
           <EmptyState
-            title="Your watchlist is empty"
-            message="Start adding shows and movies to your watchlist!"
+            title={t('emptyState.noWatchlistItems')}
+            message={t('emptyState.addItems')}
           />
         ) : (
           <Tabs variant="netflix" colorScheme="netflix">
@@ -141,7 +143,7 @@ const Watchlist = () => {
                 px={{ base: 4, md: 6 }}
                 py={{ base: 3, md: 4 }}
               >
-                TV Shows
+                {t('watchlist.tvShows')}
                 {shows.length > 0 && (
                   <Badge
                     ml={2}
@@ -160,7 +162,7 @@ const Watchlist = () => {
                 px={{ base: 4, md: 6 }}
                 py={{ base: 3, md: 4 }}
               >
-                Movies
+                {t('watchlist.movies')}
                 {movies.length > 0 && (
                   <Badge
                     ml={2}
@@ -181,8 +183,8 @@ const Watchlist = () => {
               <TabPanel px={0}>
                 {shows.length === 0 ? (
                   <EmptyState
-                    title="No TV shows in your watchlist"
-                    message="Add TV shows to see them here"
+                    title={t('watchlist.noTVShows')}
+                    message={t('watchlist.addTVShows')}
                   />
                 ) : (
                   <ResultsGrid
@@ -203,8 +205,8 @@ const Watchlist = () => {
               <TabPanel px={0}>
                 {movies.length === 0 ? (
                   <EmptyState
-                    title="No movies in your watchlist"
-                    message="Add movies to see them here"
+                    title={t('watchlist.noMovies')}
+                    message={t('watchlist.addMovies')}
                   />
                 ) : (
                   <ResultsGrid

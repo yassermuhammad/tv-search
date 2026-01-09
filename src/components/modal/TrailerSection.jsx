@@ -1,5 +1,6 @@
 import { Box, Heading, VStack, HStack, Button, Text, Icon } from '@chakra-ui/react'
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { COLORS } from '../../utils/constants'
 
 // Play icon SVG component
@@ -23,6 +24,7 @@ const TEXT_COLOR = COLORS.TEXT_PRIMARY
  * @param {boolean} props.loading - Loading state
  */
 const TrailerSection = ({ videos = [], loading = false }) => {
+  const { t } = useTranslation()
   const [selectedVideo, setSelectedVideo] = useState(null)
 
   // Filter for trailers and teasers
@@ -36,7 +38,7 @@ const TrailerSection = ({ videos = [], loading = false }) => {
     return (
       <Box>
         <Text color={TEXT_COLOR} fontSize={{ base: 'sm', md: 'md' }}>
-          Loading trailers...
+          {t('modal.loadingTrailers')}
         </Text>
       </Box>
     )
@@ -57,7 +59,7 @@ const TrailerSection = ({ videos = [], loading = false }) => {
         fontWeight="600"
         fontSize={{ base: '16px', md: '20px' }}
       >
-        Trailers & Videos
+        {t('modal.trailers')}
       </Heading>
 
       {/* Main Trailer Player */}
@@ -98,7 +100,7 @@ const TrailerSection = ({ videos = [], loading = false }) => {
             fontSize={{ base: 'xs', md: 'sm' }}
             fontWeight="600"
           >
-            More Videos ({trailers.length})
+            {t('modal.moreVideos')} ({trailers.length})
           </Text>
           <HStack spacing={2} flexWrap="wrap">
             {trailers.map((trailer) => (

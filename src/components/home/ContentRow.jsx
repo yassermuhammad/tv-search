@@ -1,5 +1,6 @@
 import { Box, Heading, HStack, Button } from '@chakra-ui/react'
 import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import HorizontalScrollRow from '../shared/HorizontalScrollRow'
 import LoadingState from '../shared/LoadingState'
 import EmptyState from '../shared/EmptyState'
@@ -31,6 +32,7 @@ const ContentRow = ({
   onTimeWindowChange,
   viewAllPath,
 }) => {
+  const { t } = useTranslation()
   const navigate = useNavigate()
   const MAX_ITEMS = 6
   const displayItems = items ? items.slice(0, MAX_ITEMS) : []
@@ -76,7 +78,7 @@ const ContentRow = ({
               flex={{ base: 1, sm: 'none' }}
               fontSize={{ base: '12px', md: '14px' }}
             >
-              Today
+              {t('home.today')}
             </Button>
             <Button
               size={{ base: 'xs', md: 'sm' }}
@@ -89,7 +91,7 @@ const ContentRow = ({
               flex={{ base: 1, sm: 'none' }}
               fontSize={{ base: '12px', md: '14px' }}
             >
-              This Week
+              {t('home.thisWeek')}
             </Button>
           </HStack>
         )}
@@ -118,7 +120,7 @@ const ContentRow = ({
               return (
                 <ViewAllCard
                   onClick={() => navigate(viewAllPath)}
-                  label="View All"
+                  label={t('home.viewAll')}
                 />
               )
             }

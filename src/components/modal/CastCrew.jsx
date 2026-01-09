@@ -14,6 +14,7 @@ import {
   AccordionIcon,
 } from '@chakra-ui/react'
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { getImageUrl } from '../../services/tmdbApi'
 import { COLORS } from '../../utils/constants'
 
@@ -45,6 +46,7 @@ const IMPORTANT_CREW_ROLES = [
  * @param {boolean} props.loading - Loading state
  */
 const CastCrew = ({ cast = [], crew = [], loading = false }) => {
+  const { t } = useTranslation()
   const [showAllCast, setShowAllCast] = useState(false)
 
   // Organize crew by role
@@ -69,7 +71,7 @@ const CastCrew = ({ cast = [], crew = [], loading = false }) => {
     return (
       <Box>
         <Text color={TEXT_COLOR} fontSize={{ base: 'sm', md: 'md' }}>
-          Loading cast and crew...
+          {t('modal.loadingCastCrew')}
         </Text>
       </Box>
     )
@@ -94,7 +96,7 @@ const CastCrew = ({ cast = [], crew = [], loading = false }) => {
             mb={{ base: 3, md: 4 }}
             fontSize={{ base: '16px', md: '20px' }}
           >
-            Cast ({cast.length})
+            {t('modal.cast')} ({cast.length})
           </Heading>
           <SimpleGrid
             columns={{ base: 1, sm: 2, md: 3, lg: 4 }}
@@ -145,7 +147,7 @@ const CastCrew = ({ cast = [], crew = [], loading = false }) => {
               onClick={() => setShowAllCast(!showAllCast)}
               w="100%"
             >
-              {showAllCast ? 'Show Less' : `Show All Cast (${cast.length})`}
+              {showAllCast ? t('modal.showLess') : `${t('modal.showAll')} ${t('modal.cast')} (${cast.length})`}
             </Button>
           )}
         </Box>
@@ -161,7 +163,7 @@ const CastCrew = ({ cast = [], crew = [], loading = false }) => {
             mb={{ base: 3, md: 4 }}
             fontSize={{ base: '16px', md: '20px' }}
           >
-            Crew
+            {t('modal.crew')}
           </Heading>
           <Accordion allowToggle defaultIndex={[0]} reduceMotion>
             {/* Important Crew Roles */}
@@ -253,7 +255,7 @@ const CastCrew = ({ cast = [], crew = [], loading = false }) => {
                       fontWeight="600"
                       fontSize={{ base: 'sm', md: 'md' }}
                     >
-                      Other Crew ({otherCrewRoles.reduce((sum, role) => sum + crewByRole[role].length, 0)})
+                      {t('modal.otherCrew')} ({otherCrewRoles.reduce((sum, role) => sum + crewByRole[role].length, 0)})
                     </Text>
                   </Box>
                   <AccordionIcon color={TEXT_COLOR} />

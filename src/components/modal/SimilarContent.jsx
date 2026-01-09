@@ -1,5 +1,6 @@
 import { Box, Text, Spinner, Center } from '@chakra-ui/react'
 import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import HorizontalScrollRow from '../shared/HorizontalScrollRow'
 import ViewAllCard from '../shared/ViewAllCard'
 import MovieCard from '../MovieCard'
@@ -24,6 +25,7 @@ const MAX_ITEMS = 6
  * @param {string} props.viewAllPath - Path to navigate when "View All" is clicked
  */
 const SimilarContent = ({ similarItems = [], loading = false, type, onItemClick, viewAllPath }) => {
+  const { t } = useTranslation()
   const navigate = useNavigate()
 
   if (loading) {
@@ -35,7 +37,7 @@ const SimilarContent = ({ similarItems = [], loading = false, type, onItemClick,
           color={TEXT_COLOR}
           mb={{ base: 3, md: 4 }}
         >
-          Similar {type === MEDIA_TYPES.MOVIE ? 'Movies' : 'TV Shows'}
+          {type === MEDIA_TYPES.MOVIE ? t('modal.similarMovies') : t('modal.similarTVShows')}
         </Text>
         <Center py={8}>
           <Spinner size="md" color="netflix.500" thickness="3px" />
@@ -62,7 +64,7 @@ const SimilarContent = ({ similarItems = [], loading = false, type, onItemClick,
       return (
         <ViewAllCard
           onClick={() => navigate(viewAllPath)}
-          label="View All"
+          label={t('home.viewAll')}
         />
       )
     }

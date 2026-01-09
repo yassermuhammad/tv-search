@@ -1,4 +1,5 @@
 import { Box, Text, HStack, Badge, VStack, Spinner } from '@chakra-ui/react'
+import { useTranslation } from 'react-i18next'
 import { COLORS } from '../../utils/constants'
 import { PROVIDER_TYPE, PROVIDER_COLORS } from '../../models/constants'
 
@@ -11,6 +12,7 @@ const TEXT_COLOR = COLORS.TEXT_PRIMARY
  * @param {boolean} props.loading - Loading state
  */
 const WatchProviders = ({ watchProviders, loading }) => {
+  const { t } = useTranslation()
   /**
    * Gets available platforms for US (or fallback to any available country)
    * @returns {Object|null} Platform data or null
@@ -47,12 +49,12 @@ const WatchProviders = ({ watchProviders, loading }) => {
     return (
       <Box>
         <Text fontSize="lg" fontWeight="semibold" color={TEXT_COLOR} mb={3}>
-          Where to Watch
+          {t('modal.whereToWatch')}
         </Text>
         <HStack spacing={2}>
           <Spinner size="sm" color="blue.500" />
           <Text color={TEXT_COLOR} fontSize="sm">
-            Loading streaming platforms...
+            {t('modal.loadingPlatforms')}
           </Text>
         </HStack>
       </Box>
@@ -63,10 +65,10 @@ const WatchProviders = ({ watchProviders, loading }) => {
     return (
       <Box>
         <Text fontSize="lg" fontWeight="semibold" color={TEXT_COLOR} mb={3}>
-          Where to Watch
+          {t('modal.whereToWatch')}
         </Text>
         <Text color={TEXT_COLOR} fontSize={{ base: 'xs', md: 'sm' }} fontStyle="italic">
-          Streaming information not available
+          {t('modal.noStreamingInfo')}
         </Text>
       </Box>
     )
@@ -80,7 +82,7 @@ const WatchProviders = ({ watchProviders, loading }) => {
         color={TEXT_COLOR}
         mb={{ base: 2, md: 3 }}
       >
-        Where to Watch
+        {t('modal.whereToWatch')}
       </Text>
       <VStack align="stretch" spacing={{ base: 3, md: 4 }}>
         {/* Streaming (Subscription) */}
@@ -92,7 +94,7 @@ const WatchProviders = ({ watchProviders, loading }) => {
               color={TEXT_COLOR}
               mb={{ base: 1.5, md: 2 }}
             >
-              Stream
+              {t('modal.stream')}
             </Text>
             <HStack spacing={{ base: 1.5, md: 2 }} flexWrap="wrap">
               {platforms[PROVIDER_TYPE.FLATRATE].map((provider) => (
@@ -119,7 +121,7 @@ const WatchProviders = ({ watchProviders, loading }) => {
               color={TEXT_COLOR}
               mb={{ base: 1.5, md: 2 }}
             >
-              Buy
+              {t('modal.buy')}
             </Text>
             <HStack spacing={{ base: 1.5, md: 2 }} flexWrap="wrap">
               {platforms[PROVIDER_TYPE.BUY].map((provider) => (
@@ -146,7 +148,7 @@ const WatchProviders = ({ watchProviders, loading }) => {
               color={TEXT_COLOR}
               mb={{ base: 1.5, md: 2 }}
             >
-              Rent
+              {t('modal.rent')}
             </Text>
             <HStack spacing={{ base: 1.5, md: 2 }} flexWrap="wrap">
               {platforms[PROVIDER_TYPE.RENT].map((provider) => (
@@ -168,7 +170,7 @@ const WatchProviders = ({ watchProviders, loading }) => {
           !platforms[PROVIDER_TYPE.BUY]?.length &&
           !platforms[PROVIDER_TYPE.RENT]?.length && (
             <Text color={TEXT_COLOR} fontSize={{ base: 'xs', md: 'sm' }} fontStyle="italic">
-              No streaming information available
+              {t('modal.noStreamingInfo')}
             </Text>
           )}
       </VStack>

@@ -1,4 +1,5 @@
 import { VStack, Alert, AlertIcon } from '@chakra-ui/react'
+import { useTranslation } from 'react-i18next'
 import { searchMovies } from '../../services/tmdbApi'
 import { useSearch } from '../../hooks/useSearch'
 import SearchInput from '../shared/SearchInput'
@@ -14,6 +15,7 @@ import { SEARCH_DEBOUNCE_DELAY } from '../../utils/constants'
  * @param {Function} props.onMovieClick - Callback when a movie is clicked
  */
 const MoviesTab = ({ onMovieClick }) => {
+  const { t } = useTranslation()
   const {
     query,
     setQuery,
@@ -28,7 +30,7 @@ const MoviesTab = ({ onMovieClick }) => {
       <SearchInput
         value={query}
         onChange={(e) => setQuery(e.target.value)}
-        placeholder="Search for a movie..."
+        placeholder={t('search.placeholderMovies')}
       />
 
       {error && (
@@ -44,7 +46,7 @@ const MoviesTab = ({ onMovieClick }) => {
         </Alert>
       )}
 
-      {loading && <LoadingState message="Searching movies..." />}
+      {loading && <LoadingState message={t('common.loading')} />}
 
       {!loading && hasSearched && (
         <>
@@ -58,8 +60,8 @@ const MoviesTab = ({ onMovieClick }) => {
             />
           ) : (
             <EmptyState
-              title="No movies found"
-              message="Try searching with a different keyword"
+              title={t('search.noMoviesFound')}
+              message={t('search.tryDifferentKeyword')}
             />
           )}
         </>
@@ -67,8 +69,8 @@ const MoviesTab = ({ onMovieClick }) => {
 
       {!hasSearched && !loading && (
         <EmptyState
-          title="Start searching for movies"
-          message="Type a movie name in the search box above"
+          title={t('search.startSearchingMovies')}
+          message={t('search.searchHintMovies')}
         />
       )}
     </VStack>

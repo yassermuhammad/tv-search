@@ -1,0 +1,114 @@
+{
+  "common": {
+    "appName": "STREAMSPOT",
+    "search": "Cerca",
+    "watchlist": "La Mia Lista",
+    "myWatchlist": "La Mia Lista",
+    "back": "Indietro",
+    "loading": "Caricamento...",
+    "error": "Errore",
+    "noResults": "Nessun risultato trovato",
+    "tryAgain": "Riprova",
+    "close": "Chiudi"
+  },
+  "home": {
+    "title": "Trova La Tua Prossima Serie",
+    "subtitle": "Cerca e scopri programmi TV e film",
+    "trendingMovies": "Film di Tendenza",
+    "trendingTVShows": "Programmi TV di Tendenza",
+    "popularMovies": "Film Popolari",
+    "popularTVShows": "Programmi TV Popolari",
+    "viewAll": "Vedi Tutto",
+    "today": "Oggi",
+    "thisWeek": "Questa Settimana"
+  },
+  "search": {
+    "title": "Cerca",
+    "placeholderMovies": "Cerca un film...",
+    "placeholderShows": "Cerca un programma TV o una serie...",
+    "foundMovies": "Trovati {{count}} film",
+    "foundShows": "Trovati {{count}} programmi",
+    "noMoviesFound": "Nessun film trovato",
+    "noShowsFound": "Nessun programma trovato",
+    "tryDifferentKeyword": "Prova a cercare con una parola chiave diversa",
+    "startSearchingMovies": "Inizia a cercare film",
+    "startSearchingShows": "Inizia a cercare programmi TV",
+    "searchHintMovies": "Digita un nome di film nella casella di ricerca sopra",
+    "searchHintShows": "Digita un nome di programma nella casella di ricerca sopra"
+  },
+  "modal": {
+    "overview": "Panoramica",
+    "summary": "Riassunto",
+    "trailers": "Trailer e Video",
+    "seasonsEpisodes": "Stagioni ed Episodi",
+    "castCrew": "Cast e Squadra",
+    "watchProviders": "Piattaforme di Streaming",
+    "similarContent": "Contenuti Simili",
+    "externalLinks": "Link Esterni",
+    "noDescription": "Nessuna descrizione disponibile",
+    "loadingDetails": "Caricamento dettagli...",
+    "addToWatchlist": "Aggiungi alla Lista",
+    "removeFromWatchlist": "Rimuovi dalla Lista",
+    "watchNow": "Guarda Ora",
+    "share": "Condividi",
+    "viewOnTMDB": "Vedi su TMDB",
+    "viewOnTVMaze": "Vedi su TVMaze",
+    "viewOnIMDb": "Vedi su IMDb",
+    "whereToWatch": "Dove Guardare",
+    "stream": "Streaming",
+    "buy": "Acquista",
+    "rent": "Noleggia",
+    "loadingPlatforms": "Caricamento piattaforme...",
+    "noStreamingInfo": "Informazioni di streaming non disponibili",
+    "moreVideos": "Altri Video",
+    "loadingTrailers": "Caricamento trailer...",
+    "cast": "Cast",
+    "showAll": "Mostra Tutto",
+    "otherCrew": "Altro Team",
+    "loadingCastCrew": "Caricamento cast e team...",
+    "similarMovies": "Film Simili",
+    "similarTVShows": "Programmi Simili",
+    "crew": "Team",
+    "showLess": "Mostra Meno"
+  },
+  "parentGuide": {
+    "title": "Guida per i Genitori",
+    "contentRating": "Classificazione del Contenuto",
+    "contentWarnings": "Avvertenze sul Contenuto",
+    "showMoreDetails": "Mostra Più Dettagli",
+    "showLess": "Mostra Meno",
+    "notAvailable": "Le avvertenze dettagliate sul contenuto non sono disponibili per questo titolo."
+  },
+  "filters": {
+    "genre": "Genere",
+    "year": "Anno",
+    "rating": "Valutazione",
+    "sort": "Ordina Per",
+    "language": "Lingua",
+    "country": "Paese",
+    "reset": "Reimposta",
+    "active": "Attivo"
+  },
+  "emptyState": {
+    "noItems": "Nessun elemento trovato",
+    "noWatchlistItems": "La tua lista è vuota",
+    "addItems": "Aggiungi elementi alla tua lista per vederli qui"
+  },
+  "watchlist": {
+    "item": "elemento",
+    "items": "elementi",
+    "saved": "salvato",
+    "clearAll": "Cancella Tutto",
+    "tvShows": "Programmi TV",
+    "movies": "Film",
+    "noTVShows": "Nessun programma TV nella tua lista",
+    "noMovies": "Nessun film nella tua lista",
+    "addTVShows": "Aggiungi programmi TV per vederli qui",
+    "addMovies": "Aggiungi film per vederli qui"
+  },
+  "language": {
+    "selectLanguage": "Seleziona Lingua",
+    "language": "Lingua"
+  }
+}
+

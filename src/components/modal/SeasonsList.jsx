@@ -11,6 +11,7 @@ import {
 } from '@chakra-ui/react'
 import { ChevronDownIcon, ChevronUpIcon } from '@chakra-ui/icons'
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { getSeasonEpisodes } from '../../services/tvmazeApi'
 import { getTVEpisodeContentRating } from '../../services/tmdbApi'
 import { stripHtml, formatDate } from '../../utils/formatters'
@@ -25,6 +26,7 @@ import EpisodeParentGuide from './EpisodeParentGuide'
  * @param {string} props.showRating - Show-level content rating (fallback for episodes)
  */
 const SeasonsList = ({ seasons, loading, tmdbId, showRating = null }) => {
+  const { t } = useTranslation()
   const [episodesBySeason, setEpisodesBySeason] = useState({})
   const [loadingEpisodes, setLoadingEpisodes] = useState({})
   const [expandedSeasons, setExpandedSeasons] = useState(new Set())
@@ -119,7 +121,7 @@ const SeasonsList = ({ seasons, loading, tmdbId, showRating = null }) => {
             color="rgba(255, 255, 255, 0.7)"
             fontSize={{ base: 'xs', md: 'sm' }}
           >
-            Loading seasons...
+            {t('common.loading')}
           </Text>
         </VStack>
       </Center>
@@ -129,7 +131,7 @@ const SeasonsList = ({ seasons, loading, tmdbId, showRating = null }) => {
   if (seasons.length === 0) {
     return (
       <Text color="rgba(255, 255, 255, 0.5)" fontSize={{ base: 'xs', md: 'sm' }}>
-        No seasons information available
+        {t('emptyState.noItems')}
       </Text>
     )
   }
@@ -142,7 +144,7 @@ const SeasonsList = ({ seasons, loading, tmdbId, showRating = null }) => {
         mb={{ base: 3, md: 4 }}
         fontSize={{ base: '18px', md: '20px' }}
       >
-        Seasons & Episodes
+        {t('modal.seasonsEpisodes')}
       </Heading>
       <VStack align="stretch" spacing={{ base: 2, md: 3 }}>
         {seasons.map((season) => {
@@ -294,7 +296,7 @@ const SeasonsList = ({ seasons, loading, tmdbId, showRating = null }) => {
                       fontSize={{ base: 'xs', md: 'sm' }}
                       py={{ base: 3, md: 4 }}
                     >
-                      No episodes available
+                      {t('emptyState.noItems')}
                     </Text>
                   )}
                 </Box>

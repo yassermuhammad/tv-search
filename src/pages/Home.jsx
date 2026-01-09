@@ -1,5 +1,6 @@
 import { Box, Container, Divider, VStack } from '@chakra-ui/react'
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { getShowById } from '../services/tvmazeApi'
 import { getMovieById } from '../services/tmdbApi'
 import DetailModal from '../components/DetailModal'
@@ -23,6 +24,7 @@ import { adaptTMDBShowsToTVMaze } from '../utils/tmdbAdapter'
  * - Hero section with welcome message
  */
 const Home = () => {
+  const { t } = useTranslation()
   const modal = useModal()
   const [trendingTimeWindow, setTrendingTimeWindow] = useState('day')
   
@@ -126,7 +128,7 @@ const Home = () => {
         <VStack spacing={0} align="stretch">
           {/* Trending Movies Row */}
           <ContentRow
-            title="Trending Movies"
+            title={t('home.trendingMovies')}
             items={trendingMovies}
             renderItem={(movie) => (
               <MovieCard movie={movie} onClick={() => handleMovieClick(movie)} />
@@ -141,7 +143,7 @@ const Home = () => {
 
           {/* Trending TV Shows Row */}
           <ContentRow
-            title="Trending TV Shows"
+            title={t('home.trendingTVShows')}
             items={trendingTVShows}
             renderItem={(show) => (
               <ShowCard show={show} onClick={() => handleShowClick(show)} />
@@ -156,7 +158,7 @@ const Home = () => {
 
           {/* Popular Movies Row */}
           <ContentRow
-            title="Popular Movies"
+            title={t('home.popularMovies')}
             items={popularMovies}
             renderItem={(movie) => (
               <MovieCard movie={movie} onClick={() => handleMovieClick(movie)} />
@@ -168,7 +170,7 @@ const Home = () => {
 
           {/* Popular TV Shows Row */}
           <ContentRow
-            title="Popular TV Shows"
+            title={t('home.popularTVShows')}
             items={popularTVShows}
             renderItem={(show) => (
               <ShowCard show={show} onClick={() => handleShowClick(show)} />

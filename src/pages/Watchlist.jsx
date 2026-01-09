@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import {
   Box,
   Container,
@@ -26,6 +26,7 @@ import DetailModal from '../components/DetailModal'
 import Header from '../components/shared/Header'
 import EmptyState from '../components/shared/EmptyState'
 import ResultsGrid from '../components/shared/ResultsGrid'
+import WatchlistGenreFilter from '../components/watchlist/WatchlistGenreFilter'
 import { useModal } from '../hooks/useModal'
 import { MEDIA_TYPES } from '../models/constants'
 
@@ -43,8 +44,90 @@ const Watchlist = () => {
   const navigate = useNavigate()
   const modal = useModal()
 
+  // Filter state for each tab
+  const [selectedMovieGenres, setSelectedMovieGenres] = useState([])
+  const [selectedShowGenres, setSelectedShowGenres] = useState([])
+
   const shows = getWatchlistByType(MEDIA_TYPES.SHOW)
   const movies = getWatchlistByType(MEDIA_TYPES.MOVIE)
+
+  /**
+   * Extracts genre names from an item's genres array
+   * Handles both string arrays (TVMaze) and object arrays (TMDB)
+   * Also checks _tmdbData for TMDB shows
+   * @param {Object} itemData - Item data object
+   * @returns {Array<string>} Array of genre names
+   */
+  const extractGenreNames = (itemData) => {
+    // Try genres from item data first
+    let genres = itemData?.genres
+    
+    // For TMDB shows, check _tmdbData if genres not found
+    if ((!genres || genres.length === 0) && itemData?._tmdbData?.genres) {
+      genres = itemData._tmdbData.genres
+    }
+    
+    if (!genres || !Array.isArray(genres)) return []
+    
+    return genres.map((genre) => {
+      if (typeof genre === 'string') return genre
+      if (typeof genre === 'object' && genre.name) return genre.name
+      return null
+    }).filter(Boolean)
+  }
+
+  /**
+   * Gets unique genres from watchlist items
+   * @param {Array} items - Watchlist items
+   * @returns {Array<string>} Sorted array of unique genre names
+   */
+  const getUniqueGenres = (items) => {
+    const genreSet = new Set()
+    items.forEach((item) => {
+      const genres = extractGenreNames(item.data)
+      genres.forEach((genre) => genreSet.add(genre))
+    })
+    return Array.from(genreSet).sort()
+  }
+
+  /**
+   * Filters items by selected genres
+   * @param {Array} items - Watchlist items to filter
+   * @param {Array<string>} selectedGenres - Selected genre names
+   * @returns {Array} Filtered items
+   */
+  const filterByGenres = (items, selectedGenres) => {
+    if (!selectedGenres || selectedGenres.length === 0) {
+      return items
+    }
+    return items.filter((item) => {
+      const itemGenres = extractGenreNames(item.data)
+      // Check if any selected genre matches any item genre
+      return selectedGenres.some((selectedGenre) =>
+        itemGenres.includes(selectedGenre)
+      )
+    })
+  }
+
+  // Get unique genres for each type
+  const availableMovieGenres = useMemo(
+    () => getUniqueGenres(movies),
+    [movies]
+  )
+  const availableShowGenres = useMemo(
+    () => getUniqueGenres(shows),
+    [shows]
+  )
+
+  // Filter items based on selected genres
+  const filteredMovies = useMemo(
+    () => filterByGenres(movies, selectedMovieGenres),
+    [movies, selectedMovieGenres]
+  )
+  const filteredShows = useMemo(
+    () => filterByGenres(shows, selectedShowGenres),
+    [shows, selectedShowGenres]
+  )
 
   /**
    * Handles clicking on a TV show from watchlist
@@ -187,17 +270,34 @@ const Watchlist = () => {
                     message={t('watchlist.addTVShows')}
                   />
                 ) : (
-                  <ResultsGrid
-                    items={shows}
-                    renderItem={(watchlistItem) => (
-                      <ShowCard
-                        show={watchlistItem.data}
-                        onClick={() => handleShowClick(watchlistItem)}
+                  <VStack align="stretch" spacing={4}>
+                    {/* Genre Filter */}
+                    <WatchlistGenreFilter
+                      availableGenres={availableShowGenres}
+                      selectedGenres={selectedShowGenres}
+                      onChange={setSelectedShowGenres}
+                    />
+
+                    {/* Results */}
+                    {filteredShows.length === 0 ? (
+                      <EmptyState
+                        title={t('watchlist.noShowsMatchFilters')}
+                        message={t('watchlist.tryDifferentFilters')}
+                      />
+                    ) : (
+                      <ResultsGrid
+                        items={filteredShows}
+                        renderItem={(watchlistItem) => (
+                          <ShowCard
+                            show={watchlistItem.data}
+                            onClick={() => handleShowClick(watchlistItem)}
+                          />
+                        )}
+                        itemType="shows"
+                        showCount={false}
                       />
                     )}
-                    itemType="shows"
-                    showCount={false}
-                  />
+                  </VStack>
                 )}
               </TabPanel>
 
@@ -209,17 +309,34 @@ const Watchlist = () => {
                     message={t('watchlist.addMovies')}
                   />
                 ) : (
-                  <ResultsGrid
-                    items={movies}
-                    renderItem={(watchlistItem) => (
-                      <MovieCard
-                        movie={watchlistItem.data}
-                        onClick={() => handleMovieClick(watchlistItem)}
+                  <VStack align="stretch" spacing={4}>
+                    {/* Genre Filter */}
+                    <WatchlistGenreFilter
+                      availableGenres={availableMovieGenres}
+                      selectedGenres={selectedMovieGenres}
+                      onChange={setSelectedMovieGenres}
+                    />
+
+                    {/* Results */}
+                    {filteredMovies.length === 0 ? (
+                      <EmptyState
+                        title={t('watchlist.noMoviesMatchFilters')}
+                        message={t('watchlist.tryDifferentFilters')}
+                      />
+                    ) : (
+                      <ResultsGrid
+                        items={filteredMovies}
+                        renderItem={(watchlistItem) => (
+                          <MovieCard
+                            movie={watchlistItem.data}
+                            onClick={() => handleMovieClick(watchlistItem)}
+                          />
+                        )}
+                        itemType="movies"
+                        showCount={false}
                       />
                     )}
-                    itemType="movies"
-                    showCount={false}
-                  />
+                  </VStack>
                 )}
               </TabPanel>
             </TabPanels>

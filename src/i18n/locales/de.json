@@ -104,7 +104,11 @@
     "noTVShows": "Keine TV-Sendungen in deiner Liste",
     "noMovies": "Keine Filme in deiner Liste",
     "addTVShows": "Füge TV-Sendungen hinzu, um sie hier zu sehen",
-    "addMovies": "Füge Filme hinzu, um sie hier zu sehen"
+    "addMovies": "Füge Filme hinzu, um sie hier zu sehen",
+    "filterByGenre": "Nach Genre Filtern",
+    "noShowsMatchFilters": "Keine TV-Sendungen entsprechen den ausgewählten Filtern",
+    "noMoviesMatchFilters": "Keine Filme entsprechen den ausgewählten Filtern",
+    "tryDifferentFilters": "Versuche verschiedene Genres auszuwählen oder Filter zu löschen"
   },
   "language": {
     "selectLanguage": "Sprache Auswählen",

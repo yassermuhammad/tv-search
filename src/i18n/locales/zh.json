@@ -104,7 +104,11 @@
     "noTVShows": "您的列表中没有电视节目",
     "noMovies": "您的列表中没有电影",
     "addTVShows": "添加电视节目以在此处查看",
-    "addMovies": "添加电影以在此处查看"
+    "addMovies": "添加电影以在此处查看",
+    "filterByGenre": "按类型筛选",
+    "noShowsMatchFilters": "没有电视节目匹配所选筛选条件",
+    "noMoviesMatchFilters": "没有电影匹配所选筛选条件",
+    "tryDifferentFilters": "尝试选择不同的类型或清除筛选条件"
   },
   "language": {
     "selectLanguage": "选择语言",

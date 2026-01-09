@@ -104,7 +104,11 @@
     "noTVShows": "リストにTV番組がありません",
     "noMovies": "リストに映画がありません",
     "addTVShows": "TV番組を追加してここに表示",
-    "addMovies": "映画を追加してここに表示"
+    "addMovies": "映画を追加してここに表示",
+    "filterByGenre": "ジャンルでフィルター",
+    "noShowsMatchFilters": "選択したフィルターに一致するTV番組がありません",
+    "noMoviesMatchFilters": "選択したフィルターに一致する映画がありません",
+    "tryDifferentFilters": "別のジャンルを選択するか、フィルターをクリアしてください"
   },
   "language": {
     "selectLanguage": "言語を選択",

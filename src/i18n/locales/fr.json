@@ -104,7 +104,11 @@
     "noTVShows": "Aucune émission dans votre liste",
     "noMovies": "Aucun film dans votre liste",
     "addTVShows": "Ajoutez des émissions pour les voir ici",
-    "addMovies": "Ajoutez des films pour les voir ici"
+    "addMovies": "Ajoutez des films pour les voir ici",
+    "filterByGenre": "Filtrer par Genre",
+    "noShowsMatchFilters": "Aucune émission ne correspond aux filtres sélectionnés",
+    "noMoviesMatchFilters": "Aucun film ne correspond aux filtres sélectionnés",
+    "tryDifferentFilters": "Essayez de sélectionner différents genres ou effacez les filtres"
   },
   "pages": {
     "trendingMovies": "Films Tendance",

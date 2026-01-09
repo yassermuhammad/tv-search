@@ -104,7 +104,11 @@
     "noTVShows": "Nessun programma TV nella tua lista",
     "noMovies": "Nessun film nella tua lista",
     "addTVShows": "Aggiungi programmi TV per vederli qui",
-    "addMovies": "Aggiungi film per vederli qui"
+    "addMovies": "Aggiungi film per vederli qui",
+    "filterByGenre": "Filtra per Genere",
+    "noShowsMatchFilters": "Nessun programma TV corrisponde ai filtri selezionati",
+    "noMoviesMatchFilters": "Nessun film corrisponde ai filtri selezionati",
+    "tryDifferentFilters": "Prova a selezionare generi diversi o cancella i filtri"
   },
   "language": {
     "selectLanguage": "Seleziona Lingua",

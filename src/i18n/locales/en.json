@@ -104,7 +104,12 @@
     "noTVShows": "No TV shows in your watchlist",
     "noMovies": "No movies in your watchlist",
     "addTVShows": "Add TV shows to see them here",
-    "addMovies": "Add movies to see them here"
+    "addMovies": "Add movies to see them here",
+    "filterByGenre": "Filter by Genre",
+    "noShowsMatchFilters": "No TV shows match the selected filters",
+    "noMoviesMatchFilters": "No movies match the selected filters",
+    "tryDifferentFilters": "Try selecting different genres or clear filters",
+    "noGenresAvailable": "No genres available in your watchlist items"
   },
   "pages": {
     "trendingMovies": "Trending Movies",

@@ -4,6 +4,7 @@ import { ChakraProvider, ColorModeScript } from '@chakra-ui/react'
 import App from './App.jsx'
 import theme from './theme'
 import { WatchlistProvider } from './contexts/WatchlistContext'
+import { AuthProvider } from './contexts/AuthContext'
 import './i18n/config' // Initialize i18n
 import './index.css'
 
@@ -19,7 +20,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <ColorModeScript initialColorMode={theme.config.initialColorMode} />
     <ChakraProvider theme={theme}>
       <WatchlistProvider>
-        <App />
+        <AuthProvider>
+          <App />
+        </AuthProvider>
       </WatchlistProvider>
     </ChakraProvider>
   </React.StrictMode>,

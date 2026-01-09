@@ -1,9 +1,11 @@
 import { Box, Container, Flex, Heading, Button, Badge, IconButton, HStack } from '@chakra-ui/react'
 import { useNavigate } from 'react-router-dom'
 import { SearchIcon } from '@chakra-ui/icons'
+import { useAuth } from '../../contexts/AuthContext'
 import { useWatchlist } from '../../contexts/WatchlistContext'
 import { useTranslation } from 'react-i18next'
 import LanguageSwitcher from './LanguageSwitcher'
+import { FcGoogle } from "react-icons/fc";
 
 /**
  * Header component with logo and watchlist navigation
@@ -15,6 +17,8 @@ const Header = ({ showBackButton = false, onBack }) => {
   const navigate = useNavigate()
   const { watchlistCount } = useWatchlist()
   const { t } = useTranslation()
+  const { currentUser, loginWithGoogle, logout } = useAuth()
+
 
   return (
     <Box
@@ -69,7 +73,47 @@ const Header = ({ showBackButton = false, onBack }) => {
           <HStack spacing={{ base: 2, md: 3 }} flexShrink={0}>
             {/* Language Switcher */}
             <LanguageSwitcher size={{ base: 'sm', md: 'md' }} />
-            
+
+            {/* Auth Button */}
+            {currentUser ? (
+              <HStack spacing={2}>
+                {currentUser.photoURL && (
+                  <Box
+                    as="img"
+                    src={currentUser.photoURL}
+                    alt={currentUser.displayName}
+                    w="32px"
+                    h="32px"
+                    borderRadius="full"
+                    border="2px solid"
+                    borderColor="netflix.500"
+                  />
+                )}
+                <Button
+                  onClick={() => logout()}
+                  variant="ghost"
+                  color="white"
+                  _hover={{ bg: 'rgba(255, 255, 255, 0.1)' }}
+                  size={{ base: 'sm', md: 'md' }}
+                  fontSize={{ base: 'xs', md: 'sm' }}
+                >
+                  Logout
+                </Button>
+              </HStack>
+            ) : (
+              <Button
+                onClick={() => loginWithGoogle()}
+                bg="white"
+                color="black"
+                _hover={{ bg: 'gray.100' }}
+                size={{ base: 'sm', md: 'md' }}
+                fontSize={{ base: 'xs', md: 'sm' }}
+                leftIcon={<FcGoogle />}
+              >
+                Sign in
+              </Button>
+            )}
+
             {/* Search Icon Button */}
             <IconButton
               aria-label={t('common.search')}
@@ -81,7 +125,7 @@ const Header = ({ showBackButton = false, onBack }) => {
               size={{ base: 'sm', md: 'md' }}
               borderRadius="full"
             />
-            
+
             {/* Watchlist Button */}
             <Button
               onClick={() => navigate('/watchlist')}

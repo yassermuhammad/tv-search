@@ -102,7 +102,12 @@ const Header = ({ showBackButton = false, onBack }) => {
               </HStack>
             ) : (
               <Button
-                onClick={() => loginWithGoogle()}
+                onClick={() => {
+                  loginWithGoogle().catch((error) => {
+                    console.error('Error signing in with Google:', error);
+                    // Error will be handled by Firebase, user will see error message
+                  });
+                }}
                 bg="white"
                 color="black"
                 _hover={{ bg: 'gray.100' }}

@@ -48,7 +48,24 @@ For automatic deployment to GitHub Pages, you need to add secrets to your GitHub
 3. Under **Source**, select **GitHub Actions**
 4. The workflow will automatically deploy when you push to `main`
 
-## Step 5: Configure Firebase Security Rules
+## Step 5: Add Authorized Domains (CRITICAL for Authentication)
+
+**IMPORTANT**: You must add your deployment domain to Firebase's authorized domains list, otherwise you'll get `auth/unauthorized-domain` errors.
+
+1. Go to [Firebase Console](https://console.firebase.google.com/)
+2. Select your project
+3. Click the gear icon ⚙️ → **Project Settings**
+4. Scroll down to **Authorized domains** section
+5. Click **Add domain**
+6. Add your GitHub Pages domain:
+   - Format: `yourusername.github.io` (without `https://`)
+   - Example: `yassermuhammad.github.io`
+7. Also add `localhost` if you want to test locally (usually already there)
+8. Click **Add**
+
+**Note**: If you're using a custom domain, add that as well.
+
+## Step 6: Configure Firebase Security Rules
 
 **CRITICAL**: Set up proper Security Rules in Firebase Console:
 
@@ -68,7 +85,7 @@ service cloud.firestore {
 }
 ```
 
-## Step 6: (Optional) Restrict API Key Usage
+## Step 7: (Optional) Restrict API Key Usage
 
 1. Go to [Google Cloud Console](https://console.cloud.google.com/)
 2. Navigate to **APIs & Services** → **Credentials**
@@ -111,6 +128,20 @@ When you push to `main`, GitHub Actions will:
 - Verify GitHub Secrets are set correctly
 - Check that the build process is using the secrets
 - Review Firebase Console for any errors
+
+### "auth/unauthorized-domain" error when logging in
+- **This is the most common issue!**
+- Go to Firebase Console → Project Settings → Authorized domains
+- Add your GitHub Pages domain: `yourusername.github.io` (without `https://`)
+- Also add `localhost` for local development if not already present
+- Wait a few minutes for changes to propagate
+- Try logging in again
+
+### "Cross-Origin-Opener-Policy" error
+- This error occurs with popup-based authentication
+- The app now uses redirect-based authentication which avoids this issue
+- When you click "Sign in", you'll be redirected to Google, then back to the app
+- This is the recommended approach for production deployments
 
 ## Security Notes
 

@@ -1,6 +1,7 @@
 import { Box, Container, Heading, SimpleGrid, Button } from '@chakra-ui/react'
 import { useNavigate } from 'react-router-dom'
 import { useCallback } from 'react'
+import { useTranslation } from 'react-i18next'
 import { getMovieById } from '../services/tmdbApi'
 import DetailModal from '../components/DetailModal'
 import Header from '../components/shared/Header'
@@ -18,6 +19,7 @@ import { GRID_COLUMNS } from '../utils/constants'
  * Displays all popular movies with pagination
  */
 const PopularMovies = () => {
+  const { t } = useTranslation()
   const navigate = useNavigate()
   const modal = useModal()
 
@@ -75,13 +77,13 @@ const PopularMovies = () => {
           fontWeight="bold"
           mb={{ base: 4, md: 6 }}
         >
-          Popular Movies
+          {t('pages.popularMovies')}
         </Heading>
 
         {loading && movies.length === 0 ? (
-          <LoadingState message="Loading popular movies..." />
+          <LoadingState message={t('pages.loadingPopularMovies')} />
         ) : error ? (
-          <EmptyState title="Failed to load popular movies" message={error} />
+          <EmptyState title={t('pages.failedToLoadPopularMovies')} message={error} />
         ) : movies.length > 0 ? (
           <>
             <SimpleGrid columns={GRID_COLUMNS} spacing={{ base: 4, md: 6 }} mb={8}>
@@ -98,16 +100,16 @@ const PopularMovies = () => {
             {hasMore && (
               <Box ref={observerTarget} py={8} textAlign="center" minH="100px">
                 {loadingMore ? (
-                  <LoadingState message="Loading more movies..." />
+                  <LoadingState message={t('pages.loadingMoreMovies')} />
                 ) : (
                   <Button
                     onClick={loadMore}
                     colorScheme="netflix"
                     size="lg"
                     isLoading={loadingMore}
-                    loadingText="Loading..."
+                    loadingText={t('common.loading')}
                   >
-                    Load More Movies
+                    {t('pages.loadMoreMovies')}
                   </Button>
                 )}
               </Box>
@@ -115,13 +117,13 @@ const PopularMovies = () => {
             {!hasMore && movies.length > 0 && (
               <Box py={8} textAlign="center">
                 <Box color="rgba(255, 255, 255, 0.6)" fontSize="sm">
-                  No more movies to load ({movies.length} total)
+                  {t('pages.noMoreMovies')} ({movies.length} {t('pages.total')})
                 </Box>
               </Box>
             )}
           </>
         ) : (
-          <EmptyState title="No popular movies found" />
+          <EmptyState title={t('pages.noPopularMoviesFound')} />
         )}
       </Container>
 

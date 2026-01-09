@@ -2,6 +2,8 @@ import { Box, Container, Flex, Heading, Button, Badge, IconButton, HStack } from
 import { useNavigate } from 'react-router-dom'
 import { SearchIcon } from '@chakra-ui/icons'
 import { useWatchlist } from '../../contexts/WatchlistContext'
+import { useTranslation } from 'react-i18next'
+import LanguageSwitcher from './LanguageSwitcher'
 
 /**
  * Header component with logo and watchlist navigation
@@ -12,6 +14,7 @@ import { useWatchlist } from '../../contexts/WatchlistContext'
 const Header = ({ showBackButton = false, onBack }) => {
   const navigate = useNavigate()
   const { watchlistCount } = useWatchlist()
+  const { t } = useTranslation()
 
   return (
     <Box
@@ -40,7 +43,7 @@ const Header = ({ showBackButton = false, onBack }) => {
                 size={{ base: 'sm', md: 'md' }}
                 display={{ base: 'none', sm: 'flex' }}
               >
-                ← Back
+                ← {t('common.back')}
               </Button>
             )}
             <Heading
@@ -64,9 +67,12 @@ const Header = ({ showBackButton = false, onBack }) => {
             </Heading>
           </Flex>
           <HStack spacing={{ base: 2, md: 3 }} flexShrink={0}>
+            {/* Language Switcher */}
+            <LanguageSwitcher size={{ base: 'sm', md: 'md' }} />
+            
             {/* Search Icon Button */}
             <IconButton
-              aria-label="Search"
+              aria-label={t('common.search')}
               icon={<SearchIcon />}
               onClick={() => navigate('/search')}
               bg="rgba(255, 255, 255, 0.1)"
@@ -75,6 +81,7 @@ const Header = ({ showBackButton = false, onBack }) => {
               size={{ base: 'sm', md: 'md' }}
               borderRadius="full"
             />
+            
             {/* Watchlist Button */}
             <Button
               onClick={() => navigate('/watchlist')}
@@ -87,10 +94,10 @@ const Header = ({ showBackButton = false, onBack }) => {
               px={{ base: 3, md: 4 }}
             >
               <Box as="span" display={{ base: 'none', sm: 'inline' }}>
-                My Watchlist
+                {t('common.myWatchlist')}
               </Box>
               <Box as="span" display={{ base: 'inline', sm: 'none' }}>
-                Watchlist
+                {t('common.watchlist')}
               </Box>
               {watchlistCount > 0 && (
                 <Badge

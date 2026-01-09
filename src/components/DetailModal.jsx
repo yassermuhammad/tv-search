@@ -17,6 +17,7 @@ import {
 } from '@chakra-ui/react'
 import { ExternalLinkIcon } from '@chakra-ui/icons'
 import { useState, useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import {
   getMovieWatchProviders,
   getTVWatchProviders,
@@ -67,6 +68,7 @@ const TEXT_COLOR = COLORS.TEXT_PRIMARY
  * @param {Function} props.onItemClick - Callback when a similar item is clicked (optional)
  */
 const DetailModal = ({ isOpen, onClose, item, type, isLoading, onItemClick }) => {
+  const { t } = useTranslation()
   const [watchProviders, setWatchProviders] = useState(null)
   const [loadingProviders, setLoadingProviders] = useState(false)
   const [seasons, setSeasons] = useState([])
@@ -343,7 +345,7 @@ const DetailModal = ({ isOpen, onClose, item, type, isLoading, onItemClick }) =>
             <Center py={12}>
               <VStack spacing={4}>
                 <Spinner size="xl" color="netflix.500" thickness="4px" />
-                <Text color="rgba(255, 255, 255, 0.7)">Loading details...</Text>
+                <Text color="rgba(255, 255, 255, 0.7)">{t('modal.loadingDetails')}</Text>
               </VStack>
             </Center>
           ) : (
@@ -361,7 +363,7 @@ const DetailModal = ({ isOpen, onClose, item, type, isLoading, onItemClick }) =>
                   color={TEXT_COLOR}
                   mb={{ base: 2, md: 3 }}
                 >
-                  {type === MEDIA_TYPES.MOVIE ? 'Overview' : 'Summary'}
+                  {type === MEDIA_TYPES.MOVIE ? t('modal.overview') : t('modal.summary')}
                 </Text>
                 <Text
                   color={TEXT_COLOR}
@@ -369,7 +371,7 @@ const DetailModal = ({ isOpen, onClose, item, type, isLoading, onItemClick }) =>
                   fontSize={{ base: 'sm', md: 'md' }}
                 >
                   {type === MEDIA_TYPES.MOVIE
-                    ? item.overview || 'No description available'
+                    ? item.overview || t('modal.noDescription')
                     : stripHtml(item.summary)}
                 </Text>
               </Box>
@@ -467,7 +469,7 @@ const DetailModal = ({ isOpen, onClose, item, type, isLoading, onItemClick }) =>
                       fontWeight="600"
                       fontSize={{ base: 'sm', md: 'md' }}
                     >
-                      View on TMDB <ExternalLinkIcon />
+                      {t('modal.viewOnTMDB')} <ExternalLinkIcon />
                     </Link>
                   ) : (
                     item.url && (
@@ -479,7 +481,7 @@ const DetailModal = ({ isOpen, onClose, item, type, isLoading, onItemClick }) =>
                         fontWeight="600"
                         fontSize={{ base: 'sm', md: 'md' }}
                       >
-                        View on TVMaze <ExternalLinkIcon />
+                        {t('modal.viewOnTVMaze')} <ExternalLinkIcon />
                       </Link>
                     )
                   )}
@@ -492,7 +494,7 @@ const DetailModal = ({ isOpen, onClose, item, type, isLoading, onItemClick }) =>
                       fontWeight="600"
                       fontSize={{ base: 'sm', md: 'md' }}
                     >
-                      View on IMDb <ExternalLinkIcon />
+                      {t('modal.viewOnIMDb')} <ExternalLinkIcon />
                     </Link>
                   )}
                   {type === MEDIA_TYPES.SHOW && item.externals?.imdb && (
@@ -503,7 +505,7 @@ const DetailModal = ({ isOpen, onClose, item, type, isLoading, onItemClick }) =>
                       _hover={{ color: 'netflix.400' }}
                       fontWeight="600"
                     >
-                      View on IMDb <ExternalLinkIcon />
+                      {t('modal.viewOnIMDb')} <ExternalLinkIcon />
                     </Link>
                   )}
                 </HStack>
@@ -529,7 +531,7 @@ const DetailModal = ({ isOpen, onClose, item, type, isLoading, onItemClick }) =>
               w={{ base: '100%', sm: 'auto' }}
               size={{ base: 'md', md: 'lg' }}
             >
-              Share
+              {t('modal.share')}
             </Button>
             <Button
               bg="netflix.500"
@@ -541,7 +543,7 @@ const DetailModal = ({ isOpen, onClose, item, type, isLoading, onItemClick }) =>
               w={{ base: '100%', sm: 'auto' }}
               size={{ base: 'md', md: 'lg' }}
             >
-              Close
+              {t('common.close')}
             </Button>
           </HStack>
         </ModalFooter>

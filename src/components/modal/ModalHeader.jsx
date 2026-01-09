@@ -1,5 +1,6 @@
 import { ModalHeader as ChakraModalHeader, HStack, Heading, Badge, Button, Box } from '@chakra-ui/react'
 import { AddIcon, CheckIcon } from '@chakra-ui/icons'
+import { useTranslation } from 'react-i18next'
 import { useWatchlist } from '../../contexts/WatchlistContext'
 import { getStatusColor } from '../../utils/formatters'
 import { MEDIA_TYPES } from '../../models/constants'
@@ -11,6 +12,7 @@ import { MEDIA_TYPES } from '../../models/constants'
  * @param {MediaType} props.type - Item type ('movie' or 'show')
  */
 const ModalHeader = ({ item, type }) => {
+  const { t } = useTranslation()
   const { isInWatchlist, toggleWatchlist } = useWatchlist()
   const inWatchlist = isInWatchlist(item.id, type)
 
@@ -68,7 +70,7 @@ const ModalHeader = ({ item, type }) => {
           w={{ base: '100%', sm: 'auto' }}
           display={{ base: 'none', md: 'flex' }}
         >
-          {inWatchlist ? 'In Watchlist' : 'Add to Watchlist'}
+          {inWatchlist ? t('modal.removeFromWatchlist') : t('modal.addToWatchlist')}
         </Button>
       </HStack>
     </ChakraModalHeader>

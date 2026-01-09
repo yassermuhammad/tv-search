@@ -1,0 +1,114 @@
+{
+  "common": {
+    "appName": "STREAMSPOT",
+    "search": "Suchen",
+    "watchlist": "Meine Liste",
+    "myWatchlist": "Meine Liste",
+    "back": "Zurück",
+    "loading": "Laden...",
+    "error": "Fehler",
+    "noResults": "Keine Ergebnisse gefunden",
+    "tryAgain": "Erneut versuchen",
+    "close": "Schließen"
+  },
+  "home": {
+    "title": "Finde Deine Nächste Serie",
+    "subtitle": "Suche und entdecke TV-Sendungen und Filme",
+    "trendingMovies": "Trending Filme",
+    "trendingTVShows": "Trending TV-Sendungen",
+    "popularMovies": "Beliebte Filme",
+    "popularTVShows": "Beliebte TV-Sendungen",
+    "viewAll": "Alle Anzeigen",
+    "today": "Heute",
+    "thisWeek": "Diese Woche"
+  },
+  "search": {
+    "title": "Suchen",
+    "placeholderMovies": "Nach einem Film suchen...",
+    "placeholderShows": "Nach einer TV-Sendung oder Serie suchen...",
+    "foundMovies": "{{count}} Filme gefunden",
+    "foundShows": "{{count}} Sendungen gefunden",
+    "noMoviesFound": "Keine Filme gefunden",
+    "noShowsFound": "Keine Sendungen gefunden",
+    "tryDifferentKeyword": "Versuche es mit einem anderen Suchbegriff",
+    "startSearchingMovies": "Beginne mit der Suche nach Filmen",
+    "startSearchingShows": "Beginne mit der Suche nach TV-Sendungen",
+    "searchHintMovies": "Gib einen Filmtitel in das Suchfeld ein",
+    "searchHintShows": "Gib einen Sendungsnamen in das Suchfeld ein"
+  },
+  "modal": {
+    "overview": "Übersicht",
+    "summary": "Zusammenfassung",
+    "trailers": "Trailer & Videos",
+    "seasonsEpisodes": "Staffeln & Episoden",
+    "castCrew": "Besetzung & Team",
+    "watchProviders": "Streaming-Anbieter",
+    "similarContent": "Ähnliche Inhalte",
+    "externalLinks": "Externe Links",
+    "noDescription": "Keine Beschreibung verfügbar",
+    "loadingDetails": "Details werden geladen...",
+    "addToWatchlist": "Zur Liste hinzufügen",
+    "removeFromWatchlist": "Von Liste entfernen",
+    "watchNow": "Jetzt Ansehen",
+    "share": "Teilen",
+    "viewOnTMDB": "Auf TMDB ansehen",
+    "viewOnTVMaze": "Auf TVMaze ansehen",
+    "viewOnIMDb": "Auf IMDb ansehen",
+    "whereToWatch": "Wo Ansehen",
+    "stream": "Streamen",
+    "buy": "Kaufen",
+    "rent": "Mieten",
+    "loadingPlatforms": "Streaming-Anbieter werden geladen...",
+    "noStreamingInfo": "Streaming-Informationen nicht verfügbar",
+    "moreVideos": "Weitere Videos",
+    "loadingTrailers": "Trailer werden geladen...",
+    "cast": "Besetzung",
+    "showAll": "Alle Anzeigen",
+    "otherCrew": "Andere Crew",
+    "loadingCastCrew": "Besetzung und Crew werden geladen...",
+    "similarMovies": "Ähnliche Filme",
+    "similarTVShows": "Ähnliche TV-Sendungen",
+    "crew": "Crew",
+    "showLess": "Weniger Anzeigen"
+  },
+  "parentGuide": {
+    "title": "Elternratgeber",
+    "contentRating": "Altersfreigabe",
+    "contentWarnings": "Inhaltswarnungen",
+    "showMoreDetails": "Mehr Details Anzeigen",
+    "showLess": "Weniger Anzeigen",
+    "notAvailable": "Detaillierte Inhaltswarnungen sind für diesen Titel nicht verfügbar."
+  },
+  "filters": {
+    "genre": "Genre",
+    "year": "Jahr",
+    "rating": "Bewertung",
+    "sort": "Sortieren Nach",
+    "language": "Sprache",
+    "country": "Land",
+    "reset": "Zurücksetzen",
+    "active": "Aktiv"
+  },
+  "emptyState": {
+    "noItems": "Keine Elemente gefunden",
+    "noWatchlistItems": "Deine Liste ist leer",
+    "addItems": "Füge Elemente zu deiner Liste hinzu, um sie hier zu sehen"
+  },
+  "watchlist": {
+    "item": "Element",
+    "items": "Elemente",
+    "saved": "gespeichert",
+    "clearAll": "Alles Löschen",
+    "tvShows": "TV-Sendungen",
+    "movies": "Filme",
+    "noTVShows": "Keine TV-Sendungen in deiner Liste",
+    "noMovies": "Keine Filme in deiner Liste",
+    "addTVShows": "Füge TV-Sendungen hinzu, um sie hier zu sehen",
+    "addMovies": "Füge Filme hinzu, um sie hier zu sehen"
+  },
+  "language": {
+    "selectLanguage": "Sprache Auswählen",
+    "language": "Sprache"
+  }
+}
+

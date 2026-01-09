@@ -56,3 +56,14 @@ html {
   outline: 2px solid #E50914;
   outline-offset: 2px;
 }
+
+/* RTL Support for Arabic */
+[dir="rtl"] {
+  direction: rtl;
+  text-align: right;
+}
+
+[dir="rtl"] .chakra-menu__menu-list {
+  right: auto;
+  left: 0;
+}

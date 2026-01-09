@@ -1,6 +1,7 @@
 import { Box, Container, Heading, SimpleGrid, Button } from '@chakra-ui/react'
 import { useSearchParams, useNavigate } from 'react-router-dom'
 import { useCallback } from 'react'
+import { useTranslation } from 'react-i18next'
 import { getMovieById } from '../services/tmdbApi'
 import DetailModal from '../components/DetailModal'
 import Header from '../components/shared/Header'
@@ -18,6 +19,7 @@ import { GRID_COLUMNS } from '../utils/constants'
  * Displays all trending movies with pagination
  */
 const TrendingMovies = () => {
+  const { t } = useTranslation()
   const [searchParams] = useSearchParams()
   const navigate = useNavigate()
   const modal = useModal()
@@ -77,13 +79,13 @@ const TrendingMovies = () => {
           fontWeight="bold"
           mb={{ base: 4, md: 6 }}
         >
-          Trending Movies ({timeWindow === 'day' ? 'Today' : 'This Week'})
+          {t('pages.trendingMovies')} ({timeWindow === 'day' ? t('home.today') : t('home.thisWeek')})
         </Heading>
 
         {loading && movies.length === 0 ? (
-          <LoadingState message="Loading trending movies..." />
+          <LoadingState message={t('pages.loadingTrendingMovies')} />
         ) : error ? (
-          <EmptyState title="Failed to load trending movies" message={error} />
+          <EmptyState title={t('pages.failedToLoadTrendingMovies')} message={error} />
         ) : movies.length > 0 ? (
           <>
             <SimpleGrid columns={GRID_COLUMNS} spacing={{ base: 4, md: 6 }} mb={8}>
@@ -100,16 +102,16 @@ const TrendingMovies = () => {
             {hasMore && (
               <Box ref={observerTarget} py={8} textAlign="center" minH="100px">
                 {loadingMore ? (
-                  <LoadingState message="Loading more movies..." />
+                  <LoadingState message={t('pages.loadingMoreMovies')} />
                 ) : (
                   <Button
                     onClick={loadMore}
                     colorScheme="netflix"
                     size="lg"
                     isLoading={loadingMore}
-                    loadingText="Loading..."
+                    loadingText={t('common.loading')}
                   >
-                    Load More Movies
+                    {t('pages.loadMoreMovies')}
                   </Button>
                 )}
               </Box>
@@ -117,13 +119,13 @@ const TrendingMovies = () => {
             {!hasMore && movies.length > 0 && (
               <Box py={8} textAlign="center">
                 <Box color="rgba(255, 255, 255, 0.6)" fontSize="sm">
-                  No more movies to load ({movies.length} total)
+                  {t('pages.noMoreMovies')} ({movies.length} {t('pages.total')})
                 </Box>
               </Box>
             )}
           </>
         ) : (
-          <EmptyState title="No trending movies found" />
+          <EmptyState title={t('pages.noTrendingMoviesFound')} />
         )}
       </Container>
 

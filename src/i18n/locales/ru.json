@@ -1,0 +1,114 @@
+{
+  "common": {
+    "appName": "STREAMSPOT",
+    "search": "Поиск",
+    "watchlist": "Мой список",
+    "myWatchlist": "Мой список",
+    "back": "Назад",
+    "loading": "Загрузка...",
+    "error": "Ошибка",
+    "noResults": "Результаты не найдены",
+    "tryAgain": "Попробовать снова",
+    "close": "Закрыть"
+  },
+  "home": {
+    "title": "Найдите Свой Следующий Просмотр",
+    "subtitle": "Ищите и открывайте телешоу и фильмы",
+    "trendingMovies": "Популярные фильмы",
+    "trendingTVShows": "Популярные телешоу",
+    "popularMovies": "Популярные фильмы",
+    "popularTVShows": "Популярные телешоу",
+    "viewAll": "Показать все",
+    "today": "Сегодня",
+    "thisWeek": "На этой неделе"
+  },
+  "search": {
+    "title": "Поиск",
+    "placeholderMovies": "Поиск фильма...",
+    "placeholderShows": "Поиск телешоу или сериала...",
+    "foundMovies": "Найдено {{count}} фильмов",
+    "foundShows": "Найдено {{count}} шоу",
+    "noMoviesFound": "Фильмы не найдены",
+    "noShowsFound": "Шоу не найдены",
+    "tryDifferentKeyword": "Попробуйте поискать с другим ключевым словом",
+    "startSearchingMovies": "Начните поиск фильмов",
+    "startSearchingShows": "Начните поиск телешоу",
+    "searchHintMovies": "Введите название фильма в поле поиска выше",
+    "searchHintShows": "Введите название шоу в поле поиска выше"
+  },
+  "modal": {
+    "overview": "Обзор",
+    "summary": "Краткое содержание",
+    "trailers": "Трейлеры и Видео",
+    "seasonsEpisodes": "Сезоны и Эпизоды",
+    "castCrew": "Актеры и Команда",
+    "watchProviders": "Стриминговые платформы",
+    "similarContent": "Похожий контент",
+    "externalLinks": "Внешние ссылки",
+    "noDescription": "Описание недоступно",
+    "loadingDetails": "Загрузка деталей...",
+    "addToWatchlist": "Добавить в список",
+    "removeFromWatchlist": "Удалить из списка",
+    "watchNow": "Смотреть сейчас",
+    "share": "Поделиться",
+    "viewOnTMDB": "Посмотреть на TMDB",
+    "viewOnTVMaze": "Посмотреть на TVMaze",
+    "viewOnIMDb": "Посмотреть на IMDb",
+    "whereToWatch": "Где Смотреть",
+    "stream": "Стриминг",
+    "buy": "Купить",
+    "rent": "Арендовать",
+    "loadingPlatforms": "Загрузка платформ...",
+    "noStreamingInfo": "Информация о стриминге недоступна",
+    "moreVideos": "Больше Видео",
+    "loadingTrailers": "Загрузка трейлеров...",
+    "cast": "Актеры",
+    "showAll": "Показать Все",
+    "otherCrew": "Другая Команда",
+    "loadingCastCrew": "Загрузка актеров и команды...",
+    "similarMovies": "Похожие Фильмы",
+    "similarTVShows": "Похожие Телешоу",
+    "crew": "Команда",
+    "showLess": "Показать Меньше"
+  },
+  "parentGuide": {
+    "title": "Руководство для родителей",
+    "contentRating": "Рейтинг контента",
+    "contentWarnings": "Предупреждения о контенте",
+    "showMoreDetails": "Показать больше деталей",
+    "showLess": "Показать меньше",
+    "notAvailable": "Подробные предупреждения о контенте недоступны для этого заголовка."
+  },
+  "filters": {
+    "genre": "Жанр",
+    "year": "Год",
+    "rating": "Рейтинг",
+    "sort": "Сортировать по",
+    "language": "Язык",
+    "country": "Страна",
+    "reset": "Сбросить",
+    "active": "Активно"
+  },
+  "emptyState": {
+    "noItems": "Элементы не найдены",
+    "noWatchlistItems": "Ваш список пуст",
+    "addItems": "Добавьте элементы в свой список, чтобы увидеть их здесь"
+  },
+  "watchlist": {
+    "item": "элемент",
+    "items": "элементов",
+    "saved": "сохранено",
+    "clearAll": "Очистить Все",
+    "tvShows": "Телешоу",
+    "movies": "Фильмы",
+    "noTVShows": "В вашем списке нет телешоу",
+    "noMovies": "В вашем списке нет фильмов",
+    "addTVShows": "Добавьте телешоу, чтобы увидеть их здесь",
+    "addMovies": "Добавьте фильмы, чтобы увидеть их здесь"
+  },
+  "language": {
+    "selectLanguage": "Выбрать язык",
+    "language": "Язык"
+  }
+}
+

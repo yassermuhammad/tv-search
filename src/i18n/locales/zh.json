@@ -1,0 +1,114 @@
+{
+  "common": {
+    "appName": "STREAMSPOT",
+    "search": "搜索",
+    "watchlist": "我的列表",
+    "myWatchlist": "我的列表",
+    "back": "返回",
+    "loading": "加载中...",
+    "error": "错误",
+    "noResults": "未找到结果",
+    "tryAgain": "重试",
+    "close": "关闭"
+  },
+  "home": {
+    "title": "找到您的下一个观看",
+    "subtitle": "搜索和发现电视节目和电影",
+    "trendingMovies": "热门电影",
+    "trendingTVShows": "热门电视节目",
+    "popularMovies": "流行电影",
+    "popularTVShows": "流行电视节目",
+    "viewAll": "查看全部",
+    "today": "今天",
+    "thisWeek": "本周"
+  },
+  "search": {
+    "title": "搜索",
+    "placeholderMovies": "搜索电影...",
+    "placeholderShows": "搜索电视节目或系列...",
+    "foundMovies": "找到 {{count}} 部电影",
+    "foundShows": "找到 {{count}} 个节目",
+    "noMoviesFound": "未找到电影",
+    "noShowsFound": "未找到节目",
+    "tryDifferentKeyword": "尝试使用不同的关键词搜索",
+    "startSearchingMovies": "开始搜索电影",
+    "startSearchingShows": "开始搜索电视节目",
+    "searchHintMovies": "在上面的搜索框中输入电影名称",
+    "searchHintShows": "在上面的搜索框中输入节目名称"
+  },
+  "modal": {
+    "overview": "概述",
+    "summary": "摘要",
+    "trailers": "预告片和视频",
+    "seasonsEpisodes": "季和集",
+    "castCrew": "演员和工作人员",
+    "watchProviders": "流媒体平台",
+    "similarContent": "类似内容",
+    "externalLinks": "外部链接",
+    "noDescription": "没有可用描述",
+    "loadingDetails": "加载详细信息...",
+    "addToWatchlist": "添加到列表",
+    "removeFromWatchlist": "从列表移除",
+    "watchNow": "立即观看",
+    "share": "分享",
+    "viewOnTMDB": "在TMDB上查看",
+    "viewOnTVMaze": "在TVMaze上查看",
+    "viewOnIMDb": "在IMDb上查看",
+    "whereToWatch": "观看地点",
+    "stream": "流媒体",
+    "buy": "购买",
+    "rent": "租赁",
+    "loadingPlatforms": "加载平台中...",
+    "noStreamingInfo": "流媒体信息不可用",
+    "moreVideos": "更多视频",
+    "loadingTrailers": "加载预告片中...",
+    "cast": "演员",
+    "showAll": "显示全部",
+    "otherCrew": "其他工作人员",
+    "loadingCastCrew": "加载演员和工作人员中...",
+    "similarMovies": "类似电影",
+    "similarTVShows": "类似电视节目",
+    "crew": "工作人员",
+    "showLess": "显示较少"
+  },
+  "parentGuide": {
+    "title": "家长指南",
+    "contentRating": "内容评级",
+    "contentWarnings": "内容警告",
+    "showMoreDetails": "显示更多详情",
+    "showLess": "显示较少",
+    "notAvailable": "此标题的详细内容警告不可用。"
+  },
+  "filters": {
+    "genre": "类型",
+    "year": "年份",
+    "rating": "评分",
+    "sort": "排序方式",
+    "language": "语言",
+    "country": "国家",
+    "reset": "重置",
+    "active": "活动"
+  },
+  "emptyState": {
+    "noItems": "未找到项目",
+    "noWatchlistItems": "您的列表为空",
+    "addItems": "将项目添加到您的列表以在此处查看"
+  },
+  "watchlist": {
+    "item": "项目",
+    "items": "项目",
+    "saved": "已保存",
+    "clearAll": "清除全部",
+    "tvShows": "电视节目",
+    "movies": "电影",
+    "noTVShows": "您的列表中没有电视节目",
+    "noMovies": "您的列表中没有电影",
+    "addTVShows": "添加电视节目以在此处查看",
+    "addMovies": "添加电影以在此处查看"
+  },
+  "language": {
+    "selectLanguage": "选择语言",
+    "language": "语言"
+  }
+}
+

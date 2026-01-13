@@ -19,11 +19,11 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <ColorModeScript initialColorMode={theme.config.initialColorMode} />
     <ChakraProvider theme={theme}>
-      <WatchlistProvider>
-        <AuthProvider>
+      <AuthProvider>
+        <WatchlistProvider>
           <App />
-        </AuthProvider>
-      </WatchlistProvider>
+        </WatchlistProvider>
+      </AuthProvider>
     </ChakraProvider>
   </React.StrictMode>,
 )

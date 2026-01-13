@@ -19,7 +19,6 @@ const Header = ({ showBackButton = false, onBack }) => {
   const { t } = useTranslation()
   const { currentUser, loginWithGoogle, logout } = useAuth()
 
-
   return (
     <Box
       position="relative"

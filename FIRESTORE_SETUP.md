@@ -49,7 +49,7 @@ users/
 **IMPORTANT**: You must enable Firestore before the watchlist feature will work.
 
 1. Go to [Firebase Console](https://console.firebase.google.com/)
-2. Select your project (e.g., `stramspot-a811f`)
+2. Select your project (e.g., `watchpedia-a811f`)
 3. In the left sidebar, click on **"Firestore Database"** (or **"Build"** → **"Firestore Database"**)
 4. If you see a **"Create database"** button, click it
 5. Choose your preferred location (select the closest region to your users)

@@ -17,8 +17,8 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['icon.svg', 'icon-*.png'],
       manifest: {
-        name: 'StreamSpot - TV Shows & Movies Search',
-        short_name: 'StreamSpot',
+        name: 'WatchPedia - TV Shows & Movies Search',
+        short_name: 'WatchPedia',
         description: 'Search and discover TV shows and movies',
         theme_color: '#E50914',
         background_color: '#141414',

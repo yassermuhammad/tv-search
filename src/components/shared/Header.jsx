@@ -66,7 +66,7 @@ const Header = ({ showBackButton = false, onBack }) => {
                 },
               }}
             >
-              STREAMSPOT
+              WATCHPEDIA
             </Heading>
           </Flex>
           <HStack spacing={{ base: 2, md: 3 }} flexShrink={0}>

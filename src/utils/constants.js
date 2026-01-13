@@ -42,7 +42,7 @@ export const TEXT_COLOR = COLORS.TEXT_PRIMARY
 
 // Storage keys
 export const STORAGE_KEYS = {
-  WATCHLIST: 'streamspot-watchlist',
+  WATCHLIST: 'watchpedia-watchlist',
 }
 
 // API constants

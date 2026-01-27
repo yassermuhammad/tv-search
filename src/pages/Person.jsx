@@ -26,12 +26,14 @@ import MovieCard from '../components/MovieCard'
 import ShowCard from '../components/ShowCard'
 import LoadingState from '../components/shared/LoadingState'
 import EmptyState from '../components/shared/EmptyState'
+import SEO from '../components/seo/SEO'
 import { useModal } from '../hooks/useModal'
 import { MEDIA_TYPES } from '../models/constants'
 import { GRID_COLUMNS } from '../utils/constants'
 import { formatDate } from '../utils/formatters'
 import { getMovieById } from '../services/tmdbApi'
 import { searchTVShow } from '../services/tmdbApi'
+import { getPersonStructuredData, getBreadcrumbStructuredData } from '../utils/seoHelpers'
 
 /**
  * Person details page
@@ -173,9 +175,22 @@ const Person = () => {
     }
   }
 
+  // Generate structured data
+  const personStructuredData = person ? getPersonStructuredData(person) : null
+  const breadcrumbData = person
+    ? getBreadcrumbStructuredData([
+        { name: 'Home', url: 'https://yassermuhammad.github.io/tv-search/' },
+        { name: person.name, url: `https://yassermuhammad.github.io/tv-search/person/${person.id}` },
+      ])
+    : null
+  const structuredData = personStructuredData
+    ? [personStructuredData, breadcrumbData].filter(Boolean)
+    : null
+
   if (loading) {
     return (
       <Box minH="100vh" bg="#141414">
+        <SEO title="Loading..." noindex={true} />
         <Header showBackButton onBack={handleBack} />
         <Container maxW="container.xl" py={{ base: 4, md: 8 }} px={{ base: 4, md: 6, lg: 8 }}>
           <LoadingState message={t('person.loading')} />
@@ -187,6 +202,7 @@ const Person = () => {
   if (error || !person) {
     return (
       <Box minH="100vh" bg="#141414">
+        <SEO title="Person Not Found" noindex={true} />
         <Header showBackButton onBack={handleBack} />
         <Container maxW="container.xl" py={{ base: 4, md: 8 }} px={{ base: 4, md: 6, lg: 8 }}>
           <EmptyState title={t('person.error')} message={error || t('person.notFound')} />
@@ -195,8 +211,20 @@ const Person = () => {
     )
   }
 
+  const personImage = person.profile_path
+    ? getImageUrl(person.profile_path)
+    : 'https://yassermuhammad.github.io/tv-search/icon-512x512.png'
+
   return (
     <Box minH="100vh" bg="#141414" position="relative">
+      <SEO
+        title={`${person.name} - Movies & TV Shows`}
+        description={person.biography || `Explore ${person.name}'s filmography. Discover movies and TV shows featuring ${person.name}.`}
+        keywords={`${person.name}, actor, movies, TV shows, filmography, ${person.known_for_department || ''}`}
+        image={personImage}
+        type="profile"
+        structuredData={structuredData}
+      />
       <Header showBackButton onBack={handleBack} />
 
       <Container

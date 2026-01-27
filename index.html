@@ -2,13 +2,39 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="./icon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Search and discover TV shows and movies" />
-    <meta name="theme-color" content="#E50914" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <meta name="apple-mobile-web-app-title" content="WatchPedia" />
+    
+    <!-- Primary Meta Tags -->
+    <title>WatchPedia - TV Shows & Movies Search | Discover Trending Movies & TV Shows</title>
+    <meta name="title" content="WatchPedia - TV Shows & Movies Search | Discover Trending Movies & TV Shows" />
+    <meta name="description" content="Discover and search for your favorite TV shows and movies. Find trending content, popular titles, watch trailers, cast information, and manage your watchlist. Your ultimate guide to entertainment." />
+    <meta name="keywords" content="TV shows, movies, streaming, watchlist, entertainment, trending movies, popular TV shows, movie search, TV show search, watch trailers, movie database, film database, series database" />
+    <meta name="author" content="WatchPedia" />
+    <meta name="robots" content="index, follow" />
+    <meta name="language" content="English" />
+    <meta name="revisit-after" content="7 days" />
+    <meta name="rating" content="general" />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://yassermuhammad.github.io/tv-search/" />
+    <meta property="og:title" content="WatchPedia - TV Shows & Movies Search" />
+    <meta property="og:description" content="Discover and search for your favorite TV shows and movies. Find trending content, popular titles, watch trailers, and manage your watchlist." />
+    <meta property="og:image" content="https://yassermuhammad.github.io/tv-search/icon-512x512.png" />
+    <meta property="og:site_name" content="WatchPedia" />
+    <meta property="og:locale" content="en_US" />
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://yassermuhammad.github.io/tv-search/" />
+    <meta name="twitter:title" content="WatchPedia - TV Shows & Movies Search" />
+    <meta name="twitter:description" content="Discover and search for your favorite TV shows and movies. Find trending content, popular titles, watch trailers, and manage your watchlist." />
+    <meta name="twitter:image" content="https://yassermuhammad.github.io/tv-search/icon-512x512.png" />
+    
+    <!-- Favicons -->
+    <link rel="icon" type="image/svg+xml" href="./icon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="./icon-96x96.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="./icon-72x72.png" />
     <link rel="apple-touch-icon" sizes="72x72" href="./icon-72x72.png" />
     <link rel="apple-touch-icon" sizes="96x96" href="./icon-96x96.png" />
     <link rel="apple-touch-icon" sizes="128x128" href="./icon-128x128.png" />
@@ -17,9 +43,56 @@
     <link rel="apple-touch-icon" sizes="192x192" href="./icon-192x192.png" />
     <link rel="apple-touch-icon" sizes="384x384" href="./icon-384x384.png" />
     <link rel="apple-touch-icon" sizes="512x512" href="./icon-512x512.png" />
-    <link rel="icon" type="image/png" sizes="32x32" href="./icon-96x96.png" />
-    <link rel="icon" type="image/png" sizes="16x16" href="./icon-72x72.png" />
-    <title>WatchPedia - TV Shows & Movies Search</title>
+    
+    <!-- PWA & Mobile -->
+    <meta name="theme-color" content="#E50914" />
+    <meta name="msapplication-TileColor" content="#E50914" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="WatchPedia" />
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://yassermuhammad.github.io/tv-search/" />
+    
+    <!-- Structured Data - Website -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "WatchPedia",
+      "alternateName": "WatchPedia - TV Shows & Movies Search",
+      "url": "https://yassermuhammad.github.io/tv-search/",
+      "description": "Discover and search for your favorite TV shows and movies. Find trending content, popular titles, watch trailers, and manage your watchlist.",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://yassermuhammad.github.io/tv-search/search?q={search_term_string}"
+        },
+        "query-input": "required name=search_term_string"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "WatchPedia",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://yassermuhammad.github.io/tv-search/icon-512x512.png"
+        }
+      }
+    }
+    </script>
+    
+    <!-- Structured Data - Organization -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "WatchPedia",
+      "url": "https://yassermuhammad.github.io/tv-search/",
+      "logo": "https://yassermuhammad.github.io/tv-search/icon-512x512.png",
+      "description": "Your ultimate guide to TV shows and movies. Discover trending content, popular titles, and manage your watchlist."
+    }
+    </script>
   </head>
   <body>
     <div id="root"></div>

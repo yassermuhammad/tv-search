@@ -8,12 +8,14 @@ import Header from '../components/shared/Header'
 import ShowCard from '../components/ShowCard'
 import LoadingState from '../components/shared/LoadingState'
 import EmptyState from '../components/shared/EmptyState'
+import SEO from '../components/seo/SEO'
 import { useModal } from '../hooks/useModal'
 import { useInfiniteScroll } from '../hooks/useInfiniteScroll'
 import { getPopularTVShows } from '../services/tmdbApi'
 import { adaptTMDBShowsToTVMaze } from '../utils/tmdbAdapter'
 import { MEDIA_TYPES } from '../models/constants'
 import { GRID_COLUMNS } from '../utils/constants'
+import { getCollectionPageStructuredData } from '../utils/seoHelpers'
 
 /**
  * Popular TV Shows page with infinite scroll
@@ -72,8 +74,20 @@ const PopularTVShows = () => {
     navigate('/')
   }
 
+  const structuredData = getCollectionPageStructuredData(
+    t('pages.popularTVShows'),
+    'Discover popular TV shows. Browse the most watched and highly rated series. Watch trailers, explore cast information, and add to your watchlist.',
+    shows
+  )
+
   return (
     <Box minH="100vh" bg="#141414" position="relative">
+      <SEO
+        title="Popular TV Shows"
+        description="Discover popular TV shows. Browse the most watched and highly rated series. Watch trailers, explore cast information, and add to your watchlist."
+        keywords="popular TV shows, best TV shows, top TV shows, highly rated TV shows, most watched TV shows, TV show recommendations"
+        structuredData={structuredData}
+      />
       <Header showBackButton onBack={handleBack} />
 
       <Container

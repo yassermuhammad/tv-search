@@ -1,0 +1,15 @@
+# robots.txt for WatchPedia
+# https://yassermuhammad.github.io/tv-search/
+
+User-agent: *
+Allow: /
+
+# Disallow admin and private areas (if any)
+Disallow: /watchlist
+Disallow: /*?*
+
+# Sitemap location
+Sitemap: https://yassermuhammad.github.io/tv-search/sitemap.xml
+
+# Crawl-delay (optional, helps prevent server overload)
+Crawl-delay: 1

@@ -8,11 +8,13 @@ import Header from '../components/shared/Header'
 import MovieCard from '../components/MovieCard'
 import LoadingState from '../components/shared/LoadingState'
 import EmptyState from '../components/shared/EmptyState'
+import SEO from '../components/seo/SEO'
 import { useModal } from '../hooks/useModal'
 import { useInfiniteScroll } from '../hooks/useInfiniteScroll'
 import { getPopularMovies } from '../services/tmdbApi'
 import { MEDIA_TYPES } from '../models/constants'
 import { GRID_COLUMNS } from '../utils/constants'
+import { getCollectionPageStructuredData } from '../utils/seoHelpers'
 
 /**
  * Popular Movies page with infinite scroll
@@ -62,8 +64,20 @@ const PopularMovies = () => {
     navigate('/')
   }
 
+  const structuredData = getCollectionPageStructuredData(
+    t('pages.popularMovies'),
+    'Discover popular movies. Browse the most watched and highly rated films. Watch trailers, explore cast information, and add to your watchlist.',
+    movies
+  )
+
   return (
     <Box minH="100vh" bg="#141414" position="relative">
+      <SEO
+        title="Popular Movies"
+        description="Discover popular movies. Browse the most watched and highly rated films. Watch trailers, explore cast information, and add to your watchlist."
+        keywords="popular movies, best movies, top movies, highly rated movies, most watched movies, movie recommendations"
+        structuredData={structuredData}
+      />
       <Header showBackButton onBack={handleBack} />
 
       <Container

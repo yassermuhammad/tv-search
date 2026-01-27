@@ -9,11 +9,13 @@ import HeroSection from '../components/shared/HeroSection'
 import ContentRow from '../components/home/ContentRow'
 import MovieCard from '../components/MovieCard'
 import ShowCard from '../components/ShowCard'
+import SEO from '../components/seo/SEO'
 import { useModal } from '../hooks/useModal'
 import { useTrending } from '../hooks/useTrending'
 import { usePopular } from '../hooks/usePopular'
 import { MEDIA_TYPES } from '../models/constants'
 import { adaptTMDBShowsToTVMaze } from '../utils/tmdbAdapter'
+import { getWebsiteStructuredData } from '../utils/seoHelpers'
 
 /**
  * Home page component - Redesigned with Trending/Popular features
@@ -27,6 +29,8 @@ const Home = () => {
   const { t } = useTranslation()
   const modal = useModal()
   const [trendingTimeWindow, setTrendingTimeWindow] = useState('day')
+  
+  const structuredData = getWebsiteStructuredData()
   
   // Fetch trending and popular content
   const {
@@ -112,6 +116,12 @@ const Home = () => {
 
   return (
     <Box minH="100vh" bg="#141414" position="relative">
+      <SEO
+        title="WatchPedia - Discover Trending Movies & TV Shows"
+        description="Discover trending movies and TV shows. Browse popular content, watch trailers, explore cast information, and manage your watchlist. Your ultimate entertainment guide."
+        keywords="trending movies, trending TV shows, popular movies, popular TV shows, watchlist, entertainment, streaming, movie database, TV show database"
+        structuredData={structuredData}
+      />
       <Header />
 
       <Container

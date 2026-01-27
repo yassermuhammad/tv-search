@@ -8,11 +8,13 @@ import Header from '../components/shared/Header'
 import MovieCard from '../components/MovieCard'
 import LoadingState from '../components/shared/LoadingState'
 import EmptyState from '../components/shared/EmptyState'
+import SEO from '../components/seo/SEO'
 import { useModal } from '../hooks/useModal'
 import { useInfiniteScroll } from '../hooks/useInfiniteScroll'
 import { getTrendingMovies } from '../services/tmdbApi'
 import { MEDIA_TYPES } from '../models/constants'
 import { GRID_COLUMNS } from '../utils/constants'
+import { getCollectionPageStructuredData } from '../utils/seoHelpers'
 
 /**
  * Trending Movies page with infinite scroll
@@ -64,8 +66,20 @@ const TrendingMovies = () => {
     navigate('/')
   }
 
+  const structuredData = getCollectionPageStructuredData(
+    t('pages.trendingMovies'),
+    `Discover trending movies ${timeWindow === 'day' ? 'today' : 'this week'}. Browse the most popular and talked-about films.`,
+    movies
+  )
+
   return (
     <Box minH="100vh" bg="#141414" position="relative">
+      <SEO
+        title={`Trending Movies ${timeWindow === 'day' ? 'Today' : 'This Week'}`}
+        description={`Discover trending movies ${timeWindow === 'day' ? 'today' : 'this week'}. Browse the most popular and talked-about films. Watch trailers, explore cast information, and add to your watchlist.`}
+        keywords="trending movies, popular movies, top movies, best movies, movie trends, trending films, popular films"
+        structuredData={structuredData}
+      />
       <Header showBackButton onBack={handleBack} />
 
       <Container

@@ -1,18 +1,20 @@
 import { Box, Container, Heading, SimpleGrid, Button } from '@chakra-ui/react'
 import { useParams, useNavigate } from 'react-router-dom'
-import { useCallback } from 'react'
-import { getSimilarTVShows } from '../services/tmdbApi'
+import { useCallback, useState, useEffect } from 'react'
+import { getSimilarTVShows, getTVShowById } from '../services/tmdbApi'
 import { getShowById } from '../services/tvmazeApi'
 import DetailModal from '../components/DetailModal'
 import Header from '../components/shared/Header'
 import ShowCard from '../components/ShowCard'
 import LoadingState from '../components/shared/LoadingState'
 import EmptyState from '../components/shared/EmptyState'
+import SEO from '../components/seo/SEO'
 import { useModal } from '../hooks/useModal'
 import { useInfiniteScroll } from '../hooks/useInfiniteScroll'
 import { MEDIA_TYPES } from '../models/constants'
 import { GRID_COLUMNS } from '../utils/constants'
 import { adaptTMDBShowsToTVMaze } from '../utils/tmdbAdapter'
+import { getCollectionPageStructuredData } from '../utils/seoHelpers'
 
 /**
  * Similar TV Shows page with infinite scroll
@@ -22,6 +24,22 @@ const SimilarTVShows = () => {
   const { tvId } = useParams()
   const navigate = useNavigate()
   const modal = useModal()
+  const [show, setShow] = useState(null)
+
+  // Fetch TV show details for SEO
+  useEffect(() => {
+    const fetchShow = async () => {
+      if (tvId) {
+        try {
+          const showData = await getTVShowById(parseInt(tvId))
+          setShow(showData)
+        } catch (error) {
+          console.error('Error fetching show for SEO:', error)
+        }
+      }
+    }
+    fetchShow()
+  }, [tvId])
 
   // Create fetch function for infinite scroll
   const fetchSimilarTVShows = useCallback(async (page) => {
@@ -91,8 +109,24 @@ const SimilarTVShows = () => {
     navigate(-1)
   }
 
+  const structuredData = getCollectionPageStructuredData(
+    `Similar TV Shows${show ? ` to ${show.name}` : ''}`,
+    show
+      ? `Discover TV shows similar to ${show.name}. Find recommendations based on ${show.name}.`
+      : 'Discover similar TV shows. Find recommendations based on your favorite series.',
+    shows
+  )
+
   return (
     <Box minH="100vh" bg="#141414" position="relative">
+      <SEO
+        title={`Similar TV Shows${show ? ` to ${show.name}` : ''}`}
+        description={show
+          ? `Discover TV shows similar to ${show.name}. Find recommendations based on ${show.name}. Watch trailers, explore cast information, and add to your watchlist.`
+          : 'Discover similar TV shows. Find recommendations based on your favorite series.'}
+        keywords={`similar TV shows, TV show recommendations, ${show?.name || ''}, similar series, TV show suggestions`}
+        structuredData={structuredData}
+      />
       <Header showBackButton onBack={handleBack} />
 
       <Container

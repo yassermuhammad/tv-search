@@ -5,6 +5,7 @@ import { getMovieById } from '../services/tmdbApi'
 import DetailModal from '../components/DetailModal'
 import Header from '../components/shared/Header'
 import SearchSection from '../components/home/SearchSection'
+import SEO from '../components/seo/SEO'
 import { useModal } from '../hooks/useModal'
 import { MEDIA_TYPES } from '../models/constants'
 
@@ -94,6 +95,11 @@ const Search = () => {
 
   return (
     <Box minH="100vh" bg="#141414" position="relative">
+      <SEO
+        title="Search Movies & TV Shows"
+        description="Search for movies and TV shows. Find your favorite content, watch trailers, explore cast information, and discover new entertainment."
+        keywords="movie search, TV show search, search movies, search TV shows, find movies, find TV shows, entertainment search"
+      />
       <Header showBackButton onBack={handleBack} />
 
       <Container

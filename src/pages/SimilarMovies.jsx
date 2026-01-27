@@ -1,16 +1,18 @@
 import { Box, Container, Heading, SimpleGrid, Button } from '@chakra-ui/react'
 import { useParams, useNavigate } from 'react-router-dom'
-import { useCallback } from 'react'
+import { useCallback, useState, useEffect } from 'react'
 import { getMovieById, getSimilarMovies } from '../services/tmdbApi'
 import DetailModal from '../components/DetailModal'
 import Header from '../components/shared/Header'
 import MovieCard from '../components/MovieCard'
 import LoadingState from '../components/shared/LoadingState'
 import EmptyState from '../components/shared/EmptyState'
+import SEO from '../components/seo/SEO'
 import { useModal } from '../hooks/useModal'
 import { useInfiniteScroll } from '../hooks/useInfiniteScroll'
 import { MEDIA_TYPES } from '../models/constants'
 import { GRID_COLUMNS } from '../utils/constants'
+import { getCollectionPageStructuredData } from '../utils/seoHelpers'
 
 /**
  * Similar Movies page with infinite scroll
@@ -20,6 +22,22 @@ const SimilarMovies = () => {
   const { movieId } = useParams()
   const navigate = useNavigate()
   const modal = useModal()
+  const [movie, setMovie] = useState(null)
+
+  // Fetch movie details for SEO
+  useEffect(() => {
+    const fetchMovie = async () => {
+      if (movieId) {
+        try {
+          const movieData = await getMovieById(parseInt(movieId))
+          setMovie(movieData)
+        } catch (error) {
+          console.error('Error fetching movie for SEO:', error)
+        }
+      }
+    }
+    fetchMovie()
+  }, [movieId])
 
   // Create fetch function for infinite scroll
   const fetchSimilarMovies = useCallback(async (page) => {
@@ -78,8 +96,24 @@ const SimilarMovies = () => {
     navigate(-1)
   }
 
+  const structuredData = getCollectionPageStructuredData(
+    `Similar Movies${movie ? ` to ${movie.title}` : ''}`,
+    movie
+      ? `Discover movies similar to ${movie.title}. Find recommendations based on ${movie.title}.`
+      : 'Discover similar movies. Find recommendations based on your favorite films.',
+    movies
+  )
+
   return (
     <Box minH="100vh" bg="#141414" position="relative">
+      <SEO
+        title={`Similar Movies${movie ? ` to ${movie.title}` : ''}`}
+        description={movie
+          ? `Discover movies similar to ${movie.title}. Find recommendations based on ${movie.title}. Watch trailers, explore cast information, and add to your watchlist.`
+          : 'Discover similar movies. Find recommendations based on your favorite films.'}
+        keywords={`similar movies, movie recommendations, ${movie?.title || ''}, similar films, movie suggestions`}
+        structuredData={structuredData}
+      />
       <Header showBackButton onBack={handleBack} />
 
       <Container

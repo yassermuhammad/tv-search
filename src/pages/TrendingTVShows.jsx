@@ -8,12 +8,14 @@ import Header from '../components/shared/Header'
 import ShowCard from '../components/ShowCard'
 import LoadingState from '../components/shared/LoadingState'
 import EmptyState from '../components/shared/EmptyState'
+import SEO from '../components/seo/SEO'
 import { useModal } from '../hooks/useModal'
 import { useInfiniteScroll } from '../hooks/useInfiniteScroll'
 import { getTrendingTVShows } from '../services/tmdbApi'
 import { adaptTMDBShowsToTVMaze } from '../utils/tmdbAdapter'
 import { MEDIA_TYPES } from '../models/constants'
 import { GRID_COLUMNS } from '../utils/constants'
+import { getCollectionPageStructuredData } from '../utils/seoHelpers'
 
 /**
  * Trending TV Shows page with infinite scroll
@@ -74,8 +76,20 @@ const TrendingTVShows = () => {
     navigate('/')
   }
 
+  const structuredData = getCollectionPageStructuredData(
+    t('pages.trendingTVShows'),
+    `Discover trending TV shows ${timeWindow === 'day' ? 'today' : 'this week'}. Browse the most popular and talked-about series.`,
+    shows
+  )
+
   return (
     <Box minH="100vh" bg="#141414" position="relative">
+      <SEO
+        title={`Trending TV Shows ${timeWindow === 'day' ? 'Today' : 'This Week'}`}
+        description={`Discover trending TV shows ${timeWindow === 'day' ? 'today' : 'this week'}. Browse the most popular and talked-about series. Watch trailers, explore cast information, and add to your watchlist.`}
+        keywords="trending TV shows, popular TV shows, top TV shows, best TV shows, TV show trends, trending series, popular series"
+        structuredData={structuredData}
+      />
       <Header showBackButton onBack={handleBack} />
 
       <Container

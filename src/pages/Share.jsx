@@ -1,12 +1,14 @@
 import { Box, Container, Center, Spinner, Text } from '@chakra-ui/react'
 import { useParams, useNavigate, useSearchParams } from 'react-router-dom'
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { getMovieById, getTVShowById } from '../services/tmdbApi'
 import { getShowById } from '../services/tvmazeApi'
 import { adaptTMDBShowToTVMaze } from '../utils/tmdbAdapter'
 import DetailModal from '../components/DetailModal'
+import SEO from '../components/seo/SEO'
 import { useModal } from '../hooks/useModal'
 import { MEDIA_TYPES } from '../models/constants'
+import { getMovieStructuredData, getTVShowStructuredData } from '../utils/seoHelpers'
 
 /**
  * Share page component
@@ -23,6 +25,7 @@ const Share = () => {
   const navigate = useNavigate()
   const modal = useModal()
   const hasFetched = useRef(false)
+  const [itemData, setItemData] = useState(null)
 
   useEffect(() => {
     // Prevent multiple fetches
@@ -42,6 +45,7 @@ const Share = () => {
         if (type === MEDIA_TYPES.MOVIE) {
           // Fetch movie details from TMDB
           const movie = await getMovieById(parseInt(id))
+          setItemData(movie)
           modal.openModal(movie, MEDIA_TYPES.MOVIE)
           modal.setSelectedItem(movie)
         } else if (type === MEDIA_TYPES.SHOW) {
@@ -50,12 +54,14 @@ const Share = () => {
             const tmdbShow = await getTVShowById(parseInt(id))
             // Adapt TMDB show to TVMaze format
             const adaptedShow = adaptTMDBShowToTVMaze(tmdbShow)
+            setItemData(tmdbShow)
             modal.openModal(adaptedShow, MEDIA_TYPES.SHOW)
             modal.setSelectedItem(adaptedShow)
           } catch (tmdbError) {
             // If TMDB fails, try TVMaze
             try {
               const tvmazeShow = await getShowById(parseInt(id))
+              setItemData(tvmazeShow)
               modal.openModal(tvmazeShow, MEDIA_TYPES.SHOW)
               modal.setSelectedItem(tvmazeShow)
             } catch (tvmazeError) {
@@ -115,54 +121,31 @@ const Share = () => {
     }
   }
 
-  const title = searchParams.get('title') || 'Item'
-  const shareUrl = `${window.location.origin}/share/${type}/${id}?title=${encodeURIComponent(title)}`
-  const shareText = `Check out ${title}!`
-
-  // Add Open Graph meta tags for Facebook sharing
-  useEffect(() => {
-    // Set or update meta tags
-    const setMetaTag = (property, content) => {
-      let meta = document.querySelector(`meta[property="${property}"]`)
-      if (!meta) {
-        meta = document.createElement('meta')
-        meta.setAttribute('property', property)
-        document.head.appendChild(meta)
-      }
-      meta.setAttribute('content', content)
-    }
-
-    // Set Open Graph tags
-    setMetaTag('og:title', title)
-    setMetaTag('og:description', shareText)
-    setMetaTag('og:url', shareUrl)
-    setMetaTag('og:type', 'website')
-
-    // Set standard meta tags as fallback
-    let titleTag = document.querySelector('title')
-    if (!titleTag) {
-      titleTag = document.createElement('title')
-      document.head.appendChild(titleTag)
-    }
-    titleTag.textContent = title
-
-    let descMeta = document.querySelector('meta[name="description"]')
-    if (!descMeta) {
-      descMeta = document.createElement('meta')
-      descMeta.setAttribute('name', 'description')
-      document.head.appendChild(descMeta)
-    }
-    descMeta.setAttribute('content', shareText)
-
-    // Cleanup function
-    return () => {
-      // Optionally remove meta tags when component unmounts
-      // But we might want to keep them for sharing purposes
-    }
-  }, [title, shareUrl, shareText])
+  const title = searchParams.get('title') || itemData?.title || itemData?.name || 'Item'
+  const shareUrl = `${window.location.origin}/tv-search/share/${type}/${id}?title=${encodeURIComponent(title)}`
+  const shareText = itemData?.overview || itemData?.summary || `Check out this ${type === MEDIA_TYPES.MOVIE ? 'movie' : 'TV show'}: ${title}`
+  
+  // Generate structured data
+  const structuredData = itemData
+    ? type === MEDIA_TYPES.MOVIE
+      ? getMovieStructuredData(itemData)
+      : getTVShowStructuredData(itemData)
+    : null
+  
+  const itemImage = itemData?.poster_path
+    ? `https://image.tmdb.org/t/p/w500${itemData.poster_path}`
+    : itemData?.image?.medium || 'https://yassermuhammad.github.io/tv-search/icon-512x512.png'
 
   return (
     <Box minH="100vh" bg="#141414" position="relative">
+      <SEO
+        title={`${title} - ${type === MEDIA_TYPES.MOVIE ? 'Movie' : 'TV Show'} Details`}
+        description={shareText}
+        image={itemImage}
+        type={type === MEDIA_TYPES.MOVIE ? 'video.movie' : 'video.tv_show'}
+        url={shareUrl}
+        structuredData={structuredData}
+      />
       <Container maxW="container.xl" py={{ base: 4, md: 8 }} px={{ base: 4, md: 6, lg: 8 }}>
         <Center minH="50vh">
           <Box textAlign="center">

@@ -27,6 +27,7 @@ import Header from '../components/shared/Header'
 import EmptyState from '../components/shared/EmptyState'
 import ResultsGrid from '../components/shared/ResultsGrid'
 import WatchlistGenreFilter from '../components/watchlist/WatchlistGenreFilter'
+import SEO from '../components/seo/SEO'
 import { useModal } from '../hooks/useModal'
 import { MEDIA_TYPES } from '../models/constants'
 
@@ -147,6 +148,12 @@ const Watchlist = () => {
 
   return (
     <Box minH="100vh" bg="#141414" position="relative">
+      <SEO
+        title="My Watchlist"
+        description="Manage your personal watchlist of movies and TV shows. Save your favorite content and never miss what you want to watch."
+        keywords="watchlist, saved movies, saved TV shows, my watchlist, personal watchlist, favorite movies, favorite TV shows"
+        noindex={true}
+      />
       {/* Header */}
       <Box
         position="relative"

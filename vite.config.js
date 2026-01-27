@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
+import removeConsole from 'vite-plugin-remove-console'
 
 // https://vitejs.dev/config/
 const isProduction = process.env.NODE_ENV === 'production' || process.env.GITHUB_ACTIONS === 'true'
@@ -11,8 +12,29 @@ export default defineConfig({
     host: true, // Allow external connections
     port: 5173,
   },
+  build: {
+    // Optimize build output
+    minify: 'esbuild', // Faster than terser, already included with Vite
+    // Code splitting
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'react-vendor': ['react', 'react-dom', 'react-router-dom'],
+          'chakra-vendor': ['@chakra-ui/react', '@emotion/react', '@emotion/styled', 'framer-motion'],
+          'i18n-vendor': ['i18next', 'react-i18next', 'i18next-browser-languagedetector'],
+          'firebase-vendor': ['firebase'],
+        },
+      },
+    },
+    // Chunk size warnings
+    chunkSizeWarningLimit: 1000,
+    // Source maps for production (optional, can disable for smaller builds)
+    sourcemap: false,
+  },
   plugins: [
     react(),
+    // Remove console.log in production builds
+    ...(isProduction ? [removeConsole()] : []),
     VitePWA({
       registerType: 'autoUpdate',
       includeAssets: ['icon.svg', 'icon-*.png'],

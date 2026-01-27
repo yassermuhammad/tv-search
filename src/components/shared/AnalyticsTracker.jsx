@@ -19,9 +19,9 @@ const AnalyticsTracker = () => {
         if (measurementId) {
             if (!ReactGA.isInitialized) {
                 ReactGA.initialize(measurementId);
-                console.log("GA4 Initialized");
             }
-        } else {
+        } else if (import.meta.env.DEV) {
+            // Only warn in development
             console.warn("AnalyticsTracker: VITE_FIREBASE_MEASUREMENT_ID is missing in .env");
         }
     }, []);

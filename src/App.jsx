@@ -1,17 +1,20 @@
 import { Routes, Route, BrowserRouter } from 'react-router-dom'
-import Home from './pages/Home'
-import Watchlist from './pages/Watchlist'
-import Search from './pages/Search'
-import TrendingMovies from './pages/TrendingMovies'
-import TrendingTVShows from './pages/TrendingTVShows'
-import PopularMovies from './pages/PopularMovies'
-import PopularTVShows from './pages/PopularTVShows'
-import SimilarMovies from './pages/SimilarMovies'
-import SimilarTVShows from './pages/SimilarTVShows'
-import Share from './pages/Share'
-import Person from './pages/Person'
-
+import { lazy, Suspense } from 'react'
+import LoadingState from './components/shared/LoadingState'
 import AnalyticsTracker from './components/shared/AnalyticsTracker'
+
+// Lazy load pages for code splitting
+const Home = lazy(() => import('./pages/Home'))
+const Watchlist = lazy(() => import('./pages/Watchlist'))
+const Search = lazy(() => import('./pages/Search'))
+const TrendingMovies = lazy(() => import('./pages/TrendingMovies'))
+const TrendingTVShows = lazy(() => import('./pages/TrendingTVShows'))
+const PopularMovies = lazy(() => import('./pages/PopularMovies'))
+const PopularTVShows = lazy(() => import('./pages/PopularTVShows'))
+const SimilarMovies = lazy(() => import('./pages/SimilarMovies'))
+const SimilarTVShows = lazy(() => import('./pages/SimilarTVShows'))
+const Share = lazy(() => import('./pages/Share'))
+const Person = lazy(() => import('./pages/Person'))
 
 /**
  * Main App component
@@ -42,19 +45,21 @@ function App() {
       }}
     >
       <AnalyticsTracker />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/search" element={<Search />} />
-        <Route path="/watchlist" element={<Watchlist />} />
-        <Route path="/trending/movies" element={<TrendingMovies />} />
-        <Route path="/trending/tv-shows" element={<TrendingTVShows />} />
-        <Route path="/popular/movies" element={<PopularMovies />} />
-        <Route path="/popular/tv-shows" element={<PopularTVShows />} />
-        <Route path="/similar/movies/:movieId" element={<SimilarMovies />} />
-        <Route path="/similar/tv-shows/:tvId" element={<SimilarTVShows />} />
-        <Route path="/person/:personId" element={<Person />} />
-        <Route path="/share/:type/:id" element={<Share />} />
-      </Routes>
+      <Suspense fallback={<LoadingState message="Loading..." />}>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/search" element={<Search />} />
+          <Route path="/watchlist" element={<Watchlist />} />
+          <Route path="/trending/movies" element={<TrendingMovies />} />
+          <Route path="/trending/tv-shows" element={<TrendingTVShows />} />
+          <Route path="/popular/movies" element={<PopularMovies />} />
+          <Route path="/popular/tv-shows" element={<PopularTVShows />} />
+          <Route path="/similar/movies/:movieId" element={<SimilarMovies />} />
+          <Route path="/similar/tv-shows/:tvId" element={<SimilarTVShows />} />
+          <Route path="/person/:personId" element={<Person />} />
+          <Route path="/share/:type/:id" element={<Share />} />
+        </Routes>
+      </Suspense>
     </BrowserRouter>
   )
 }

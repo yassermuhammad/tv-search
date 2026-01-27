@@ -5033,6 +5033,11 @@ vite-plugin-pwa@^1.2.0:
     workbox-build "^7.4.0"
     workbox-window "^7.4.0"
 
+vite-plugin-remove-console@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/vite-plugin-remove-console/-/vite-plugin-remove-console-2.2.0.tgz#a73c6ba1b217b56accc5135c508b58c4df45431e"
+  integrity sha512-qgjh5pz75MdE9Kzs8J0kBwaCfifHV0ezRbB9rpGsIOxam+ilcGV7WOk91vFJXquzRmiKrFh3Hxlh0JJWAmXTbQ==
+
 vite@^5.0.8:
   version "5.4.21"
   resolved "https://registry.yarnpkg.com/vite/-/vite-5.4.21.tgz#84a4f7c5d860b071676d39ba513c0d598fdc7027"

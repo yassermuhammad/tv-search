@@ -69,6 +69,8 @@ const MovieCard = ({ movie, onClick }) => {
             width="100%"
             height={{ base: '240px', md: '280px' }}
             objectFit="cover"
+            loading="lazy"
+            decoding="async"
             transition="transform 0.3s ease-out"
             fallback={
               <Box

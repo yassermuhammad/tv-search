@@ -54,14 +54,6 @@ export const useInfiniteScroll = (fetchFunction, options = {}) => {
       // Check if there are more pages available
       const moreAvailable = responsePage < responseTotalPages
       setHasMore(moreAvailable)
-      
-      // Debug logging
-      console.log('Infinite Scroll:', {
-        page: responsePage,
-        totalPages: responseTotalPages,
-        itemsLoaded: append ? items.length + newItems.length : newItems.length,
-        hasMore: moreAvailable,
-      })
     } catch (err) {
       setError('Failed to load content')
       console.error('Error fetching content:', err)

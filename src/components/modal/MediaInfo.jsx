@@ -32,6 +32,8 @@ const MediaInfo = ({ item, type }) => {
           width="100%"
           maxH={{ base: '200px', md: '400px' }}
           objectFit="contain"
+          loading="lazy"
+          decoding="async"
           fallback={
             <Box
               width="100%"
@@ -68,6 +70,8 @@ const MediaInfo = ({ item, type }) => {
           width="100%"
           maxH={{ base: '200px', md: '400px' }}
           objectFit="contain"
+          loading="lazy"
+          decoding="async"
           fallback={
             <Box
               width="100%"

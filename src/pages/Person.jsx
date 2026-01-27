@@ -252,6 +252,8 @@ const Person = () => {
               objectFit="cover"
               borderRadius="md"
               bg="rgba(255, 255, 255, 0.1)"
+              loading="lazy"
+              decoding="async"
               fallbackSrc="https://via.placeholder.com/300x450?text=No+Image"
             />
           </Box>

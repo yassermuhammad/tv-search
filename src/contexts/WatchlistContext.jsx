@@ -222,7 +222,6 @@ export const WatchlistProvider = ({ children }) => {
       })
 
       await batch.commit()
-      console.log(`Migrated ${localWatchlist.length} items from localStorage to Firestore`)
       
       // Optionally clear localStorage after successful migration
       // localStorage.removeItem(STORAGE_KEYS.WATCHLIST)

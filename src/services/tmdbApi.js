@@ -597,3 +597,52 @@ export const getTVEpisodeContentRating = async (tvId, seasonNumber, episodeNumbe
   }
 }
 
+
+/**
+ * Get person details by ID
+ * @param {number} personId - Person ID
+ * @returns {Promise<Object>} Person details
+ */
+export const getPersonDetails = async (personId) => {
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/person/${personId}?api_key=${API_KEY}&language=en-US`
+    )
+    
+    if (!response.ok) {
+      throw new Error(`API error: ${response.status}`)
+    }
+
+    const data = await response.json()
+    return data
+  } catch (error) {
+    console.error('Error fetching person details:', error)
+    throw error
+  }
+}
+
+/**
+ * Get person's combined credits (movies and TV shows)
+ * @param {number} personId - Person ID
+ * @returns {Promise<Object>} Object with cast and crew arrays for both movies and TV shows
+ */
+export const getPersonCredits = async (personId) => {
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/person/${personId}/combined_credits?api_key=${API_KEY}&language=en-US`
+    )
+    
+    if (!response.ok) {
+      throw new Error(`API error: ${response.status}`)
+    }
+
+    const data = await response.json()
+    return {
+      cast: data.cast || [],
+      crew: data.crew || [],
+    }
+  } catch (error) {
+    console.error('Error fetching person credits:', error)
+    throw error
+  }
+}

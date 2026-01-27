@@ -14,6 +14,7 @@ import {
   AccordionIcon,
 } from '@chakra-ui/react'
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { getImageUrl } from '../../services/tmdbApi'
 import { COLORS } from '../../utils/constants'
@@ -47,7 +48,14 @@ const IMPORTANT_CREW_ROLES = [
  */
 const CastCrew = ({ cast = [], crew = [], loading = false }) => {
   const { t } = useTranslation()
+  const navigate = useNavigate()
   const [showAllCast, setShowAllCast] = useState(false)
+
+  const handleCastMemberClick = (personId) => {
+    if (personId) {
+      navigate(`/person/${personId}`)
+    }
+  }
 
   // Organize crew by role
   const crewByRole = crew.reduce((acc, person) => {
@@ -109,8 +117,9 @@ const CastCrew = ({ cast = [], crew = [], loading = false }) => {
                 bg="rgba(255, 255, 255, 0.05)"
                 p={3}
                 borderRadius="md"
-                _hover={{ bg: 'rgba(255, 255, 255, 0.1)' }}
+                _hover={{ bg: 'rgba(255, 255, 255, 0.1)', cursor: 'pointer' }}
                 transition="all 0.2s"
+                onClick={() => handleCastMemberClick(actor.id)}
               >
                 <Avatar
                   size={{ base: 'sm', md: 'md' }}

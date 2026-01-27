@@ -113,6 +113,17 @@
   "language": {
     "selectLanguage": "言語を選択",
     "language": "言語"
+  },
+  "person": {
+    "loading": "人物の詳細を読み込み中...",
+    "error": "人物の読み込みエラー",
+    "notFound": "人物が見つかりませんでした",
+    "birthday": "誕生日",
+    "placeOfBirth": "出生地",
+    "movies": "映画",
+    "tvShows": "TV番組",
+    "noMovies": "映画が見つかりませんでした",
+    "noTVShows": "TV番組が見つかりませんでした"
   }
 }
 

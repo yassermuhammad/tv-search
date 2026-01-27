@@ -113,6 +113,17 @@
   "language": {
     "selectLanguage": "Sprache Auswählen",
     "language": "Sprache"
+  },
+  "person": {
+    "loading": "Personendetails werden geladen...",
+    "error": "Fehler beim Laden der Person",
+    "notFound": "Person nicht gefunden",
+    "birthday": "Geburtstag",
+    "placeOfBirth": "Geburtsort",
+    "movies": "Filme",
+    "tvShows": "TV-Sendungen",
+    "noMovies": "Keine Filme gefunden",
+    "noTVShows": "Keine TV-Sendungen gefunden"
   }
 }
 

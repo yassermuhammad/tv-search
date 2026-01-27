@@ -138,6 +138,17 @@
   "language": {
     "selectLanguage": "Sélectionner la Langue",
     "language": "Langue"
+  },
+  "person": {
+    "loading": "Chargement des détails de la personne...",
+    "error": "Erreur lors du chargement de la personne",
+    "notFound": "Personne non trouvée",
+    "birthday": "Date de Naissance",
+    "placeOfBirth": "Lieu de Naissance",
+    "movies": "Films",
+    "tvShows": "Émissions de TV",
+    "noMovies": "Aucun film trouvé",
+    "noTVShows": "Aucune émission trouvée"
   }
 }
 

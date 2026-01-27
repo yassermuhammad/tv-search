@@ -139,6 +139,17 @@
   "language": {
     "selectLanguage": "Select Language",
     "language": "Language"
+  },
+  "person": {
+    "loading": "Loading person details...",
+    "error": "Error loading person",
+    "notFound": "Person not found",
+    "birthday": "Birthday",
+    "placeOfBirth": "Place of Birth",
+    "movies": "Movies",
+    "tvShows": "TV Shows",
+    "noMovies": "No movies found",
+    "noTVShows": "No TV shows found"
   }
 }
 

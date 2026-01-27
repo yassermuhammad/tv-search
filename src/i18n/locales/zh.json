@@ -113,6 +113,17 @@
   "language": {
     "selectLanguage": "选择语言",
     "language": "语言"
+  },
+  "person": {
+    "loading": "正在加载人物详情...",
+    "error": "加载人物时出错",
+    "notFound": "未找到人物",
+    "birthday": "生日",
+    "placeOfBirth": "出生地",
+    "movies": "电影",
+    "tvShows": "电视节目",
+    "noMovies": "未找到电影",
+    "noTVShows": "未找到电视节目"
   }
 }
 

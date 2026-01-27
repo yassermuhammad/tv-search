@@ -9,6 +9,7 @@ import PopularTVShows from './pages/PopularTVShows'
 import SimilarMovies from './pages/SimilarMovies'
 import SimilarTVShows from './pages/SimilarTVShows'
 import Share from './pages/Share'
+import Person from './pages/Person'
 
 import AnalyticsTracker from './components/shared/AnalyticsTracker'
 
@@ -45,6 +46,7 @@ function App() {
         <Route path="/popular/tv-shows" element={<PopularTVShows />} />
         <Route path="/similar/movies/:movieId" element={<SimilarMovies />} />
         <Route path="/similar/tv-shows/:tvId" element={<SimilarTVShows />} />
+        <Route path="/person/:personId" element={<Person />} />
         <Route path="/share/:type/:id" element={<Share />} />
       </Routes>
     </BrowserRouter>

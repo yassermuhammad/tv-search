@@ -99,7 +99,7 @@ const MovieCard = ({ movie, onClick }) => {
             </Text>
           </Box>
         )}
-        
+
         {/* Gradient overlay on hover */}
         <Box
           className="card-overlay"
@@ -123,8 +123,8 @@ const MovieCard = ({ movie, onClick }) => {
               movie.vote_average >= RATING_THRESHOLDS.EXCELLENT
                 ? 'rgba(34, 197, 94, 0.9)'
                 : movie.vote_average >= RATING_THRESHOLDS.GOOD
-                ? 'rgba(234, 179, 8, 0.9)'
-                : 'rgba(239, 68, 68, 0.9)'
+                  ? 'rgba(234, 179, 8, 0.9)'
+                  : 'rgba(239, 68, 68, 0.9)'
             }
             color="white"
             fontSize="xs"

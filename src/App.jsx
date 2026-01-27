@@ -10,6 +10,8 @@ import SimilarMovies from './pages/SimilarMovies'
 import SimilarTVShows from './pages/SimilarTVShows'
 import Share from './pages/Share'
 
+import AnalyticsTracker from './components/shared/AnalyticsTracker'
+
 /**
  * Main App component
  * Sets up routing for the application
@@ -29,9 +31,10 @@ import Share from './pages/Share'
 function App() {
   // Get base path from window location for GitHub Pages
   const basePath = import.meta.env.BASE_URL || '/'
-  
+
   return (
     <BrowserRouter basename={basePath}>
+      <AnalyticsTracker />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/search" element={<Search />} />

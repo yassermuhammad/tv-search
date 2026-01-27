@@ -97,7 +97,7 @@ const ShowCard = ({ show, onClick }) => {
             </Text>
           </Box>
         )}
-        
+
         {/* Gradient overlay on hover */}
         <Box
           className="card-overlay"

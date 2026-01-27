@@ -34,7 +34,13 @@ function App() {
   const basePath = import.meta.env.BASE_URL || '/'
 
   return (
-    <BrowserRouter basename={basePath}>
+    <BrowserRouter 
+      basename={basePath}
+      future={{
+        v7_relativeSplatPath: true,
+        v7_startTransition: true,
+      }}
+    >
       <AnalyticsTracker />
       <Routes>
         <Route path="/" element={<Home />} />

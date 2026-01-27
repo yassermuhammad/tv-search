@@ -427,6 +427,8 @@ const DetailModal = ({ isOpen, onClose, item, type, isLoading, onItemClick }) =>
                   <WatchProviders
                     watchProviders={watchProviders}
                     loading={loadingProviders}
+                    item={item}
+                    type={type}
                   />
                 </>
               )}

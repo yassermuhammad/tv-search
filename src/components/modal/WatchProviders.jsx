@@ -1,7 +1,10 @@
-import { Box, Text, HStack, Badge, VStack, Spinner } from '@chakra-ui/react'
+import { Box, Text, HStack, Badge, VStack, Spinner, Link } from '@chakra-ui/react'
+import { ExternalLinkIcon } from '@chakra-ui/icons'
 import { useTranslation } from 'react-i18next'
 import { COLORS } from '../../utils/constants'
 import { PROVIDER_TYPE, PROVIDER_COLORS } from '../../models/constants'
+import { getProviderUrl } from '../../utils/providerUrls'
+import { MEDIA_TYPES } from '../../models/constants'
 
 const TEXT_COLOR = COLORS.TEXT_PRIMARY
 
@@ -10,9 +13,71 @@ const TEXT_COLOR = COLORS.TEXT_PRIMARY
  * @param {Object} props - Component props
  * @param {Object} props.watchProviders - Watch providers data from TMDB API
  * @param {boolean} props.loading - Loading state
+ * @param {Object} props.item - Movie or TV show item
+ * @param {string} props.type - Item type ('movie' or 'show')
  */
-const WatchProviders = ({ watchProviders, loading }) => {
+const WatchProviders = ({ watchProviders, loading, item, type }) => {
   const { t } = useTranslation()
+  
+  /**
+   * Gets the content title for URL generation
+   */
+  const getContentTitle = () => {
+    if (!item) return ''
+    return type === MEDIA_TYPES.MOVIE ? item.title || item.name : item.name || ''
+  }
+  
+  /**
+   * Gets the content type for URL generation ('movie' or 'tv')
+   */
+  const getContentType = () => {
+    return type === MEDIA_TYPES.MOVIE ? 'movie' : 'tv'
+  }
+  
+  /**
+   * Renders a provider badge with optional link
+   */
+  const renderProviderBadge = (provider, providerType = PROVIDER_TYPE.FLATRATE) => {
+    const contentTitle = getContentTitle()
+    const contentType = getContentType()
+    const providerUrl = getProviderUrl(provider.provider_id, provider.provider_name, contentTitle, contentType)
+    const colorScheme = PROVIDER_COLORS[providerType]
+    
+    const badge = (
+      <Badge
+        key={provider.provider_id}
+        colorScheme={colorScheme}
+        variant="subtle"
+        fontSize={{ base: 'xs', md: 'sm' }}
+        p={{ base: 1.5, md: 2 }}
+        cursor={providerUrl ? 'pointer' : 'default'}
+        _hover={providerUrl ? { 
+          bg: `${colorScheme}.600`,
+          transform: 'scale(1.05)'
+        } : {}}
+        transition="all 0.2s"
+      >
+        {provider.provider_name}
+        {providerUrl && <ExternalLinkIcon ml={1} boxSize="10px" />}
+      </Badge>
+    )
+    
+    if (providerUrl) {
+      return (
+        <Link
+          key={provider.provider_id}
+          href={providerUrl}
+          isExternal
+          _hover={{ textDecoration: 'none' }}
+        >
+          {badge}
+        </Link>
+      )
+    }
+    
+    return badge
+  }
+  
   /**
    * Gets available platforms for US (or fallback to any available country)
    * @returns {Object|null} Platform data or null
@@ -97,17 +162,7 @@ const WatchProviders = ({ watchProviders, loading }) => {
               {t('modal.stream')}
             </Text>
             <HStack spacing={{ base: 1.5, md: 2 }} flexWrap="wrap">
-              {platforms[PROVIDER_TYPE.FLATRATE].map((provider) => (
-                              <Badge
-                                key={provider.provider_id}
-                                colorScheme={PROVIDER_COLORS[PROVIDER_TYPE.FLATRATE]}
-                                variant="subtle"
-                                fontSize={{ base: 'xs', md: 'sm' }}
-                                p={{ base: 1.5, md: 2 }}
-                              >
-                                {provider.provider_name}
-                              </Badge>
-              ))}
+              {platforms[PROVIDER_TYPE.FLATRATE].map((provider) => renderProviderBadge(provider, PROVIDER_TYPE.FLATRATE))}
             </HStack>
           </Box>
         )}
@@ -124,17 +179,7 @@ const WatchProviders = ({ watchProviders, loading }) => {
               {t('modal.buy')}
             </Text>
             <HStack spacing={{ base: 1.5, md: 2 }} flexWrap="wrap">
-              {platforms[PROVIDER_TYPE.BUY].map((provider) => (
-                <Badge
-                  key={provider.provider_id}
-                  colorScheme={PROVIDER_COLORS[PROVIDER_TYPE.BUY]}
-                  variant="subtle"
-                  fontSize={{ base: 'xs', md: 'sm' }}
-                  p={{ base: 1.5, md: 2 }}
-                >
-                  {provider.provider_name}
-                </Badge>
-              ))}
+              {platforms[PROVIDER_TYPE.BUY].map((provider) => renderProviderBadge(provider, PROVIDER_TYPE.BUY))}
             </HStack>
           </Box>
         )}
@@ -151,17 +196,7 @@ const WatchProviders = ({ watchProviders, loading }) => {
               {t('modal.rent')}
             </Text>
             <HStack spacing={{ base: 1.5, md: 2 }} flexWrap="wrap">
-              {platforms[PROVIDER_TYPE.RENT].map((provider) => (
-                <Badge
-                  key={provider.provider_id}
-                  colorScheme={PROVIDER_COLORS[PROVIDER_TYPE.RENT]}
-                  variant="subtle"
-                  fontSize={{ base: 'xs', md: 'sm' }}
-                  p={{ base: 1.5, md: 2 }}
-                >
-                  {provider.provider_name}
-                </Badge>
-              ))}
+              {platforms[PROVIDER_TYPE.RENT].map((provider) => renderProviderBadge(provider, PROVIDER_TYPE.RENT))}
             </HStack>
           </Box>
         )}

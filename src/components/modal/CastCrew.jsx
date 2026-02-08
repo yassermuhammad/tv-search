@@ -117,9 +117,21 @@ const CastCrew = ({ cast = [], crew = [], loading = false }) => {
                 bg="rgba(255, 255, 255, 0.05)"
                 p={3}
                 borderRadius="md"
-                _hover={{ bg: 'rgba(255, 255, 255, 0.1)', cursor: 'pointer' }}
+                cursor="pointer"
+                userSelect="none"
+                touchAction="manipulation"
+                _hover={{ bg: 'rgba(255, 255, 255, 0.1)' }}
+                _active={{ bg: 'rgba(255, 255, 255, 0.15)', transform: 'scale(0.98)' }}
                 transition="all 0.2s"
                 onClick={() => handleCastMemberClick(actor.id)}
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault()
+                    handleCastMemberClick(actor.id)
+                  }
+                }}
               >
                 <Avatar
                   size={{ base: 'sm', md: 'md' }}
@@ -212,8 +224,21 @@ const CastCrew = ({ cast = [], crew = [], loading = false }) => {
                           bg="rgba(255, 255, 255, 0.03)"
                           p={3}
                           borderRadius="md"
+                          cursor="pointer"
+                          userSelect="none"
+                          touchAction="manipulation"
                           _hover={{ bg: 'rgba(255, 255, 255, 0.08)' }}
+                          _active={{ bg: 'rgba(255, 255, 255, 0.12)', transform: 'scale(0.98)' }}
                           transition="all 0.2s"
+                          onClick={() => handleCastMemberClick(person.id)}
+                          role="button"
+                          tabIndex={0}
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter' || e.key === ' ') {
+                              e.preventDefault()
+                              handleCastMemberClick(person.id)
+                            }
+                          }}
                         >
                           <Avatar
                             size={{ base: 'sm', md: 'md' }}
@@ -307,8 +332,21 @@ const CastCrew = ({ cast = [], crew = [], loading = false }) => {
                                   bg="rgba(255, 255, 255, 0.02)"
                                   p={2}
                                   borderRadius="md"
+                                  cursor="pointer"
+                                  userSelect="none"
+                                  touchAction="manipulation"
                                   _hover={{ bg: 'rgba(255, 255, 255, 0.05)' }}
+                                  _active={{ bg: 'rgba(255, 255, 255, 0.08)', transform: 'scale(0.98)' }}
                                   transition="all 0.2s"
+                                  onClick={() => handleCastMemberClick(person.id)}
+                                  role="button"
+                                  tabIndex={0}
+                                  onKeyDown={(e) => {
+                                    if (e.key === 'Enter' || e.key === ' ') {
+                                      e.preventDefault()
+                                      handleCastMemberClick(person.id)
+                                    }
+                                  }}
                                 >
                                   <Avatar
                                     size="sm"

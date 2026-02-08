@@ -153,7 +153,7 @@ export const showNotification = async (options) => {
     }
   }
 
-  // Fallback to regular Notification API
+  // Fallback to regular Notification API (real device notification)
   try {
     const notification = new Notification(options.title, {
       body: options.body,
@@ -163,14 +163,15 @@ export const showNotification = async (options) => {
       data: options.data,
       requireInteraction: options.requireInteraction || false,
       silent: options.silent || false,
+      vibrate: [200, 100, 200], // Vibration pattern for mobile devices
     })
 
-    // Handle notification click
+    // Handle notification click - opens the app when clicked
     notification.onclick = (event) => {
       event.preventDefault()
       window.focus()
-      // You could navigate to the item detail page here
-      if (options.data) {
+      // Navigate to the item detail page if data is provided
+      if (options.data && options.data.itemId && options.data.type && !options.data.test) {
         const { itemId, type } = options.data
         const path = type === 'movie' ? `/share/movie/${itemId}` : `/share/show/${itemId}`
         window.location.href = path
@@ -178,7 +179,8 @@ export const showNotification = async (options) => {
       notification.close()
     }
   } catch (error) {
-    console.error('Error showing notification:', error)
+    console.error('Error showing device notification:', error)
+    throw error // Re-throw so caller knows it failed
   }
 }
 
@@ -224,5 +226,49 @@ export const scheduleAllReminders = async (reminders) => {
 
   reminders.forEach((reminder) => {
     scheduleReleaseNotification(reminder)
+  })
+}
+
+/**
+ * Test notification - shows a device notification after a delay (for testing purposes)
+ * This will show a real browser/system notification, not just a toast
+ * @param {number} delaySeconds - Delay in seconds before showing notification (default: 10)
+ * @returns {Promise<void>}
+ */
+export const testNotification = async (delaySeconds = 10) => {
+  if (!hasNotificationPermission()) {
+    throw new Error('Notification permission not granted. Please enable notifications first.')
+  }
+
+  const delay = delaySeconds * 1000 // Convert to milliseconds
+
+  return new Promise((resolve, reject) => {
+    // Show immediate feedback that notification is scheduled
+    console.log(`Test notification scheduled for ${delaySeconds} seconds from now`)
+    
+    setTimeout(async () => {
+      try {
+        // Show real device notification (not toast)
+        await showNotification({
+          title: '🎬 WatchPedia Test Notification',
+          body: 'This is a test notification! Your reminder notifications will work exactly like this.',
+          icon: '/icon-192x192.png',
+          badge: '/icon-96x96.png',
+          tag: 'test-notification',
+          data: {
+            itemId: 0,
+            type: 'test',
+            test: true,
+          },
+          requireInteraction: false,
+          silent: false,
+        })
+        console.log('Test notification sent successfully')
+        resolve()
+      } catch (error) {
+        console.error('Error showing test notification:', error)
+        reject(error)
+      }
+    }, delay)
   })
 }

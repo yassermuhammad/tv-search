@@ -43,6 +43,7 @@ export const TEXT_COLOR = COLORS.TEXT_PRIMARY
 // Storage keys
 export const STORAGE_KEYS = {
   WATCHLIST: 'watchpedia-watchlist',
+  REMINDERS: 'watchpedia-reminders',
 }
 
 // API constants

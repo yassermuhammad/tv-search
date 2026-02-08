@@ -648,6 +648,110 @@ export const getPersonCredits = async (personId) => {
 }
 
 /**
+ * Get upcoming movies
+ * @param {number} page - Page number (default: 1)
+ * @param {string} region - Region code (default: 'US')
+ * @returns {Promise<Object>} Object with results array and pagination info
+ */
+export const getUpcomingMovies = async (page = 1, region = 'US') => {
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/movie/upcoming?api_key=${API_KEY}&language=en-US&page=${page}&region=${region}`
+    )
+    
+    if (!response.ok) {
+      throw new Error(`API error: ${response.status}`)
+    }
+
+    const data = await response.json()
+    return {
+      results: data.results || [],
+      totalPages: data.total_pages || 1,
+      page: data.page || 1,
+    }
+  } catch (error) {
+    console.error('Error fetching upcoming movies:', error)
+    throw error
+  }
+}
+
+/**
+ * Discover movies with release date range
+ * This is used to get movies far in the future that the "upcoming" endpoint doesn't return
+ * @param {number} page - Page number (default: 1)
+ * @param {string} startDate - Start date in YYYY-MM-DD format
+ * @param {string} endDate - End date in YYYY-MM-DD format
+ * @param {string} region - Region code (default: 'US')
+ * @param {string} sortBy - Sort by field (default: 'release_date.asc')
+ * @returns {Promise<Object>} Object with results array and pagination info
+ */
+export const discoverMoviesByDateRange = async (
+  page = 1,
+  startDate,
+  endDate,
+  region = 'US',
+  sortBy = 'release_date.asc'
+) => {
+  try {
+    const params = new URLSearchParams({
+      api_key: API_KEY,
+      language: 'en-US',
+      page: page.toString(),
+      region,
+      'primary_release_date.gte': startDate,
+      'primary_release_date.lte': endDate,
+      sort_by: sortBy,
+      'with_release_type': '2|3', // Theatrical releases only
+    })
+
+    const response = await fetch(
+      `${API_BASE_URL}/discover/movie?${params.toString()}`
+    )
+    
+    if (!response.ok) {
+      throw new Error(`API error: ${response.status}`)
+    }
+
+    const data = await response.json()
+    return {
+      results: data.results || [],
+      totalPages: data.total_pages || 1,
+      page: data.page || 1,
+    }
+  } catch (error) {
+    console.error('Error discovering movies by date range:', error)
+    throw error
+  }
+}
+
+/**
+ * Get TV shows that are currently on the air
+ * @param {number} page - Page number (default: 1)
+ * @returns {Promise<Object>} Object with results array and pagination info
+ */
+export const getOnTheAirTVShows = async (page = 1) => {
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/tv/on_the_air?api_key=${API_KEY}&language=en-US&page=${page}`
+    )
+    
+    if (!response.ok) {
+      throw new Error(`API error: ${response.status}`)
+    }
+
+    const data = await response.json()
+    return {
+      results: data.results || [],
+      totalPages: data.total_pages || 1,
+      page: data.page || 1,
+    }
+  } catch (error) {
+    console.error('Error fetching on-the-air TV shows:', error)
+    throw error
+  }
+}
+
+/**
  * Get a random movie or TV show from popular/trending content
  * @param {string} type - 'movie' or 'tv'
  * @returns {Promise<Object>} Random movie or TV show

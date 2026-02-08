@@ -5,6 +5,7 @@ import { HelmetProvider } from 'react-helmet-async'
 import App from './App.jsx'
 import theme from './theme'
 import { WatchlistProvider } from './contexts/WatchlistContext'
+import { RemindersProvider } from './contexts/RemindersContext'
 import { AuthProvider } from './contexts/AuthContext'
 import './i18n/config' // Initialize i18n
 import './index.css'
@@ -15,6 +16,7 @@ import './index.css'
  * - ChakraUI theme provider
  * - HelmetProvider for SEO meta tags
  * - Watchlist context provider
+ * - Reminders context provider
  * - Auth provider
  * - Color mode script for dark theme
  */
@@ -25,7 +27,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       <ChakraProvider theme={theme}>
         <AuthProvider>
           <WatchlistProvider>
-            <App />
+            <RemindersProvider>
+              <App />
+            </RemindersProvider>
           </WatchlistProvider>
         </AuthProvider>
       </ChakraProvider>

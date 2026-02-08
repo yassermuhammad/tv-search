@@ -148,6 +148,18 @@ const Header = ({ showBackButton = false, onBack }) => {
             />
 
             <Button
+              onClick={() => navigate('/upcoming')}
+              bg="rgba(255, 255, 255, 0.1)"
+              color="white"
+              _hover={{ bg: 'rgba(255, 255, 255, 0.2)' }}
+              fontWeight="600"
+              size="md"
+              px={4}
+            >
+              Upcoming
+            </Button>
+
+            <Button
               onClick={() => navigate('/watchlist')}
               bg="rgba(255, 255, 255, 0.1)"
               color="white"
@@ -208,6 +220,26 @@ const Header = ({ showBackButton = false, onBack }) => {
                       <Text fontWeight="bold" noOfLines={1}>{currentUser.displayName}</Text>
                     </Flex>
                   )}
+
+                  <Button
+                    justifyContent="flex-start"
+                    variant="ghost"
+                    color="white"
+                    _hover={{ bg: 'gray.800' }}
+                    onClick={() => { navigate('/upcoming'); onClose(); }}
+                  >
+                    Upcoming
+                  </Button>
+
+                  <Button
+                    justifyContent="flex-start"
+                    variant="ghost"
+                    color="white"
+                    _hover={{ bg: 'gray.800' }}
+                    onClick={() => { navigate('/reminders'); onClose(); }}
+                  >
+                    Reminders
+                  </Button>
 
                   <Button
                     justifyContent="space-between"

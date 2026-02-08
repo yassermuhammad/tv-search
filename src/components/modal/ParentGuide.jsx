@@ -96,56 +96,82 @@ const ParentGuide = ({ contentRatings = [], parentGuide = null, loading = false 
           <Box
             border="1px solid rgba(255, 255, 255, 0.1)"
             borderRadius="md"
-            p={3}
+            p={{ base: 4, md: 3 }}
             bg="rgba(255, 255, 255, 0.03)"
           >
-            <HStack justify="space-between" mb={2}>
-              <Text fontSize="sm" color="rgba(255, 255, 255, 0.7)" fontWeight="medium">
-                Content Rating
-              </Text>
-              <Badge
-                fontSize={{ base: 'sm', md: 'md' }}
-                px={3}
-                py={1}
-                colorScheme={
-                  usRating === 'G' || usRating === 'PG' || usRating === 'TV-G' || usRating === 'TV-Y' || usRating === 'TV-Y7'
-                    ? 'green'
-                    : usRating === 'PG-13' || usRating === 'TV-PG'
-                    ? 'yellow'
-                    : usRating === 'TV-14'
-                    ? 'orange'
-                    : 'red'
-                }
-                borderRadius="md"
+            <VStack spacing={2} align="stretch" mb={3}>
+              <HStack 
+                justify={{ base: 'flex-start', md: 'space-between' }} 
+                align={{ base: 'flex-start', md: 'center' }}
+                flexWrap="wrap"
+                spacing={2}
               >
-                {ratingDescription.title}
-              </Badge>
-            </HStack>
-            
-            <Text fontSize="sm" color="rgba(255, 255, 255, 0.9)" mb={2} fontWeight="medium">
-              {ratingDescription.description}
-            </Text>
+                <Text 
+                  fontSize={{ base: 'sm', md: 'sm' }} 
+                  color="rgba(255, 255, 255, 0.7)" 
+                  fontWeight="medium"
+                  flexShrink={0}
+                >
+                  Content Rating
+                </Text>
+                <Badge
+                  fontSize={{ base: 'xs', md: 'sm' }}
+                  px={{ base: 2, md: 3 }}
+                  py={{ base: 1.5, md: 1 }}
+                  colorScheme={
+                    usRating === 'G' || usRating === 'PG' || usRating === 'TV-G' || usRating === 'TV-Y' || usRating === 'TV-Y7'
+                      ? 'green'
+                      : usRating === 'PG-13' || usRating === 'TV-PG'
+                      ? 'yellow'
+                      : usRating === 'TV-14'
+                      ? 'orange'
+                      : 'red'
+                  }
+                  borderRadius="md"
+                  whiteSpace="nowrap"
+                >
+                  {ratingDescription.title}
+                </Badge>
+              </HStack>
+              
+              <Text 
+                fontSize={{ base: 'sm', md: 'sm' }} 
+                color="rgba(255, 255, 255, 0.9)" 
+                fontWeight="medium"
+                lineHeight="1.6"
+              >
+                {ratingDescription.description}
+              </Text>
+            </VStack>
             
             <Collapse in={isRatingExpanded} animateOpacity>
               <Box
                 mt={2}
-                pt={2}
+                pt={3}
                 borderTop="1px solid rgba(255, 255, 255, 0.1)"
               >
-                <Text fontSize="xs" color="rgba(255, 255, 255, 0.7)" lineHeight="tall">
+                <Text 
+                  fontSize={{ base: 'xs', md: 'xs' }} 
+                  color="rgba(255, 255, 255, 0.7)" 
+                  lineHeight="1.7"
+                >
                   {ratingDescription.content}
                 </Text>
               </Box>
             </Collapse>
             
             <Button
-              size="xs"
+              size={{ base: 'sm', md: 'xs' }}
               variant="ghost"
               color="rgba(255, 255, 255, 0.6)"
               onClick={() => setIsRatingExpanded(!isRatingExpanded)}
-              mt={2}
+              mt={3}
               leftIcon={isRatingExpanded ? <ChevronUpIcon /> : <ChevronDownIcon />}
               _hover={{ color: 'white', bg: 'rgba(255, 255, 255, 0.1)' }}
+              width={{ base: '100%', md: 'auto' }}
+              justifyContent={{ base: 'flex-start', md: 'center' }}
+              fontSize={{ base: 'sm', md: 'xs' }}
+              py={{ base: 2, md: 1 }}
             >
               {isRatingExpanded ? 'Show Less' : 'Show More Details'}
             </Button>
@@ -200,7 +226,13 @@ const ParentGuide = ({ contentRatings = [], parentGuide = null, loading = false 
 
         {/* Show message if only rating is available */}
         {usRating && !hasDetailedGuide && (
-          <Text fontSize="xs" color="rgba(255, 255, 255, 0.5)" fontStyle="italic">
+          <Text 
+            fontSize={{ base: 'xs', md: 'xs' }} 
+            color="rgba(255, 255, 255, 0.5)" 
+            fontStyle="italic"
+            textAlign={{ base: 'center', md: 'left' }}
+            px={{ base: 2, md: 0 }}
+          >
             Detailed content warnings are not available for this title.
           </Text>
         )}

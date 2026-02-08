@@ -1,19 +1,20 @@
 # Firestore Setup Guide
 
-This guide explains how to set up Firebase Firestore for the watchlist feature.
+This guide explains how to set up Firebase Firestore for the watchlist and reminders features.
 
 ## Overview
 
-The watchlist feature now uses Firebase Firestore to store user watchlists, enabling:
-- **Cross-device synchronization**: Watchlist syncs across all devices when user is logged in
+The watchlist and reminders features use Firebase Firestore to store user data, enabling:
+- **Cross-device synchronization**: Data syncs across all devices when user is logged in
 - **Real-time updates**: Changes are reflected instantly across all devices
-- **Cloud backup**: Watchlist data is stored securely in the cloud
+- **Cloud backup**: Data is stored securely in the cloud
 - **Offline support**: Falls back to localStorage when user is not logged in
 
 ## Firestore Structure
 
-The watchlist data is stored in the following structure:
+The watchlist and reminders data are stored in the following structure:
 
+### Watchlist Structure
 ```
 users/
   {userId}/
@@ -23,6 +24,19 @@ users/
         type: "show" | "movie"
         data: { ... }  // Full item data
         addedAt: string (ISO timestamp)
+```
+
+### Reminders Structure
+```
+users/
+  {userId}/
+    reminders/
+      {itemId}_{type}/
+        itemId: number
+        type: "show" | "movie"
+        itemData: { ... }  // Full item data
+        releaseDate: string (ISO date)
+        createdAt: string (ISO timestamp)
 ```
 
 Example:
@@ -40,6 +54,13 @@ users/
         type: "show"
         data: { name: "Breaking Bad", ... }
         addedAt: "2024-01-14T15:20:00.000Z"
+    reminders/
+      789_movie/
+        itemId: 789
+        type: "movie"
+        itemData: { title: "Dune 2", ... }
+        releaseDate: "2024-03-01"
+        createdAt: "2024-01-10T08:00:00.000Z"
 ```
 
 ## Step-by-Step Setup Instructions
@@ -87,6 +108,12 @@ service cloud.firestore {
       allow read, write: if request.auth != null && request.auth.uid == userId;
     }
     
+    // Users can only read/write their own reminders
+    match /users/{userId}/reminders/{reminderId} {
+      // Allow read/write only if the user is authenticated and owns the data
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+    
     // Deny all other access
     match /{document=**} {
       allow read, write: if false;
@@ -94,6 +121,8 @@ service cloud.firestore {
   }
 }
 ```
+
+**IMPORTANT**: Make sure both the `watchlist` and `reminders` collections are included in the rules!
 
 5. Click **"Publish"** button to save the rules
 6. You should see a success message: "Rules published successfully"
@@ -104,8 +133,11 @@ After setting up the rules:
 1. Refresh your app
 2. Log in with Google
 3. Try adding an item to your watchlist
-4. Check the browser console - you should NOT see permission errors
-5. Check Firebase Console → Firestore Database → Data tab - you should see your watchlist items under `users/{yourUserId}/watchlist/`
+4. Try setting a reminder for an upcoming release
+5. Check the browser console - you should NOT see permission errors
+6. Check Firebase Console → Firestore Database → Data tab - you should see:
+   - Your watchlist items under `users/{yourUserId}/watchlist/`
+   - Your reminders under `users/{yourUserId}/reminders/`
 
 ## Common Issues
 
@@ -116,9 +148,11 @@ After setting up the rules:
 **Solution**:
 1. Make sure Firestore Database is enabled (Step 1 above)
 2. Make sure Security Rules are published (Step 2 above)
-3. Verify the rules match exactly what's shown above
-4. Make sure you're logged in (`currentUser` should not be null)
-5. Refresh the page after updating rules
+3. **Verify the rules include BOTH watchlist AND reminders collections** (see Step 2)
+4. Verify the rules match exactly what's shown above
+5. Make sure you're logged in (`currentUser` should not be null)
+6. Refresh the page after updating rules
+7. Check that the rules path matches: `users/{userId}/watchlist/{itemId}` and `users/{userId}/reminders/{reminderId}`
 
 ## Features
 
@@ -163,12 +197,14 @@ If Firestore operations fail (e.g., network issues), the app gracefully falls ba
 
 ## Troubleshooting
 
-### Watchlist not syncing
+### Watchlist or Reminders not syncing
 
 - Check Firestore Security Rules are published correctly
+- **Verify rules include both watchlist AND reminders collections**
 - Verify user is authenticated (`currentUser` is not null)
 - Check browser console for Firestore errors
 - Verify Firebase project configuration is correct
+- Make sure you've refreshed the page after updating rules
 
 ### Migration not working
 

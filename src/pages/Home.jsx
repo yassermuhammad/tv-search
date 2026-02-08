@@ -9,6 +9,7 @@ import HeroSection from '../components/shared/HeroSection'
 import ContentRow from '../components/home/ContentRow'
 import MovieCard from '../components/MovieCard'
 import ShowCard from '../components/ShowCard'
+import NotificationPermission from '../components/shared/NotificationPermission'
 import SEO from '../components/seo/SEO'
 import { useModal } from '../hooks/useModal'
 import { useTrending } from '../hooks/useTrending'
@@ -164,6 +165,9 @@ const Home = () => {
         py={{ base: 4, md: 8 }}
         px={{ base: 4, md: 6, lg: 8 }}
       >
+        {/* Notification Permission Banner */}
+        <NotificationPermission />
+
         {/* Hero section */}
         <HeroSection 
           onRandomClick={handleRandomClick}

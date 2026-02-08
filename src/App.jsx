@@ -15,6 +15,8 @@ const SimilarMovies = lazy(() => import('./pages/SimilarMovies'))
 const SimilarTVShows = lazy(() => import('./pages/SimilarTVShows'))
 const Share = lazy(() => import('./pages/Share'))
 const Person = lazy(() => import('./pages/Person'))
+const Upcoming = lazy(() => import('./pages/Upcoming'))
+const Reminders = lazy(() => import('./pages/Reminders'))
 
 /**
  * Main App component
@@ -28,6 +30,13 @@ const Person = lazy(() => import('./pages/Person'))
  * - "/trending/tv-shows" - All trending TV shows with infinite scroll
  * - "/popular/movies" - All popular movies with infinite scroll
  * - "/popular/tv-shows" - All popular TV shows with infinite scroll
+ * - "/upcoming" - Upcoming releases (list view, all content)
+ * - "/upcoming/movies" - Upcoming movies only
+ * - "/upcoming/tv-shows" - Upcoming TV shows only
+ * - "/upcoming/calendar" - Upcoming releases calendar view
+ * - "/upcoming/calendar/movies" - Calendar view, movies only
+ * - "/upcoming/calendar/tv-shows" - Calendar view, TV shows only
+ * - "/reminders" - User's release reminders
  * - "/share/:type/:id" - Share page that opens detail modal
  * 
  * @returns {JSX.Element} App component
@@ -54,6 +63,13 @@ function App() {
           <Route path="/trending/tv-shows" element={<TrendingTVShows />} />
           <Route path="/popular/movies" element={<PopularMovies />} />
           <Route path="/popular/tv-shows" element={<PopularTVShows />} />
+          <Route path="/upcoming" element={<Upcoming />} />
+          <Route path="/upcoming/movies" element={<Upcoming />} />
+          <Route path="/upcoming/tv-shows" element={<Upcoming />} />
+          <Route path="/upcoming/calendar" element={<Upcoming />} />
+          <Route path="/upcoming/calendar/movies" element={<Upcoming />} />
+          <Route path="/upcoming/calendar/tv-shows" element={<Upcoming />} />
+          <Route path="/reminders" element={<Reminders />} />
           <Route path="/similar/movies/:movieId" element={<SimilarMovies />} />
           <Route path="/similar/tv-shows/:tvId" element={<SimilarTVShows />} />
           <Route path="/person/:personId" element={<Person />} />

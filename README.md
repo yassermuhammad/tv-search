@@ -107,3 +107,4 @@ Icons are automatically generated from `public/icon.svg` when you run `yarn buil
 
 This project uses data from TVMaze API, licensed under CC BY-SA.
 
+

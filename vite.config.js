@@ -18,11 +18,23 @@ export default defineConfig({
     // Code splitting
     rollupOptions: {
       output: {
-        manualChunks: {
-          'react-vendor': ['react', 'react-dom', 'react-router-dom'],
-          'chakra-vendor': ['@chakra-ui/react', '@emotion/react', '@emotion/styled', 'framer-motion'],
-          'i18n-vendor': ['i18next', 'react-i18next', 'i18next-browser-languagedetector'],
-          'firebase-vendor': ['firebase'],
+        manualChunks: (id) => {
+          // React vendor chunk
+          if (id.includes('node_modules/react') || id.includes('node_modules/react-dom') || id.includes('node_modules/react-router-dom')) {
+            return 'react-vendor'
+          }
+          // Chakra UI vendor chunk
+          if (id.includes('node_modules/@chakra-ui') || id.includes('node_modules/@emotion') || id.includes('node_modules/framer-motion')) {
+            return 'chakra-vendor'
+          }
+          // i18n vendor chunk
+          if (id.includes('node_modules/i18next') || id.includes('node_modules/react-i18next')) {
+            return 'i18n-vendor'
+          }
+          // Firebase vendor chunk (using subpath imports)
+          if (id.includes('node_modules/firebase/')) {
+            return 'firebase-vendor'
+          }
         },
       },
     },

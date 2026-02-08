@@ -20,7 +20,9 @@
     "popularTVShows": "Популярные телешоу",
     "viewAll": "Показать все",
     "today": "Сегодня",
-    "thisWeek": "На этой неделе"
+    "thisWeek": "На этой неделе",
+    "randomButton": "Удиви меня",
+    "randomLoading": "Ищем что-то отличное..."
   },
   "search": {
     "title": "Поиск",

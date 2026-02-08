@@ -118,8 +118,10 @@ const CastCrew = ({ cast = [], crew = [], loading = false }) => {
                 p={3}
                 borderRadius="md"
                 cursor="pointer"
-                userSelect="none"
-                touchAction="manipulation"
+                sx={{
+                  userSelect: 'none',
+                  touchAction: 'manipulation',
+                }}
                 _hover={{ bg: 'rgba(255, 255, 255, 0.1)' }}
                 _active={{ bg: 'rgba(255, 255, 255, 0.15)', transform: 'scale(0.98)' }}
                 transition="all 0.2s"
@@ -225,8 +227,10 @@ const CastCrew = ({ cast = [], crew = [], loading = false }) => {
                           p={3}
                           borderRadius="md"
                           cursor="pointer"
-                          userSelect="none"
-                          touchAction="manipulation"
+                          sx={{
+                            userSelect: 'none',
+                            touchAction: 'manipulation',
+                          }}
                           _hover={{ bg: 'rgba(255, 255, 255, 0.08)' }}
                           _active={{ bg: 'rgba(255, 255, 255, 0.12)', transform: 'scale(0.98)' }}
                           transition="all 0.2s"
@@ -333,8 +337,10 @@ const CastCrew = ({ cast = [], crew = [], loading = false }) => {
                                   p={2}
                                   borderRadius="md"
                                   cursor="pointer"
-                                  userSelect="none"
-                                  touchAction="manipulation"
+                                  sx={{
+                                    userSelect: 'none',
+                                    touchAction: 'manipulation',
+                                  }}
                                   _hover={{ bg: 'rgba(255, 255, 255, 0.05)' }}
                                   _active={{ bg: 'rgba(255, 255, 255, 0.08)', transform: 'scale(0.98)' }}
                                   transition="all 0.2s"

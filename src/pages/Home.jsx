@@ -2,7 +2,7 @@ import { Box, Container, Divider, VStack } from '@chakra-ui/react'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { getShowById } from '../services/tvmazeApi'
-import { getMovieById } from '../services/tmdbApi'
+import { getMovieById, getRandomContent, getTVShowById } from '../services/tmdbApi'
 import DetailModal from '../components/DetailModal'
 import Header from '../components/shared/Header'
 import HeroSection from '../components/shared/HeroSection'
@@ -29,6 +29,7 @@ const Home = () => {
   const { t } = useTranslation()
   const modal = useModal()
   const [trendingTimeWindow, setTrendingTimeWindow] = useState('day')
+  const [isRandomLoading, setIsRandomLoading] = useState(false)
   
   const structuredData = getWebsiteStructuredData()
   
@@ -114,6 +115,40 @@ const Home = () => {
     }, 100)
   }
 
+  /**
+   * Handles clicking the random button
+   * Fetches a random movie or TV show and opens it in the modal
+   */
+  const handleRandomClick = async () => {
+    setIsRandomLoading(true)
+    try {
+      // Randomly choose between movie and TV show
+      const randomType = Math.random() > 0.5 ? 'movie' : 'tv'
+      const randomContent = await getRandomContent(randomType)
+      
+      if (!randomContent) {
+        throw new Error('No random content found')
+      }
+
+      if (randomType === 'movie') {
+        await handleMovieClick(randomContent)
+      } else {
+        // For TV shows, fetch full details from TMDB first
+        const fullDetails = await getTVShowById(randomContent.id)
+        // Adapt TMDB format to TVMaze format for compatibility
+        const adaptedShow = adaptTMDBShowsToTVMaze([fullDetails])[0]
+        // Store full TMDB data for use in modal
+        adaptedShow._tmdbData = fullDetails
+        await handleShowClick(adaptedShow)
+      }
+    } catch (error) {
+      console.error('Error fetching random content:', error)
+      // You could show a toast notification here
+    } finally {
+      setIsRandomLoading(false)
+    }
+  }
+
   return (
     <Box minH="100vh" bg="#141414" position="relative">
       <SEO
@@ -130,7 +165,10 @@ const Home = () => {
         px={{ base: 4, md: 6, lg: 8 }}
       >
         {/* Hero section */}
-        <HeroSection />
+        <HeroSection 
+          onRandomClick={handleRandomClick}
+          isRandomLoading={isRandomLoading}
+        />
 
         <Divider borderColor="rgba(255, 255, 255, 0.1)" my={{ base: 4, md: 6 }} />
 

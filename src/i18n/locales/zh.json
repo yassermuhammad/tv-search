@@ -20,7 +20,9 @@
     "popularTVShows": "流行电视节目",
     "viewAll": "查看全部",
     "today": "今天",
-    "thisWeek": "本周"
+    "thisWeek": "本周",
+    "randomButton": "给我惊喜",
+    "randomLoading": "正在寻找精彩内容..."
   },
   "search": {
     "title": "搜索",

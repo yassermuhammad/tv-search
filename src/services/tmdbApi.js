@@ -646,3 +646,62 @@ export const getPersonCredits = async (personId) => {
     throw error
   }
 }
+
+/**
+ * Get a random movie or TV show from popular/trending content
+ * @param {string} type - 'movie' or 'tv'
+ * @returns {Promise<Object>} Random movie or TV show
+ */
+export const getRandomContent = async (type = 'movie') => {
+  try {
+    // Get a random page (1-5 for better variety)
+    const randomPage = Math.floor(Math.random() * 5) + 1
+    
+    let response
+    if (type === 'movie') {
+      // 50% chance to get from trending, 50% from popular
+      const useTrending = Math.random() > 0.5
+      if (useTrending) {
+        const data = await getTrendingMovies('week', randomPage)
+        const results = data.results || data
+        if (results.length > 0) {
+          return results[Math.floor(Math.random() * results.length)]
+        }
+      }
+      const data = await getPopularMovies(randomPage)
+      const results = data.results || []
+      if (results.length > 0) {
+        return results[Math.floor(Math.random() * results.length)]
+      }
+    } else {
+      // TV show
+      const useTrending = Math.random() > 0.5
+      if (useTrending) {
+        const data = await getTrendingTVShows('week', randomPage)
+        const results = data.results || data
+        if (results.length > 0) {
+          return results[Math.floor(Math.random() * results.length)]
+        }
+      }
+      const data = await getPopularTVShows(randomPage)
+      const results = data.results || []
+      if (results.length > 0) {
+        return results[Math.floor(Math.random() * results.length)]
+      }
+    }
+    
+    // Fallback: try page 1 if random page had no results
+    if (type === 'movie') {
+      const data = await getPopularMovies(1)
+      const results = data.results || []
+      return results[0] || null
+    } else {
+      const data = await getPopularTVShows(1)
+      const results = data.results || []
+      return results[0] || null
+    }
+  } catch (error) {
+    console.error('Error fetching random content:', error)
+    throw error
+  }
+}

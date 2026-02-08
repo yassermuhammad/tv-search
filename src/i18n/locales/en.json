@@ -20,7 +20,9 @@
     "popularTVShows": "Popular TV Shows",
     "viewAll": "View All",
     "today": "Today",
-    "thisWeek": "This Week"
+    "thisWeek": "This Week",
+    "randomButton": "Surprise Me",
+    "randomLoading": "Finding something great..."
   },
   "search": {
     "title": "Search",

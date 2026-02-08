@@ -20,7 +20,9 @@
     "popularTVShows": "البرامج التلفزيونية الشائعة",
     "viewAll": "عرض الكل",
     "today": "اليوم",
-    "thisWeek": "هذا الأسبوع"
+    "thisWeek": "هذا الأسبوع",
+    "randomButton": "فاجئني",
+    "randomLoading": "البحث عن شيء رائع..."
   },
   "search": {
     "title": "بحث",

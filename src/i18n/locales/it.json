@@ -20,7 +20,9 @@
     "popularTVShows": "Programmi TV Popolari",
     "viewAll": "Vedi Tutto",
     "today": "Oggi",
-    "thisWeek": "Questa Settimana"
+    "thisWeek": "Questa Settimana",
+    "randomButton": "Sorprendimi",
+    "randomLoading": "Cercando qualcosa di fantastico..."
   },
   "search": {
     "title": "Cerca",

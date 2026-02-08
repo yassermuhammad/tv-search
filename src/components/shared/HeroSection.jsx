@@ -1,15 +1,20 @@
-import { VStack, Heading, Text } from '@chakra-ui/react'
+import { VStack, Heading, Text, Button, HStack } from '@chakra-ui/react'
 import { useTranslation } from 'react-i18next'
+import { FaDice } from 'react-icons/fa'
 
 /**
  * Hero section component displayed when no search has been performed
  * @param {Object} props - Component props
  * @param {string} props.title - Hero title (optional, uses translation if not provided)
  * @param {string} props.subtitle - Hero subtitle (optional, uses translation if not provided)
+ * @param {Function} props.onRandomClick - Callback when random button is clicked
+ * @param {boolean} props.isRandomLoading - Loading state for random button
  */
 const HeroSection = ({ 
   title,
-  subtitle
+  subtitle,
+  onRandomClick,
+  isRandomLoading = false
 }) => {
   const { t } = useTranslation()
   
@@ -17,7 +22,7 @@ const HeroSection = ({
   const heroSubtitle = subtitle || t('home.subtitle')
   return (
     <VStack
-      spacing={{ base: 2, md: 3 }}
+      spacing={{ base: 3, md: 4 }}
       py={{ base: 3, md: 4 }}
       px={{ base: 4, md: 0 }}
       textAlign="center"
@@ -49,6 +54,27 @@ const HeroSection = ({
       >
         {heroSubtitle}
       </Text>
+      {onRandomClick && (
+        <Button
+          leftIcon={<FaDice />}
+          colorScheme="netflix"
+          size={{ base: 'md', md: 'lg' }}
+          onClick={onRandomClick}
+          isLoading={isRandomLoading}
+          loadingText={t('home.randomLoading')}
+          fontWeight="600"
+          px={8}
+          py={6}
+          borderRadius="md"
+          _hover={{
+            transform: 'scale(1.05)',
+            boxShadow: 'lg',
+          }}
+          transition="all 0.2s"
+        >
+          {t('home.randomButton')}
+        </Button>
+      )}
     </VStack>
   )
 }

@@ -19,22 +19,35 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: (id) => {
-          // React vendor chunk
-          if (id.includes('node_modules/react') || id.includes('node_modules/react-dom') || id.includes('node_modules/react-router-dom')) {
-            return 'react-vendor'
-          }
-          // Chakra UI vendor chunk
-          if (id.includes('node_modules/@chakra-ui') || id.includes('node_modules/@emotion') || id.includes('node_modules/framer-motion')) {
+          // Keep React in main bundle to ensure it loads first
+          // Don't split React out - it needs to be available immediately
+          
+          // Chakra UI vendor chunk - depends on React (which is in main bundle)
+          if (
+            id.includes('node_modules/@chakra-ui/') ||
+            id.includes('node_modules/@emotion/') ||
+            id.includes('node_modules/framer-motion/')
+          ) {
             return 'chakra-vendor'
           }
+          // React Router can be split (but React stays in main)
+          if (id.includes('node_modules/react-router-dom/')) {
+            return 'router-vendor'
+          }
           // i18n vendor chunk
-          if (id.includes('node_modules/i18next') || id.includes('node_modules/react-i18next')) {
+          if (
+            id.includes('node_modules/i18next/') ||
+            id.includes('node_modules/react-i18next/') ||
+            id.includes('node_modules/i18next-browser-languagedetector/')
+          ) {
             return 'i18n-vendor'
           }
           // Firebase vendor chunk (using subpath imports)
           if (id.includes('node_modules/firebase/')) {
             return 'firebase-vendor'
           }
+          // React-related packages stay in main bundle
+          // This ensures React is always available when Chakra UI loads
         },
       },
     },
@@ -42,6 +55,12 @@ export default defineConfig({
     chunkSizeWarningLimit: 1000,
     // Source maps for production (optional, can disable for smaller builds)
     sourcemap: false,
+  },
+  optimizeDeps: {
+    include: ['react', 'react-dom', 'react-router-dom'],
+    esbuildOptions: {
+      target: 'es2020',
+    },
   },
   plugins: [
     react(),

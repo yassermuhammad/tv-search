@@ -77,31 +77,39 @@ const NotificationPermission = () => {
     <Alert
       status="info"
       variant="subtle"
-      flexDirection="column"
-      alignItems="stretch"
-      justifyContent="center"
+      flexDirection={{ base: 'column', md: 'row' }}
+      alignItems={{ base: 'stretch', md: 'center' }}
+      justifyContent={{ base: 'stretch', md: 'space-between' }}
+      flexWrap="wrap"
+      gap={{ base: 3, md: 4 }}
       textAlign={{ base: 'center', md: 'left' }}
-      borderRadius="md"
+      borderRadius="lg"
       mb={4}
-      bg="rgba(59, 130, 246, 0.1)"
+      bg="rgba(59, 130, 246, 0.08)"
       border="1px solid"
-      borderColor="rgba(59, 130, 246, 0.3)"
-      px={{ base: 3, md: 4 }}
-      py={{ base: 3, md: 4 }}
+      borderColor="rgba(59, 130, 246, 0.25)"
+      px={{ base: 4, md: 5 }}
+      py={{ base: 4, md: 3 }}
     >
-      <Box display="flex" alignItems="flex-start" mb={{ base: 3, md: 0 }} flexDirection={{ base: 'column', md: 'row' }}>
-        <AlertIcon 
-          color="blue.400" 
-          mt={{ base: 0, md: 1 }}
-          mb={{ base: 2, md: 0 }}
-          alignSelf={{ base: 'center', md: 'flex-start' }}
+      <Box
+        display="flex"
+        alignItems={{ base: 'center', md: 'center' }}
+        justifyContent={{ base: 'center', md: 'flex-start' }}
+        flexDirection="row"
+        flex={1}
+        minW={0}
+      >
+        <AlertIcon
+          color="blue.400"
+          flexShrink={0}
+          boxSize={{ base: 4, md: 5 }}
+          mr={2}
         />
-        <AlertDescription 
-          flex={1} 
-          mr={{ base: 0, md: 3 }} 
-          mb={{ base: 3, md: 0 }}
+        <AlertDescription
+          flex={1}
           fontSize={{ base: 'sm', md: 'md' }}
-          lineHeight="1.5"
+          lineHeight="tall"
+          as="span"
         >
           🔔 Enable notifications to get reminded when your favorite movies and TV shows are released!
         </AlertDescription>
@@ -113,9 +121,11 @@ const NotificationPermission = () => {
         isLoading={isRequesting}
         loadingText="Requesting..."
         width={{ base: '100%', md: 'auto' }}
-        minW={{ base: 'auto', md: '150px' }}
-        fontSize={{ base: 'sm', md: 'xs' }}
-        py={{ base: 6, md: 4 }}
+        minW={{ base: 'auto', md: '140px' }}
+        flexShrink={0}
+        whiteSpace="nowrap"
+        px={{ base: 4, md: 4 }}
+        py={{ base: 3, md: 2 }}
       >
         Enable Notifications
       </Button>

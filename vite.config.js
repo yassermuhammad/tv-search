@@ -136,6 +136,8 @@ export default defineConfig({
         skipWaiting: true,
         clientsClaim: true,
         globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2}'],
+        // Use development mode to avoid terser "Unexpected early exit" build error
+        mode: 'development',
         runtimeCaching: [
           {
             urlPattern: /^https:\/\/api\.tvmaze\.com\/.*/i,

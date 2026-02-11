@@ -69,6 +69,7 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
       includeAssets: ['icon.svg', 'icon-*.png'],
+      strategies: 'generateSW',
       manifest: {
         name: 'WatchPedia - TV Shows & Movies Search',
         short_name: 'WatchPedia',
@@ -132,6 +133,8 @@ export default defineConfig({
       },
       workbox: {
         cleanupOutdatedCaches: true,
+        skipWaiting: true,
+        clientsClaim: true,
         globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2}'],
         runtimeCaching: [
           {

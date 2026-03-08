@@ -1,4 +1,4 @@
-import { Box, Container, Divider, VStack, Button, HStack, Text, useToast } from '@chakra-ui/react'
+import { Box, Container, Divider, VStack } from '@chakra-ui/react'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { getShowById } from '../services/tvmazeApi'
@@ -14,10 +14,11 @@ import SEO from '../components/seo/SEO'
 import { useModal } from '../hooks/useModal'
 import { useTrending } from '../hooks/useTrending'
 import { usePopular } from '../hooks/usePopular'
+import { useRecommendations } from '../hooks/useRecommendations'
+import { useWatchlist } from '../contexts/WatchlistContext'
 import { MEDIA_TYPES } from '../models/constants'
 import { adaptTMDBShowsToTVMaze } from '../utils/tmdbAdapter'
 import { getWebsiteStructuredData } from '../utils/seoHelpers'
-import { testNotification, hasNotificationPermission } from '../services/notificationService'
 
 /**
  * Home page component - Redesigned with Trending/Popular features
@@ -30,10 +31,9 @@ import { testNotification, hasNotificationPermission } from '../services/notific
 const Home = () => {
   const { t } = useTranslation()
   const modal = useModal()
-  const toast = useToast()
+  const { watchlist } = useWatchlist()
   const [trendingTimeWindow, setTrendingTimeWindow] = useState('day')
   const [isRandomLoading, setIsRandomLoading] = useState(false)
-  const [isTestingNotification, setIsTestingNotification] = useState(false)
   
   const structuredData = getWebsiteStructuredData()
   
@@ -52,9 +52,18 @@ const Home = () => {
     error: popularError,
   } = usePopular()
 
+  const {
+    recommendedMovies,
+    recommendedTVShows: recommendedTVShowsTMDB,
+    loading: recommendationsLoading,
+    error: recommendationsError,
+    source: recommendationsSource,
+  } = useRecommendations(watchlist, trendingMovies, trendingTVShowsTMDB)
+
   // Convert TMDB TV shows to TVMaze format for compatibility
   const trendingTVShows = adaptTMDBShowsToTVMaze(trendingTVShowsTMDB)
   const popularTVShows = adaptTMDBShowsToTVMaze(popularTVShowsTMDB)
+  const recommendedTVShows = adaptTMDBShowsToTVMaze(recommendedTVShowsTMDB)
 
   /**
    * Handles clicking on a TV show
@@ -153,52 +162,6 @@ const Home = () => {
     }
   }
 
-  /**
-   * Handles testing notification
-   * Schedules a REAL DEVICE NOTIFICATION after 10 seconds (not just a toast)
-   */
-  const handleTestNotification = async () => {
-    if (!hasNotificationPermission()) {
-      toast({
-        title: 'Permission Required',
-        description: 'Please enable notifications first using the banner above.',
-        status: 'warning',
-        duration: 4000,
-        isClosable: true,
-      })
-      return
-    }
-
-    setIsTestingNotification(true)
-    try {
-      toast({
-        title: '📱 Device Notification Scheduled',
-        description: 'You will receive a REAL device notification in 10 seconds. Keep this tab open! The notification will appear in your system notifications.',
-        status: 'info',
-        duration: 6000,
-        isClosable: true,
-      })
-
-      // Schedule the real device notification
-      await testNotification(10)
-      
-      // Note: The notification itself is the confirmation - no need for another toast
-      // The device notification will appear in the system notification area
-      console.log('Device notification sent - check your system notifications!')
-    } catch (error) {
-      console.error('Error testing notification:', error)
-      toast({
-        title: 'Error',
-        description: error.message || 'Failed to send device notification. Make sure notifications are enabled in your browser settings.',
-        status: 'error',
-        duration: 5000,
-        isClosable: true,
-      })
-    } finally {
-      setIsTestingNotification(false)
-    }
-  }
-
   return (
     <Box minH="100vh" bg="#141414" position="relative">
       <SEO
@@ -217,44 +180,6 @@ const Home = () => {
         {/* Notification Permission Banner */}
         <NotificationPermission />
 
-        {/* Test Notification Button */}
-        {hasNotificationPermission() && (
-          <Box mb={4}>
-            <HStack 
-              spacing={3} 
-              p={{ base: 3, md: 4 }} 
-              bg="rgba(59, 130, 246, 0.1)" 
-              borderRadius="md" 
-              border="1px solid rgba(59, 130, 246, 0.3)"
-              flexWrap="wrap"
-              flexDirection={{ base: 'column', md: 'row' }}
-              align={{ base: 'stretch', md: 'center' }}
-            >
-              <VStack align={{ base: 'stretch', md: 'flex-start' }} spacing={1} flex={1} minW="200px">
-                <Text fontSize={{ base: 'sm', md: 'sm' }} color="rgba(255, 255, 255, 0.9)" fontWeight="medium">
-                  🧪 Test Device Notifications
-                </Text>
-                <Text fontSize="xs" color="rgba(255, 255, 255, 0.7)">
-                  Click to receive a REAL device notification (system/browser notification) in 10 seconds. This will appear in your device's notification center, not just in the app.
-                </Text>
-              </VStack>
-              <Button
-                size={{ base: 'md', md: 'sm' }}
-                colorScheme="blue"
-                variant="outline"
-                onClick={handleTestNotification}
-                isLoading={isTestingNotification}
-                loadingText="Scheduling..."
-                flexShrink={0}
-                width={{ base: '100%', md: 'auto' }}
-                minW={{ base: 'auto', md: '150px' }}
-              >
-                Test Device Notification
-              </Button>
-            </HStack>
-          </Box>
-        )}
-
         {/* Hero section */}
         <HeroSection 
           onRandomClick={handleRandomClick}
@@ -265,6 +190,40 @@ const Home = () => {
 
         {/* Content Rows - Horizontal Scrolling */}
         <VStack spacing={0} align="stretch">
+          {/* Recommendations Row - only show when we have items (no empty sections) */}
+          {recommendedMovies.length > 0 && (
+            <ContentRow
+              title={t('home.recommendedMovies')}
+              items={recommendedMovies}
+              renderItem={(movie) => (
+                <MovieCard movie={movie} onClick={() => handleMovieClick(movie)} />
+              )}
+              loading={false}
+              error={recommendationsError}
+              infoTooltip={
+                recommendationsSource === 'watchlist'
+                  ? t('home.recommendationsBasedOnWatchlist')
+                  : t('home.recommendationsBasedOnTrending')
+              }
+            />
+          )}
+          {recommendedTVShows.length > 0 && (
+            <ContentRow
+              title={t('home.recommendedTVShows')}
+              items={recommendedTVShows}
+              renderItem={(show) => (
+                <ShowCard show={show} onClick={() => handleShowClick(show)} />
+              )}
+              loading={false}
+              error={recommendationsError}
+              infoTooltip={
+                recommendationsSource === 'watchlist'
+                  ? t('home.recommendationsBasedOnWatchlist')
+                  : t('home.recommendationsBasedOnTrending')
+              }
+            />
+          )}
+
           {/* Trending Movies Row */}
           <ContentRow
             title={t('home.trendingMovies')}

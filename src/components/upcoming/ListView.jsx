@@ -9,6 +9,7 @@ import {
   Badge,
 } from '@chakra-ui/react'
 import { useState, useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
 import ReleaseCard from './ReleaseCard'
 import { formatDate } from '../../utils/formatters'
 
@@ -26,6 +27,7 @@ import { formatDate } from '../../utils/formatters'
  * @param {Function} props.onSetReminder - Callback for setting reminder
  */
 const ListView = ({ movies = [], tvShows = [], onItemClick, onSetReminder }) => {
+  const { t } = useTranslation()
   const [timeFilter, setTimeFilter] = useState('month') // 'week', 'month', 'year'
   const [sortBy, setSortBy] = useState('date') // 'date', 'popularity', 'rating'
   const [showType, setShowType] = useState('all') // 'all', 'movies', 'tv-shows'
@@ -107,7 +109,7 @@ const ListView = ({ movies = [], tvShows = [], onItemClick, onSetReminder }) => 
       <HStack spacing={4} flexWrap="wrap">
         <Box>
           <Text fontSize="sm" color="gray.400" mb={1}>
-            Time Period
+            {t('upcoming.timePeriod')}
           </Text>
           <Select
             value={timeFilter}
@@ -118,15 +120,15 @@ const ListView = ({ movies = [], tvShows = [], onItemClick, onSetReminder }) => 
             size="sm"
             w="150px"
           >
-            <option value="week">This Week</option>
-            <option value="month">This Month</option>
-            <option value="year">This Year</option>
+            <option value="week">{t('upcoming.thisWeek')}</option>
+            <option value="month">{t('upcoming.thisMonth')}</option>
+            <option value="year">{t('upcoming.thisYear')}</option>
           </Select>
         </Box>
 
         <Box>
           <Text fontSize="sm" color="gray.400" mb={1}>
-            Sort By
+            {t('upcoming.sortBy')}
           </Text>
           <Select
             value={sortBy}
@@ -137,15 +139,15 @@ const ListView = ({ movies = [], tvShows = [], onItemClick, onSetReminder }) => 
             size="sm"
             w="150px"
           >
-            <option value="date">Release Date</option>
-            <option value="popularity">Popularity</option>
-            <option value="rating">Rating</option>
+            <option value="date">{t('upcoming.releaseDate')}</option>
+            <option value="popularity">{t('upcoming.popularity')}</option>
+            <option value="rating">{t('upcoming.rating')}</option>
           </Select>
         </Box>
 
         <Box>
           <Text fontSize="sm" color="gray.400" mb={1}>
-            Type
+            {t('upcoming.type')}
           </Text>
           <HStack spacing={2}>
             <Button
@@ -154,7 +156,7 @@ const ListView = ({ movies = [], tvShows = [], onItemClick, onSetReminder }) => 
               colorScheme={showType === 'all' ? 'red' : 'gray'}
               onClick={() => setShowType('all')}
             >
-              All
+              {t('common.all')}
             </Button>
             <Button
               size="sm"
@@ -162,7 +164,7 @@ const ListView = ({ movies = [], tvShows = [], onItemClick, onSetReminder }) => 
               colorScheme={showType === 'movies' ? 'blue' : 'gray'}
               onClick={() => setShowType('movies')}
             >
-              Movies
+              {t('watchlist.movies')}
             </Button>
             <Button
               size="sm"
@@ -170,7 +172,7 @@ const ListView = ({ movies = [], tvShows = [], onItemClick, onSetReminder }) => 
               colorScheme={showType === 'tv-shows' ? 'green' : 'gray'}
               onClick={() => setShowType('tv-shows')}
             >
-              TV Shows
+              {t('watchlist.tvShows')}
             </Button>
           </HStack>
         </Box>
@@ -184,7 +186,7 @@ const ListView = ({ movies = [], tvShows = [], onItemClick, onSetReminder }) => 
             py={1}
             borderRadius="full"
           >
-            {filteredReleases.length} {filteredReleases.length === 1 ? 'release' : 'releases'}
+            {filteredReleases.length} {filteredReleases.length === 1 ? t('upcoming.release') : t('upcoming.releases')}
           </Badge>
         </Box>
       </HStack>
@@ -219,7 +221,7 @@ const ListView = ({ movies = [], tvShows = [], onItemClick, onSetReminder }) => 
           borderRadius="md"
         >
           <Text color="gray.400" fontSize="lg">
-            No releases found for the selected filters
+            {t('upcoming.noReleasesForFilters')}
           </Text>
         </Box>
       )}

@@ -1,4 +1,5 @@
-import { Box, Heading, HStack, Button } from '@chakra-ui/react'
+import { Box, Heading, HStack, Button, IconButton, Tooltip } from '@chakra-ui/react'
+import { InfoIcon } from '@chakra-ui/icons'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import HorizontalScrollRow from '../shared/HorizontalScrollRow'
@@ -20,6 +21,7 @@ import ViewAllCard from '../shared/ViewAllCard'
  * @param {string} props.timeWindow - Current time window ('day' or 'week')
  * @param {Function} props.onTimeWindowChange - Callback when time window changes
  * @param {string} props.viewAllPath - Path to navigate when "View All" is clicked
+ * @param {string} props.infoTooltip - Optional tooltip text for info icon next to title
  */
 const ContentRow = ({
   title,
@@ -31,6 +33,7 @@ const ContentRow = ({
   timeWindow = 'day',
   onTimeWindowChange,
   viewAllPath,
+  infoTooltip,
 }) => {
   const { t } = useTranslation()
   const navigate = useNavigate()
@@ -55,16 +58,29 @@ const ContentRow = ({
         gap={{ base: 3, sm: 0 }}
         flexWrap={{ base: 'wrap', sm: 'nowrap' }}
       >
-        <Heading
-          size={{ base: 'md', md: 'lg' }}
-          color="white"
-          fontWeight="600"
-          fontSize={{ base: '20px', md: '24px' }}
-          whiteSpace="nowrap"
-          flexShrink={0}
-        >
-          {title}
-        </Heading>
+        <HStack spacing={2} flexShrink={0}>
+          <Heading
+            size={{ base: 'md', md: 'lg' }}
+            color="white"
+            fontWeight="600"
+            fontSize={{ base: '20px', md: '24px' }}
+            whiteSpace="nowrap"
+          >
+            {title}
+          </Heading>
+          {infoTooltip && (
+            <Tooltip label={infoTooltip} hasArrow placement="top">
+              <IconButton
+                aria-label="More info"
+                icon={<InfoIcon />}
+                size="xs"
+                variant="ghost"
+                color="rgba(255, 255, 255, 0.6)"
+                _hover={{ color: 'white', bg: 'rgba(255, 255, 255, 0.1)' }}
+              />
+            </Tooltip>
+          )}
+        </HStack>
         {showTimeWindow && (
           <HStack spacing={2} w={{ base: '100%', sm: 'auto' }}>
             <Button

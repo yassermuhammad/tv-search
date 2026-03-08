@@ -26,8 +26,8 @@ import {
   getTVCredits,
   getMovieVideos,
   getTVVideos,
-  getSimilarMovies,
-  getSimilarTVShows,
+  getMovieRecommendations,
+  getTVRecommendations,
   getMovieContentRatings,
   getTVContentRatings,
 } from '../services/tmdbApi'
@@ -223,9 +223,9 @@ const DetailModal = ({ isOpen, onClose, item, type, isLoading, onItemClick }) =>
     fetchSeasons()
   }, [isOpen, item, type, isLoading])
 
-  // Fetch similar content
+  // Fetch recommendations (More like this)
   useEffect(() => {
-    const fetchSimilar = async () => {
+    const fetchRecommendations = async () => {
       if (!isOpen || !item || isLoading || !tmdbId) {
         setSimilarItems([])
         return
@@ -233,23 +233,23 @@ const DetailModal = ({ isOpen, onClose, item, type, isLoading, onItemClick }) =>
 
       setLoadingSimilar(true)
       try {
-        let similarData
+        let recData
         if (type === MEDIA_TYPES.MOVIE) {
-          similarData = await getSimilarMovies(tmdbId)
-          setSimilarItems(similarData.results || [])
+          recData = await getMovieRecommendations(tmdbId)
+          setSimilarItems(recData.results || [])
         } else if (type === MEDIA_TYPES.SHOW) {
-          similarData = await getSimilarTVShows(tmdbId)
-          setSimilarItems(similarData.results || [])
+          recData = await getTVRecommendations(tmdbId)
+          setSimilarItems(recData.results || [])
         }
       } catch (error) {
-        console.error('Error fetching similar content:', error)
+        console.error('Error fetching recommendations:', error)
         setSimilarItems([])
       } finally {
         setLoadingSimilar(false)
       }
     }
 
-    fetchSimilar()
+    fetchRecommendations()
   }, [isOpen, item, type, isLoading, tmdbId])
 
   // Fetch content ratings (parent guide)

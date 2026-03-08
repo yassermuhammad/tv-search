@@ -11,6 +11,7 @@ import {
 } from '@chakra-ui/react'
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons'
 import { useState, useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
 import { formatDate } from '../../utils/formatters'
 
 /**
@@ -23,6 +24,7 @@ import { formatDate } from '../../utils/formatters'
  * @param {Function} props.onDateClick - Callback when a date is clicked
  */
 const CalendarView = ({ movies = [], tvShows = [], onDateClick }) => {
+  const { t, i18n } = useTranslation()
   const [currentDate, setCurrentDate] = useState(new Date())
   
   const bgColor = useColorModeValue('gray.800', 'gray.900')
@@ -112,11 +114,14 @@ const CalendarView = ({ movies = [], tvShows = [], onDateClick }) => {
     setCurrentDate(new Date())
   }
 
-  // Get month name
-  const monthName = currentDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })
+  // Get month name (use i18n language for locale)
+  const locale = i18n.language === 'en' ? 'en-US' : i18n.language
+  const monthName = currentDate.toLocaleDateString(locale, { month: 'long', year: 'numeric' })
 
-  // Day names
-  const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+  // Day names (short form, locale-aware, Sun–Sat)
+  const dayNames = Array.from({ length: 7 }, (_, i) =>
+    new Date(2024, 0, 7 + i).toLocaleDateString(locale, { weekday: 'short' })
+  )
 
   return (
     <Box>
@@ -153,7 +158,7 @@ const CalendarView = ({ movies = [], tvShows = [], onDateClick }) => {
           borderColor="rgba(255, 255, 255, 0.2)"
           _hover={{ bg: 'rgba(255, 255, 255, 0.1)' }}
         >
-          Today
+          {t('upcoming.today')}
         </Button>
       </Flex>
 
@@ -161,15 +166,15 @@ const CalendarView = ({ movies = [], tvShows = [], onDateClick }) => {
       <HStack spacing={4} mb={4} flexWrap="wrap">
         <HStack spacing={2}>
           <Box w={4} h={4} bg="blue.500" borderRadius="sm" />
-          <Text fontSize="sm" color="gray.400">Movies</Text>
+          <Text fontSize="sm" color="gray.400">{t('watchlist.movies')}</Text>
         </HStack>
         <HStack spacing={2}>
           <Box w={4} h={4} bg="green.500" borderRadius="sm" />
-          <Text fontSize="sm" color="gray.400">TV Shows</Text>
+          <Text fontSize="sm" color="gray.400">{t('watchlist.tvShows')}</Text>
         </HStack>
         <HStack spacing={2}>
           <Box w={4} h={4} bg="purple.500" borderRadius="sm" />
-          <Text fontSize="sm" color="gray.400">Both</Text>
+          <Text fontSize="sm" color="gray.400">{t('upcoming.both')}</Text>
         </HStack>
       </HStack>
 

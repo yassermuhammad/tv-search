@@ -37,7 +37,7 @@ const SimilarContent = ({ similarItems = [], loading = false, type, onItemClick,
           color={TEXT_COLOR}
           mb={{ base: 3, md: 4 }}
         >
-          {type === MEDIA_TYPES.MOVIE ? t('modal.similarMovies') : t('modal.similarTVShows')}
+          {t('modal.moreLikeThis')}
         </Text>
         <Center py={8}>
           <Spinner size="md" color="netflix.500" thickness="3px" />
@@ -84,7 +84,7 @@ const SimilarContent = ({ similarItems = [], loading = false, type, onItemClick,
         color={TEXT_COLOR}
         mb={{ base: 3, md: 4 }}
       >
-        Similar {type === MEDIA_TYPES.MOVIE ? 'Movies' : 'TV Shows'}
+        {t('modal.moreLikeThis')}
       </Text>
       <HorizontalScrollRow
         items={[

@@ -44,6 +44,8 @@ export const TEXT_COLOR = COLORS.TEXT_PRIMARY
 export const STORAGE_KEYS = {
   WATCHLIST: 'watchpedia-watchlist',
   REMINDERS: 'watchpedia-reminders',
+  REGION: 'watchpedia-region',
+  REGION_PERMISSION: 'watchpedia-region-permission',
 }
 
 // API constants

@@ -14,6 +14,7 @@ import SEO from '../components/seo/SEO'
 import { useModal } from '../hooks/useModal'
 import { useTrending } from '../hooks/useTrending'
 import { usePopular } from '../hooks/usePopular'
+import { useRegion } from '../contexts/RegionContext'
 import { MEDIA_TYPES } from '../models/constants'
 import { adaptTMDBShowsToTVMaze } from '../utils/tmdbAdapter'
 import { getWebsiteStructuredData } from '../utils/seoHelpers'
@@ -31,26 +32,27 @@ const Home = () => {
   const { t } = useTranslation()
   const modal = useModal()
   const toast = useToast()
+  const { region } = useRegion()
   const [trendingTimeWindow, setTrendingTimeWindow] = useState('day')
   const [isRandomLoading, setIsRandomLoading] = useState(false)
   const [isTestingNotification, setIsTestingNotification] = useState(false)
   
   const structuredData = getWebsiteStructuredData()
   
-  // Fetch trending and popular content
+  // Fetch trending and popular content (region-aware)
   const {
     trendingMovies,
     trendingTVShows: trendingTVShowsTMDB,
     loading: trendingLoading,
     error: trendingError,
-  } = useTrending(trendingTimeWindow)
+  } = useTrending(trendingTimeWindow, region)
 
   const {
     popularMovies,
     popularTVShows: popularTVShowsTMDB,
     loading: popularLoading,
     error: popularError,
-  } = usePopular()
+  } = usePopular(1, region)
 
   // Convert TMDB TV shows to TVMaze format for compatibility
   const trendingTVShows = adaptTMDBShowsToTVMaze(trendingTVShowsTMDB)

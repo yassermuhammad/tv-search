@@ -11,6 +11,7 @@ import EmptyState from '../components/shared/EmptyState'
 import SEO from '../components/seo/SEO'
 import { useModal } from '../hooks/useModal'
 import { useInfiniteScroll } from '../hooks/useInfiniteScroll'
+import { useRegion } from '../contexts/RegionContext'
 import { getPopularTVShows } from '../services/tmdbApi'
 import { adaptTMDBShowsToTVMaze } from '../utils/tmdbAdapter'
 import { MEDIA_TYPES } from '../models/constants'
@@ -25,16 +26,18 @@ const PopularTVShows = () => {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const modal = useModal()
+  const { region } = useRegion()
+  const effectiveRegion = region && region !== 'WW' ? region : null
 
   // Create fetch function for infinite scroll
   const fetchPopularTVShows = useCallback(async (page) => {
-    const data = await getPopularTVShows(page)
+    const data = await getPopularTVShows(page, effectiveRegion)
     // Convert TMDB format to TVMaze format
     return {
       ...data,
       results: adaptTMDBShowsToTVMaze(data.results || []),
     }
-  }, [])
+  }, [effectiveRegion])
 
   const {
     items: shows,

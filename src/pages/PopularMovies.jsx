@@ -11,6 +11,7 @@ import EmptyState from '../components/shared/EmptyState'
 import SEO from '../components/seo/SEO'
 import { useModal } from '../hooks/useModal'
 import { useInfiniteScroll } from '../hooks/useInfiniteScroll'
+import { useRegion } from '../contexts/RegionContext'
 import { getPopularMovies } from '../services/tmdbApi'
 import { MEDIA_TYPES } from '../models/constants'
 import { GRID_COLUMNS } from '../utils/constants'
@@ -24,11 +25,13 @@ const PopularMovies = () => {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const modal = useModal()
+  const { region } = useRegion()
+  const effectiveRegion = region && region !== 'WW' ? region : null
 
   // Create fetch function for infinite scroll
   const fetchPopularMovies = useCallback(async (page) => {
-    return await getPopularMovies(page)
-  }, [])
+    return await getPopularMovies(page, effectiveRegion)
+  }, [effectiveRegion])
 
   const {
     items: movies,

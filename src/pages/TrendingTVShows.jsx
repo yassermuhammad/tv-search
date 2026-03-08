@@ -11,6 +11,7 @@ import EmptyState from '../components/shared/EmptyState'
 import SEO from '../components/seo/SEO'
 import { useModal } from '../hooks/useModal'
 import { useInfiniteScroll } from '../hooks/useInfiniteScroll'
+import { useRegion } from '../contexts/RegionContext'
 import { getTrendingTVShows } from '../services/tmdbApi'
 import { adaptTMDBShowsToTVMaze } from '../utils/tmdbAdapter'
 import { MEDIA_TYPES } from '../models/constants'
@@ -26,17 +27,19 @@ const TrendingTVShows = () => {
   const [searchParams] = useSearchParams()
   const navigate = useNavigate()
   const modal = useModal()
+  const { region } = useRegion()
   const timeWindow = searchParams.get('timeWindow') || 'day'
+  const effectiveRegion = region && region !== 'WW' ? region : null
 
   // Create fetch function for infinite scroll
   const fetchTrendingTVShows = useCallback(async (page) => {
-    const data = await getTrendingTVShows(timeWindow, page)
+    const data = await getTrendingTVShows(timeWindow, page, effectiveRegion)
     // Convert TMDB format to TVMaze format
     return {
       ...data,
       results: adaptTMDBShowsToTVMaze(data.results || []),
     }
-  }, [timeWindow])
+  }, [timeWindow, effectiveRegion])
 
   const {
     items: shows,

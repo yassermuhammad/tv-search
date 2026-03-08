@@ -163,12 +163,18 @@ export const searchTVShow = async (query) => {
 
 /**
  * Get trending movies
+ * TMDB trending doesn't support region - when region provided (not worldwide),
+ * uses discover with popularity for region-specific content
  * @param {string} timeWindow - Time window: 'day' or 'week' (default: 'day')
  * @param {number} page - Page number (default: 1)
+ * @param {string|null} region - Region code (e.g. 'US') or null for worldwide
  * @returns {Promise<Object>} Object with results array and pagination info
  */
-export const getTrendingMovies = async (timeWindow = 'day', page = 1) => {
+export const getTrendingMovies = async (timeWindow = 'day', page = 1, region = null) => {
   try {
+    if (region && region !== 'WW') {
+      return getDiscoverTrendingMovies(timeWindow, page, region)
+    }
     const response = await fetch(
       `${API_BASE_URL}/trending/movie/${timeWindow}?api_key=${API_KEY}&language=en-US&page=${page}`
     )
@@ -190,13 +196,44 @@ export const getTrendingMovies = async (timeWindow = 'day', page = 1) => {
 }
 
 /**
+ * Get region-specific trending movies via discover
+ * TMDB's region param only affects release date display, not results.
+ * We use with_origin_country to filter by production country - returns different lists per region.
+ */
+const getDiscoverTrendingMovies = async (timeWindow, page, region) => {
+  const params = new URLSearchParams({
+    api_key: API_KEY,
+    language: 'en-US',
+    page: page.toString(),
+    with_origin_country: region,
+    sort_by: 'popularity.desc',
+  })
+  const response = await fetch(`${API_BASE_URL}/discover/movie?${params}`, {
+    cache: 'no-store',
+  })
+  if (!response.ok) throw new Error(`API error: ${response.status}`)
+  const data = await response.json()
+  return {
+    results: data.results || [],
+    totalPages: data.total_pages || 1,
+    page: data.page || 1,
+  }
+}
+
+/**
  * Get trending TV shows
+ * TMDB trending doesn't support region - when region provided (not worldwide),
+ * uses discover with popularity for region-specific content
  * @param {string} timeWindow - Time window: 'day' or 'week' (default: 'day')
  * @param {number} page - Page number (default: 1)
+ * @param {string|null} region - Region code (e.g. 'US') or null for worldwide
  * @returns {Promise<Object>} Object with results array and pagination info
  */
-export const getTrendingTVShows = async (timeWindow = 'day', page = 1) => {
+export const getTrendingTVShows = async (timeWindow = 'day', page = 1, region = null) => {
   try {
+    if (region && region !== 'WW') {
+      return getDiscoverTrendingTVShows(timeWindow, page, region)
+    }
     const response = await fetch(
       `${API_BASE_URL}/trending/tv/${timeWindow}?api_key=${API_KEY}&language=en-US&page=${page}`
     )
@@ -218,14 +255,66 @@ export const getTrendingTVShows = async (timeWindow = 'day', page = 1) => {
 }
 
 /**
+ * Get region-specific trending TV via discover
+ * Uses with_origin_country to filter by production country - returns different lists per region.
+ */
+const getDiscoverTrendingTVShows = async (timeWindow, page, region) => {
+  const params = new URLSearchParams({
+    api_key: API_KEY,
+    language: 'en-US',
+    page: page.toString(),
+    with_origin_country: region,
+    sort_by: 'popularity.desc',
+  })
+  const response = await fetch(`${API_BASE_URL}/discover/tv?${params}`, {
+    cache: 'no-store',
+  })
+  if (!response.ok) throw new Error(`API error: ${response.status}`)
+  const data = await response.json()
+  return {
+    results: data.results || [],
+    totalPages: data.total_pages || 1,
+    page: data.page || 1,
+  }
+}
+
+/**
+ * Get region-specific popular movies via discover (with_origin_country)
+ */
+const getDiscoverPopularMovies = async (page, region) => {
+  const params = new URLSearchParams({
+    api_key: API_KEY,
+    language: 'en-US',
+    page: page.toString(),
+    with_origin_country: region,
+    sort_by: 'popularity.desc',
+  })
+  const response = await fetch(`${API_BASE_URL}/discover/movie?${params}`, {
+    cache: 'no-store',
+  })
+  if (!response.ok) throw new Error(`API error: ${response.status}`)
+  const data = await response.json()
+  return {
+    results: data.results || [],
+    totalPages: data.total_pages || 1,
+    page: data.page || 1,
+  }
+}
+
+/**
  * Get popular movies
  * @param {number} page - Page number (default: 1)
+ * @param {string|null} region - Region code (e.g. 'US') or null for worldwide
  * @returns {Promise<Object>} Object with results array and pagination info
  */
-export const getPopularMovies = async (page = 1) => {
+export const getPopularMovies = async (page = 1, region = null) => {
   try {
+    if (region && region !== 'WW') {
+      return getDiscoverPopularMovies(page, region)
+    }
     const response = await fetch(
-      `${API_BASE_URL}/movie/popular?api_key=${API_KEY}&language=en-US&page=${page}`
+      `${API_BASE_URL}/movie/popular?api_key=${API_KEY}&language=en-US&page=${page}`,
+      { cache: 'no-store' }
     )
     
     if (!response.ok) {
@@ -246,11 +335,32 @@ export const getPopularMovies = async (page = 1) => {
 
 /**
  * Get popular TV shows
+ * TV popular doesn't support region - when region provided, uses discover/tv
  * @param {number} page - Page number (default: 1)
+ * @param {string|null} region - Region code (e.g. 'US') or null for worldwide
  * @returns {Promise<Object>} Object with results array and pagination info
  */
-export const getPopularTVShows = async (page = 1) => {
+export const getPopularTVShows = async (page = 1, region = null) => {
   try {
+    if (region && region !== 'WW') {
+      const params = new URLSearchParams({
+        api_key: API_KEY,
+        language: 'en-US',
+        page: page.toString(),
+        with_origin_country: region,
+        sort_by: 'popularity.desc',
+      })
+      const response = await fetch(`${API_BASE_URL}/discover/tv?${params}`, {
+        cache: 'no-store',
+      })
+      if (!response.ok) throw new Error(`API error: ${response.status}`)
+      const data = await response.json()
+      return {
+        results: data.results || [],
+        totalPages: data.total_pages || 1,
+        page: data.page || 1,
+      }
+    }
     const response = await fetch(
       `${API_BASE_URL}/tv/popular?api_key=${API_KEY}&language=en-US&page=${page}`
     )

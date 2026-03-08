@@ -7,6 +7,7 @@ import theme from './theme'
 import { WatchlistProvider } from './contexts/WatchlistContext'
 import { RemindersProvider } from './contexts/RemindersContext'
 import { AuthProvider } from './contexts/AuthContext'
+import { RegionProvider } from './contexts/RegionContext'
 import './i18n/config' // Initialize i18n
 import './index.css'
 
@@ -26,11 +27,13 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <HelmetProvider>
       <ChakraProvider theme={theme}>
         <AuthProvider>
-          <WatchlistProvider>
-            <RemindersProvider>
-              <App />
-            </RemindersProvider>
-          </WatchlistProvider>
+          <RegionProvider>
+            <WatchlistProvider>
+              <RemindersProvider>
+                <App />
+              </RemindersProvider>
+            </WatchlistProvider>
+          </RegionProvider>
         </AuthProvider>
       </ChakraProvider>
     </HelmetProvider>

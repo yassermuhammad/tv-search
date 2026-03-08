@@ -25,6 +25,7 @@ import { useAuth } from '../../contexts/AuthContext'
 import { useWatchlist } from '../../contexts/WatchlistContext'
 import { useTranslation } from 'react-i18next'
 import LanguageSwitcher from './LanguageSwitcher'
+import CountryRegionSelector from './CountryRegionSelector'
 import { FcGoogle } from "react-icons/fc";
 
 /**
@@ -94,6 +95,7 @@ const Header = ({ showBackButton = false, onBack }) => {
 
           {/* Desktop Navigation */}
           <HStack spacing={{ base: 2, md: 3 }} display={{ base: 'none', md: 'flex' }}>
+            <CountryRegionSelector />
             <LanguageSwitcher size="md" />
 
             {currentUser ? (
@@ -256,6 +258,10 @@ const Header = ({ showBackButton = false, onBack }) => {
                     {t('common.myWatchlist')}
                   </Button>
 
+                  <Box p={2}>
+                    <Text fontSize="sm" color="gray.400" mb={2}>Region</Text>
+                    <CountryRegionSelector />
+                  </Box>
                   <Box p={2}>
                     <Text fontSize="sm" color="gray.400" mb={2}>Language</Text>
                     <LanguageSwitcher size="sm" />

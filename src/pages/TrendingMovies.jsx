@@ -11,6 +11,7 @@ import EmptyState from '../components/shared/EmptyState'
 import SEO from '../components/seo/SEO'
 import { useModal } from '../hooks/useModal'
 import { useInfiniteScroll } from '../hooks/useInfiniteScroll'
+import { useRegion } from '../contexts/RegionContext'
 import { getTrendingMovies } from '../services/tmdbApi'
 import { MEDIA_TYPES } from '../models/constants'
 import { GRID_COLUMNS } from '../utils/constants'
@@ -25,12 +26,14 @@ const TrendingMovies = () => {
   const [searchParams] = useSearchParams()
   const navigate = useNavigate()
   const modal = useModal()
+  const { region } = useRegion()
   const timeWindow = searchParams.get('timeWindow') || 'day'
+  const effectiveRegion = region && region !== 'WW' ? region : null
 
   // Create fetch function for infinite scroll
   const fetchTrendingMovies = useCallback(async (page) => {
-    return await getTrendingMovies(timeWindow, page)
-  }, [timeWindow])
+    return await getTrendingMovies(timeWindow, page, effectiveRegion)
+  }, [timeWindow, effectiveRegion])
 
   const {
     items: movies,

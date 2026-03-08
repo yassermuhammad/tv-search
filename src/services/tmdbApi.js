@@ -732,6 +732,132 @@ export const getUpcomingMovies = async (page = 1, region = 'US') => {
 }
 
 /**
+ * Get list of movie genres
+ * @returns {Promise<Array<{id: number, name: string}>>} Array of genre objects
+ */
+export const getMovieGenres = async () => {
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/genre/movie/list?api_key=${API_KEY}&language=en-US`
+    )
+
+    if (!response.ok) {
+      throw new Error(`API error: ${response.status}`)
+    }
+
+    const data = await response.json()
+    return data.genres || []
+  } catch (error) {
+    console.error('Error fetching movie genres:', error)
+    throw error
+  }
+}
+
+/**
+ * Get list of TV genres
+ * @returns {Promise<Array<{id: number, name: string}>>} Array of genre objects
+ */
+export const getTVGenres = async () => {
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/genre/tv/list?api_key=${API_KEY}&language=en-US`
+    )
+
+    if (!response.ok) {
+      throw new Error(`API error: ${response.status}`)
+    }
+
+    const data = await response.json()
+    return data.genres || []
+  } catch (error) {
+    console.error('Error fetching TV genres:', error)
+    throw error
+  }
+}
+
+/**
+ * Discover movies by genre
+ * @param {number} genreId - TMDB genre ID
+ * @param {number} page - Page number (default: 1)
+ * @param {string} sortBy - Sort option (default: 'popularity.desc')
+ * @returns {Promise<Object>} Object with results array and pagination info
+ */
+export const discoverMoviesByGenre = async (
+  genreId,
+  page = 1,
+  sortBy = 'popularity.desc'
+) => {
+  try {
+    const params = new URLSearchParams({
+      api_key: API_KEY,
+      language: 'en-US',
+      page: page.toString(),
+      with_genres: genreId.toString(),
+      sort_by: sortBy,
+    })
+
+    const response = await fetch(
+      `${API_BASE_URL}/discover/movie?${params.toString()}`
+    )
+
+    if (!response.ok) {
+      throw new Error(`API error: ${response.status}`)
+    }
+
+    const data = await response.json()
+    return {
+      results: data.results || [],
+      totalPages: data.total_pages || 1,
+      page: data.page || 1,
+    }
+  } catch (error) {
+    console.error('Error discovering movies by genre:', error)
+    throw error
+  }
+}
+
+/**
+ * Discover TV shows by genre
+ * @param {number} genreId - TMDB genre ID
+ * @param {number} page - Page number (default: 1)
+ * @param {string} sortBy - Sort option (default: 'popularity.desc')
+ * @returns {Promise<Object>} Object with results array and pagination info
+ */
+export const discoverTVShowsByGenre = async (
+  genreId,
+  page = 1,
+  sortBy = 'popularity.desc'
+) => {
+  try {
+    const params = new URLSearchParams({
+      api_key: API_KEY,
+      language: 'en-US',
+      page: page.toString(),
+      with_genres: genreId.toString(),
+      sort_by: sortBy,
+    })
+
+    const response = await fetch(
+      `${API_BASE_URL}/discover/tv?${params.toString()}`
+    )
+
+    if (!response.ok) {
+      throw new Error(`API error: ${response.status}`)
+    }
+
+    const data = await response.json()
+    return {
+      results: data.results || [],
+      totalPages: data.total_pages || 1,
+      page: data.page || 1,
+    }
+  } catch (error) {
+    console.error('Error discovering TV shows by genre:', error)
+    throw error
+  }
+}
+
+/**
  * Discover movies with release date range
  * This is used to get movies far in the future that the "upcoming" endpoint doesn't return
  * @param {number} page - Page number (default: 1)

@@ -15,7 +15,8 @@
     "menu": "メニュー",
     "all": "すべて",
     "movie": "映画",
-    "tvShow": "TV番組"
+    "tvShow": "TV番組",
+    "genre": "ジャンルを閲覧"
   },
   "home": {
     "title": "次の視聴を見つける",
@@ -93,6 +94,12 @@
     "showMoreDetails": "詳細を表示",
     "showLess": "詳細を非表示",
     "notAvailable": "このタイトルの詳細なコンテンツ警告は利用できません。"
+  },
+  "genre": {
+    "title": "ジャンルで探す",
+    "subtitle": "ジャンル別に映画とTV番組を探索。ジャンルを選んで最高のコンテンツを発見しましょう。",
+    "movieGenres": "映画ジャンル",
+    "tvGenres": "TVジャンル"
   },
   "filters": {
     "genre": "ジャンル",

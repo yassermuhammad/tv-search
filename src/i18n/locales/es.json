@@ -15,7 +15,8 @@
     "menu": "Menú",
     "all": "Todo",
     "movie": "Película",
-    "tvShow": "Programa de TV"
+    "tvShow": "Programa de TV",
+    "genre": "Explorar géneros"
   },
   "home": {
     "title": "Encuentra Tu Próxima Maratón",
@@ -93,6 +94,12 @@
     "showMoreDetails": "Mostrar Más Detalles",
     "showLess": "Mostrar Menos",
     "notAvailable": "Las advertencias detalladas de contenido no están disponibles para este título."
+  },
+  "genre": {
+    "title": "Explorar por género",
+    "subtitle": "Descubre películas y programas de TV por género. Elige un género para encontrar el mejor contenido.",
+    "movieGenres": "Géneros de películas",
+    "tvGenres": "Géneros de TV"
   },
   "filters": {
     "genre": "Género",

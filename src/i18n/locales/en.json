@@ -15,7 +15,8 @@
     "menu": "Menu",
     "all": "All",
     "movie": "Movie",
-    "tvShow": "TV Show"
+    "tvShow": "TV Show",
+    "genre": "Browse Genres"
   },
   "home": {
     "title": "Find Your Next Binge",
@@ -93,6 +94,12 @@
     "showMoreDetails": "Show More Details",
     "showLess": "Show Less",
     "notAvailable": "Detailed content warnings are not available for this title."
+  },
+  "genre": {
+    "title": "Browse by Genre",
+    "subtitle": "Explore movies and TV shows by genre. Pick a genre to discover the best content.",
+    "movieGenres": "Movie Genres",
+    "tvGenres": "TV Genres"
   },
   "filters": {
     "genre": "Genre",

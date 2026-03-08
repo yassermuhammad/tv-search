@@ -99,7 +99,7 @@ const Upcoming = () => {
         description="Discover upcoming movie and TV show releases. Browse by calendar or list view, filter by date, and set reminders for your favorite content."
         keywords="upcoming movies, upcoming TV shows, release calendar, movie releases, TV show releases, release dates"
       />
-      <Header />
+      <Header showBackButton onBack={() => navigate('/')} />
 
       <Container
         maxW="container.xl"

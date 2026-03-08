@@ -20,7 +20,7 @@ import {
   Spacer
 } from '@chakra-ui/react'
 import { useNavigate } from 'react-router-dom'
-import { SearchIcon, HamburgerIcon } from '@chakra-ui/icons'
+import { SearchIcon, HamburgerIcon, ChevronLeftIcon } from '@chakra-ui/icons'
 import { useAuth } from '../../contexts/AuthContext'
 import { useWatchlist } from '../../contexts/WatchlistContext'
 import { useTranslation } from 'react-i18next'
@@ -58,16 +58,17 @@ const Header = ({ showBackButton = false, onBack }) => {
         >
           <Flex align="center" gap={{ base: 2, md: 4 }}>
             {showBackButton && onBack && (
-              <Button
+              <IconButton
+                aria-label={t('common.back')}
+                icon={<ChevronLeftIcon boxSize={6} />}
                 onClick={onBack}
-                variant="ghost"
+                bg="rgba(255, 255, 255, 0.1)"
                 color="white"
-                _hover={{ bg: 'rgba(255, 255, 255, 0.1)' }}
-                size={{ base: 'sm', md: 'md' }}
-                display={{ base: 'none', sm: 'flex' }}
-              >
-                ← {t('common.back')}
-              </Button>
+                _hover={{ bg: 'rgba(255, 255, 255, 0.2)' }}
+                size="md"
+                borderRadius="full"
+                flexShrink={0}
+              />
             )}
             <Heading
               as="h1"
@@ -148,6 +149,18 @@ const Header = ({ showBackButton = false, onBack }) => {
             />
 
             <Button
+              onClick={() => navigate('/genre')}
+              bg="rgba(255, 255, 255, 0.1)"
+              color="white"
+              _hover={{ bg: 'rgba(255, 255, 255, 0.2)' }}
+              fontWeight="600"
+              size="md"
+              px={4}
+            >
+              {t('common.genre')}
+            </Button>
+
+            <Button
               onClick={() => navigate('/upcoming')}
               bg="rgba(255, 255, 255, 0.1)"
               color="white"
@@ -220,6 +233,16 @@ const Header = ({ showBackButton = false, onBack }) => {
                       <Text fontWeight="bold" noOfLines={1}>{currentUser.displayName}</Text>
                     </Flex>
                   )}
+
+                  <Button
+                    justifyContent="flex-start"
+                    variant="ghost"
+                    color="white"
+                    _hover={{ bg: 'gray.800' }}
+                    onClick={() => { navigate('/genre'); onClose(); }}
+                  >
+                    {t('common.genre')}
+                  </Button>
 
                   <Button
                     justifyContent="flex-start"

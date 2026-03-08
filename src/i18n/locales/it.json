@@ -15,7 +15,8 @@
     "menu": "Menu",
     "all": "Tutti",
     "movie": "Film",
-    "tvShow": "Programma TV"
+    "tvShow": "Programma TV",
+    "genre": "Esplora generi"
   },
   "home": {
     "title": "Trova La Tua Prossima Serie",
@@ -93,6 +94,12 @@
     "showMoreDetails": "Mostra Più Dettagli",
     "showLess": "Mostra Meno",
     "notAvailable": "Le avvertenze dettagliate sul contenuto non sono disponibili per questo titolo."
+  },
+  "genre": {
+    "title": "Esplora per genere",
+    "subtitle": "Scopri film e programmi TV per genere. Scegli un genere per trovare i migliori contenuti.",
+    "movieGenres": "Generi cinematografici",
+    "tvGenres": "Generi TV"
   },
   "filters": {
     "genre": "Genere",

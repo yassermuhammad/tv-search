@@ -15,7 +15,8 @@
     "menu": "Menü",
     "all": "Alle",
     "movie": "Film",
-    "tvShow": "TV-Sendung"
+    "tvShow": "TV-Sendung",
+    "genre": "Genres durchsuchen"
   },
   "home": {
     "title": "Finde Deine Nächste Serie",
@@ -93,6 +94,12 @@
     "showMoreDetails": "Mehr Details Anzeigen",
     "showLess": "Weniger Anzeigen",
     "notAvailable": "Detaillierte Inhaltswarnungen sind für diesen Titel nicht verfügbar."
+  },
+  "genre": {
+    "title": "Nach Genre durchsuchen",
+    "subtitle": "Entdecken Sie Filme und TV-Sendungen nach Genre. Wählen Sie ein Genre, um die besten Inhalte zu finden.",
+    "movieGenres": "Film-Genres",
+    "tvGenres": "TV-Genres"
   },
   "filters": {
     "genre": "Genre",

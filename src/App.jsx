@@ -17,6 +17,7 @@ const Share = lazy(() => import('./pages/Share'))
 const Person = lazy(() => import('./pages/Person'))
 const Upcoming = lazy(() => import('./pages/Upcoming'))
 const Reminders = lazy(() => import('./pages/Reminders'))
+const Genre = lazy(() => import('./pages/Genre'))
 
 /**
  * Main App component
@@ -37,6 +38,9 @@ const Reminders = lazy(() => import('./pages/Reminders'))
  * - "/upcoming/calendar/movies" - Calendar view, movies only
  * - "/upcoming/calendar/tv-shows" - Calendar view, TV shows only
  * - "/reminders" - User's release reminders
+ * - "/genre" - Browse by genre (landing)
+ * - "/genre/movies/:genreId" - Movies by genre
+ * - "/genre/tv-shows/:genreId" - TV shows by genre
  * - "/share/:type/:id" - Share page that opens detail modal
  * 
  * @returns {JSX.Element} App component
@@ -70,6 +74,9 @@ function App() {
           <Route path="/upcoming/calendar/movies" element={<Upcoming />} />
           <Route path="/upcoming/calendar/tv-shows" element={<Upcoming />} />
           <Route path="/reminders" element={<Reminders />} />
+          <Route path="/genre" element={<Genre />} />
+          <Route path="/genre/movies/:genreId" element={<Genre />} />
+          <Route path="/genre/tv-shows/:genreId" element={<Genre />} />
           <Route path="/similar/movies/:movieId" element={<SimilarMovies />} />
           <Route path="/similar/tv-shows/:tvId" element={<SimilarTVShows />} />
           <Route path="/person/:personId" element={<Person />} />

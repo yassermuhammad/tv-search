@@ -16,7 +16,7 @@ import {
   Flex,
   Button,
 } from '@chakra-ui/react'
-import { DeleteIcon, ChevronLeftIcon } from '@chakra-ui/icons'
+import { DeleteIcon } from '@chakra-ui/icons'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useWatchlist } from '../contexts/WatchlistContext'
@@ -154,72 +154,49 @@ const Watchlist = () => {
         keywords="watchlist, saved movies, saved TV shows, my watchlist, personal watchlist, favorite movies, favorite TV shows"
         noindex={true}
       />
-      {/* Header */}
-      <Box
-        position="relative"
-        bgGradient="linear(to-b, rgba(0,0,0,0.7), transparent)"
-        pb={{ base: 4, md: 8 }}
-        pt={{ base: 3, md: 4 }}
-        px={{ base: 4, md: 0 }}
-      >
-        <Container maxW="container.xl" px={{ base: 4, md: 6, lg: 8 }}>
-          <Flex
-            justify="space-between"
-            align={{ base: 'flex-start', sm: 'center' }}
-            mb={{ base: 4, md: 8 }}
-            direction={{ base: 'column', sm: 'row' }}
-            gap={{ base: 3, sm: 0 }}
-          >
-            <HStack spacing={{ base: 2, md: 4 }} align="center" flex={1}>
-              <Button
-                leftIcon={<ChevronLeftIcon />}
-                onClick={() => navigate('/')}
-                variant="ghost"
-                color="white"
-                _hover={{ bg: 'rgba(255, 255, 255, 0.1)' }}
-                size={{ base: 'sm', md: 'md' }}
-                display={{ base: 'none', sm: 'flex' }}
-              >
-                {t('common.back')}
-              </Button>
-              <VStack align={{ base: 'flex-start', sm: 'flex-start' }} spacing={1}>
-                <Heading
-                  as="h1"
-                  size={{ base: 'lg', md: 'xl' }}
-                  color="netflix.500"
-                  fontWeight="900"
-                  letterSpacing="tight"
-                  fontSize={{ base: '20px', sm: '24px', md: '28px' }}
-                >
-                  {t('common.myWatchlist')}
-                </Heading>
-                <Text
-                  color="rgba(255, 255, 255, 0.7)"
-                  fontSize={{ base: 'sm', md: 'md' }}
-                >
-                  {watchlist.length} {watchlist.length === 1 ? t('watchlist.item') : t('watchlist.items')} {t('watchlist.saved')}
-                </Text>
-              </VStack>
-            </HStack>
-            {watchlist.length > 0 && (
-              <Button
-                leftIcon={<DeleteIcon />}
-                onClick={clearWatchlist}
-                variant="ghost"
-                color="rgba(255, 255, 255, 0.7)"
-                _hover={{ bg: 'rgba(255, 255, 255, 0.1)', color: 'netflix.500' }}
-                size={{ base: 'sm', md: 'md' }}
-                fontSize={{ base: 'xs', md: 'sm' }}
-                w={{ base: '100%', sm: 'auto' }}
-              >
-                {t('watchlist.clearAll')}
-              </Button>
-            )}
-          </Flex>
-        </Container>
-      </Box>
+      <Header showBackButton onBack={() => navigate('/')} />
 
       <Container maxW="container.xl" py={{ base: 4, md: 8 }} px={{ base: 4, md: 6, lg: 8 }}>
+        <Flex
+          justify="space-between"
+          align={{ base: 'flex-start', sm: 'center' }}
+          mb={{ base: 4, md: 6 }}
+          direction={{ base: 'column', sm: 'row' }}
+          gap={{ base: 3, sm: 0 }}
+        >
+          <VStack align={{ base: 'flex-start', sm: 'flex-start' }} spacing={1}>
+            <Heading
+              as="h1"
+              size={{ base: 'lg', md: 'xl' }}
+              color="netflix.500"
+              fontWeight="900"
+              letterSpacing="tight"
+              fontSize={{ base: '20px', sm: '24px', md: '28px' }}
+            >
+              {t('common.myWatchlist')}
+            </Heading>
+            <Text
+              color="rgba(255, 255, 255, 0.7)"
+              fontSize={{ base: 'sm', md: 'md' }}
+            >
+              {watchlist.length} {watchlist.length === 1 ? t('watchlist.item') : t('watchlist.items')} {t('watchlist.saved')}
+            </Text>
+          </VStack>
+          {watchlist.length > 0 && (
+            <Button
+              leftIcon={<DeleteIcon />}
+              onClick={clearWatchlist}
+              variant="ghost"
+              color="rgba(255, 255, 255, 0.7)"
+              _hover={{ bg: 'rgba(255, 255, 255, 0.1)', color: 'netflix.500' }}
+              size={{ base: 'sm', md: 'md' }}
+              fontSize={{ base: 'xs', md: 'sm' }}
+              w={{ base: '100%', sm: 'auto' }}
+            >
+              {t('watchlist.clearAll')}
+            </Button>
+          )}
+        </Flex>
         {watchlist.length === 0 ? (
           <EmptyState
             title={t('emptyState.noWatchlistItems')}

@@ -15,7 +15,8 @@
     "menu": "菜单",
     "all": "全部",
     "movie": "电影",
-    "tvShow": "电视节目"
+    "tvShow": "电视节目",
+    "genre": "浏览类型"
   },
   "home": {
     "title": "找到您的下一个观看",
@@ -93,6 +94,12 @@
     "showMoreDetails": "显示更多详情",
     "showLess": "显示较少",
     "notAvailable": "此标题的详细内容警告不可用。"
+  },
+  "genre": {
+    "title": "按类型浏览",
+    "subtitle": "按类型探索电影和电视节目。选择类型以发现最佳内容。",
+    "movieGenres": "电影类型",
+    "tvGenres": "电视类型"
   },
   "filters": {
     "genre": "类型",

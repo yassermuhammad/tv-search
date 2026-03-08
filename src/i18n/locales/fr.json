@@ -15,7 +15,8 @@
     "menu": "Menu",
     "all": "Tout",
     "movie": "Film",
-    "tvShow": "Émission TV"
+    "tvShow": "Émission TV",
+    "genre": "Parcourir les genres"
   },
   "home": {
     "title": "Trouvez Votre Prochaine Série",
@@ -93,6 +94,12 @@
     "showMoreDetails": "Afficher Plus de Détails",
     "showLess": "Afficher Moins",
     "notAvailable": "Les avertissements détaillés de contenu ne sont pas disponibles pour ce titre."
+  },
+  "genre": {
+    "title": "Parcourir par genre",
+    "subtitle": "Explorez les films et émissions par genre. Choisissez un genre pour découvrir le meilleur contenu.",
+    "movieGenres": "Genres de films",
+    "tvGenres": "Genres TV"
   },
   "filters": {
     "genre": "Genre",

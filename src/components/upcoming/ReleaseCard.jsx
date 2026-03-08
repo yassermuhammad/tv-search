@@ -9,6 +9,7 @@ import {
   useToast,
 } from '@chakra-ui/react'
 import { CheckIcon } from '@chakra-ui/icons'
+import { useTranslation } from 'react-i18next'
 import { getImageUrl } from '../../services/tmdbApi'
 import { useWatchlist } from '../../contexts/WatchlistContext'
 import { useReminders } from '../../contexts/RemindersContext'
@@ -32,6 +33,7 @@ import { RATING_THRESHOLDS } from '../../models/constants'
  * @param {Function} props.onSetReminder - Callback for setting reminder (optional)
  */
 const ReleaseCard = ({ item, type, onClick, onSetReminder }) => {
+  const { t, i18n } = useTranslation()
   const toast = useToast()
   const { isInWatchlist, toggleWatchlist } = useWatchlist()
   const { hasReminder, toggleReminder } = useReminders()
@@ -92,7 +94,7 @@ const ReleaseCard = ({ item, type, onClick, onSetReminder }) => {
                 justifyContent="center"
               >
                 <Text color="rgba(255, 255, 255, 0.5)" fontSize="sm" fontWeight="600">
-                  No Image
+                  {t('upcoming.noImage')}
                 </Text>
               </Box>
             }
@@ -107,7 +109,7 @@ const ReleaseCard = ({ item, type, onClick, onSetReminder }) => {
             justifyContent="center"
           >
             <Text color="rgba(255, 255, 255, 0.5)" fontSize="sm" fontWeight="600">
-              No Image Available
+              {t('upcoming.noImageAvailable')}
             </Text>
           </Box>
         )}
@@ -183,7 +185,7 @@ const ReleaseCard = ({ item, type, onClick, onSetReminder }) => {
           fontWeight="bold"
           textTransform="uppercase"
         >
-          {type === 'movie' ? 'Movie' : 'TV Show'}
+          {type === 'movie' ? t('common.movie') : t('common.tvShow')}
         </Badge>
 
         {/* Watchlist Button */}
@@ -191,7 +193,7 @@ const ReleaseCard = ({ item, type, onClick, onSetReminder }) => {
           position="absolute"
           bottom="8px"
           left="8px"
-          aria-label={inWatchlist ? 'Remove from watchlist' : 'Add to watchlist'}
+          aria-label={inWatchlist ? t('modal.removeFromWatchlist') : t('modal.addToWatchlist')}
           icon={
             inWatchlist ? (
               <CheckIcon />
@@ -271,10 +273,10 @@ const ReleaseCard = ({ item, type, onClick, onSetReminder }) => {
                 
                 // Show toast notification
                 toast({
-                  title: wasSet ? 'Reminder Removed' : 'Reminder Set!',
-                  description: wasSet 
-                    ? `Removed reminder for ${title}`
-                    : `You'll be reminded when ${title} releases${releaseDate ? ` on ${formatDate(releaseDate, { month: 'short', day: 'numeric', year: 'numeric' })}` : ''}`,
+                  title: wasSet ? t('upcoming.reminderRemoved') : t('upcoming.reminderSetSuccess'),
+                  description: wasSet
+                    ? t('upcoming.reminderRemovedFor', { title })
+                    : t('upcoming.reminderWillNotify', { title }) + (releaseDate ? t('upcoming.releaseDateOn', { date: new Date(releaseDate).toLocaleDateString(i18n.language, { year: 'numeric', month: 'long', day: 'numeric' }) }) : ''),
                   status: wasSet ? 'info' : 'success',
                   duration: 3000,
                   isClosable: true,
@@ -287,8 +289,8 @@ const ReleaseCard = ({ item, type, onClick, onSetReminder }) => {
               } catch (error) {
                 console.error('Error toggling reminder:', error)
                 toast({
-                  title: 'Error',
-                  description: 'Failed to set reminder. Please try again.',
+                  title: t('common.error'),
+                  description: t('upcoming.failedToSetReminder'),
                   status: 'error',
                   duration: 3000,
                   isClosable: true,
@@ -313,7 +315,7 @@ const ReleaseCard = ({ item, type, onClick, onSetReminder }) => {
               </svg>
             }
           >
-            {hasReminderSet ? 'Reminder Set' : 'Set Reminder'}
+            {hasReminderSet ? t('upcoming.reminderSet') : t('upcoming.setReminder')}
           </Button>
         </HStack>
       </Box>

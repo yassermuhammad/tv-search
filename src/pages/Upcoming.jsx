@@ -30,7 +30,7 @@ import { MEDIA_TYPES } from '../models/constants'
  * - /upcoming/calendar - Calendar view
  */
 const Upcoming = () => {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const location = useLocation()
   const navigate = useNavigate()
   const modal = useModal()
@@ -118,10 +118,10 @@ const Upcoming = () => {
               color="white"
               mb={2}
             >
-              Upcoming Releases
+              {t('upcoming.title')}
             </Box>
             <Box fontSize="md" color="gray.400">
-              Discover what's coming soon to theaters and streaming
+              {t('upcoming.subtitle')}
             </Box>
           </Box>
 
@@ -142,13 +142,13 @@ const Upcoming = () => {
                 color="gray.400"
                 _selected={{ color: 'white', borderColor: 'red.500' }}
               >
-                List View
+                {t('upcoming.listView')}
               </Tab>
               <Tab
                 color="gray.400"
                 _selected={{ color: 'white', borderColor: 'red.500' }}
               >
-                Calendar View
+                {t('upcoming.calendarView')}
               </Tab>
             </TabList>
 
@@ -177,7 +177,7 @@ const Upcoming = () => {
           {/* Content Type Filter */}
           <Box>
             <Box fontSize="sm" color="gray.400" mb={2}>
-              Filter by Type
+              {t('upcoming.filterByType')}
             </Box>
             <Box display="flex" gap={2}>
               <Box
@@ -190,7 +190,7 @@ const Upcoming = () => {
                 onClick={() => navigate(isCalendarView ? '/upcoming/calendar' : '/upcoming')}
                 _hover={{ bg: contentType === 'all' ? 'red.600' : 'gray.700' }}
               >
-                All
+                {t('common.all')}
               </Box>
               <Box
                 as="button"
@@ -202,7 +202,7 @@ const Upcoming = () => {
                 onClick={() => navigate(isCalendarView ? '/upcoming/calendar/movies' : '/upcoming/movies')}
                 _hover={{ bg: contentType === 'movies' ? 'blue.600' : 'gray.700' }}
               >
-                Movies
+                {t('watchlist.movies')}
               </Box>
               <Box
                 as="button"
@@ -214,7 +214,7 @@ const Upcoming = () => {
                 onClick={() => navigate(isCalendarView ? '/upcoming/calendar/tv-shows' : '/upcoming/tv-shows')}
                 _hover={{ bg: contentType === 'tv-shows' ? 'green.600' : 'gray.700' }}
               >
-                TV Shows
+                {t('watchlist.tvShows')}
               </Box>
             </Box>
           </Box>
@@ -235,7 +235,7 @@ const Upcoming = () => {
         <ModalOverlay />
         <ModalContent bg="#1a1a1a" color="white">
           <ModalHeader>
-            Releases on {selectedDate ? selectedDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) : ''}
+            {t('upcoming.releasesOn', { date: selectedDate ? selectedDate.toLocaleDateString(i18n.language, { month: 'long', day: 'numeric', year: 'numeric' }) : '' })}
           </ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
@@ -262,7 +262,7 @@ const Upcoming = () => {
               </Grid>
             ) : (
               <Box textAlign="center" py={8}>
-                <Box color="gray.400">No releases found for this date</Box>
+                <Box color="gray.400">{t('upcoming.noReleasesForDate')}</Box>
               </Box>
             )}
           </ModalBody>

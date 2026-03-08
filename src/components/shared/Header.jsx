@@ -156,7 +156,7 @@ const Header = ({ showBackButton = false, onBack }) => {
               size="md"
               px={4}
             >
-              Upcoming
+              {t('common.upcoming')}
             </Button>
 
             <Button
@@ -211,7 +211,7 @@ const Header = ({ showBackButton = false, onBack }) => {
             <DrawerOverlay />
             <DrawerContent bg="#141414" color="white">
               <DrawerCloseButton />
-              <DrawerHeader borderBottomWidth="1px" borderColor="gray.800">Menu</DrawerHeader>
+              <DrawerHeader borderBottomWidth="1px" borderColor="gray.800">{t('common.menu')}</DrawerHeader>
               <DrawerBody pt={4}>
                 <VStack spacing={4} align="stretch">
                   {currentUser && (
@@ -228,7 +228,7 @@ const Header = ({ showBackButton = false, onBack }) => {
                     _hover={{ bg: 'gray.800' }}
                     onClick={() => { navigate('/upcoming'); onClose(); }}
                   >
-                    Upcoming
+                    {t('common.upcoming')}
                   </Button>
 
                   <Button
@@ -238,7 +238,7 @@ const Header = ({ showBackButton = false, onBack }) => {
                     _hover={{ bg: 'gray.800' }}
                     onClick={() => { navigate('/reminders'); onClose(); }}
                   >
-                    Reminders
+                    {t('common.reminders')}
                   </Button>
 
                   <Button
@@ -257,7 +257,7 @@ const Header = ({ showBackButton = false, onBack }) => {
                   </Button>
 
                   <Box p={2}>
-                    <Text fontSize="sm" color="gray.400" mb={2}>Language</Text>
+                    <Text fontSize="sm" color="gray.400" mb={2}>{t('language.language')}</Text>
                     <LanguageSwitcher size="sm" />
                   </Box>
 

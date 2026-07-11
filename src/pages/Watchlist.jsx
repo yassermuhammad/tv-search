@@ -17,6 +17,7 @@ import {
   Button,
 } from '@chakra-ui/react'
 import { DeleteIcon } from '@chakra-ui/icons'
+import { FiShare2 } from 'react-icons/fi'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useWatchlist } from '../contexts/WatchlistContext'
@@ -183,18 +184,30 @@ const Watchlist = () => {
             </Text>
           </VStack>
           {watchlist.length > 0 && (
-            <Button
-              leftIcon={<DeleteIcon />}
-              onClick={clearWatchlist}
-              variant="ghost"
-              color="rgba(255, 255, 255, 0.7)"
-              _hover={{ bg: 'rgba(255, 255, 255, 0.1)', color: 'netflix.500' }}
-              size={{ base: 'sm', md: 'md' }}
-              fontSize={{ base: 'xs', md: 'sm' }}
-              w={{ base: '100%', sm: 'auto' }}
-            >
-              {t('watchlist.clearAll')}
-            </Button>
+            <HStack spacing={2} w={{ base: '100%', sm: 'auto' }}>
+              <Button
+                leftIcon={<FiShare2 />}
+                onClick={() => navigate('/taste-card')}
+                variant="netflix"
+                size={{ base: 'sm', md: 'md' }}
+                fontSize={{ base: 'xs', md: 'sm' }}
+                flex={{ base: 1, sm: 'initial' }}
+              >
+                {t('tasteCard.shareTaste')}
+              </Button>
+              <Button
+                leftIcon={<DeleteIcon />}
+                onClick={clearWatchlist}
+                variant="ghost"
+                color="rgba(255, 255, 255, 0.7)"
+                _hover={{ bg: 'rgba(255, 255, 255, 0.1)', color: 'netflix.500' }}
+                size={{ base: 'sm', md: 'md' }}
+                fontSize={{ base: 'xs', md: 'sm' }}
+                flex={{ base: 1, sm: 'initial' }}
+              >
+                {t('watchlist.clearAll')}
+              </Button>
+            </HStack>
           )}
         </Flex>
         {watchlist.length === 0 ? (

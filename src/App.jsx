@@ -18,6 +18,7 @@ const Person = lazy(() => import('./pages/Person'))
 const Upcoming = lazy(() => import('./pages/Upcoming'))
 const Reminders = lazy(() => import('./pages/Reminders'))
 const Genre = lazy(() => import('./pages/Genre'))
+const TasteCard = lazy(() => import('./pages/TasteCard'))
 
 /**
  * Main App component
@@ -27,6 +28,7 @@ const Genre = lazy(() => import('./pages/Genre'))
  * - "/" - Home page with trending/popular content
  * - "/search" - Dedicated search page for TV shows and movies
  * - "/watchlist" - User's saved shows and movies
+ * - "/taste-card" - Shareable taste profile card generated from the watchlist
  * - "/trending/movies" - All trending movies with infinite scroll
  * - "/trending/tv-shows" - All trending TV shows with infinite scroll
  * - "/popular/movies" - All popular movies with infinite scroll
@@ -63,6 +65,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/search" element={<Search />} />
           <Route path="/watchlist" element={<Watchlist />} />
+          <Route path="/taste-card" element={<TasteCard />} />
           <Route path="/trending/movies" element={<TrendingMovies />} />
           <Route path="/trending/tv-shows" element={<TrendingTVShows />} />
           <Route path="/popular/movies" element={<PopularMovies />} />

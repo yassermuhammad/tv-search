@@ -279,6 +279,16 @@ const Header = ({ showBackButton = false, onBack }) => {
                     {t('common.myWatchlist')}
                   </Button>
 
+                  <Button
+                    justifyContent="flex-start"
+                    variant="ghost"
+                    color="white"
+                    _hover={{ bg: 'gray.800' }}
+                    onClick={() => { navigate('/taste-card'); onClose(); }}
+                  >
+                    {t('tasteCard.shareTaste')}
+                  </Button>
+
                   <Box p={2}>
                     <Text fontSize="sm" color="gray.400" mb={2}>{t('language.language')}</Text>
                     <LanguageSwitcher size="sm" />
